@@ -91,6 +91,7 @@
     --max-measure: 40rem;
     --max-editorial: 46rem;
     --header-height: 4.5rem;
+    --header-height-compact: 4rem;
 
     /* Borders / radius */
     --border-thin: 1px;
@@ -99,7 +100,9 @@
 
     /* Z-index — header stays above the overlay so the mark remains visible */
     --z-base: 1;
+    --z-system: 2;
     --z-overlay: 40;
+    --z-chapter: 45;
     --z-header: 50;
     --z-skip: 60;
 
@@ -110,6 +113,13 @@
     --duration-mid: 320ms;
     --duration-slow: 640ms;
     --duration-glacial: 1200ms;
+    --motion-micro: var(--duration-fast);
+    --motion-standard: var(--duration-mid);
+    --motion-slow: var(--duration-slow);
+    --motion-reveal: var(--duration-glacial);
+    --motion-section: 1000ms;
+    --motion-emphasis: 560ms;
+    --motion-shift: var(--space-1);
 
     /* Breakpoints (documentation — used as comments in media queries)
        320, 375, 390, 430, 768, 1024, 1280, 1440, 1920 */
@@ -126,6 +136,7 @@
     :root {
         --page-gutter: 2.5rem;
         --header-height: 5rem;
+        --header-height-compact: 4.4rem;
     }
 }
 

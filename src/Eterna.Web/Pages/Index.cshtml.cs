@@ -43,11 +43,12 @@ public sealed class IndexModel : PageModel
             }
 
             return clients
-                .Select(client => new WorkCardViewModel
+                .Select((client, index) => new WorkCardViewModel
                 {
                     Client = client.Name,
                     Industry = client.Industry,
                     Label = "Selected work",
+                    Index = (index + 1).ToString("00"),
                     Href = $"/work/{client.Slug}"
                 })
                 .ToList();

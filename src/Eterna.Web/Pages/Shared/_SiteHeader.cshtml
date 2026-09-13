@@ -3,12 +3,46 @@
     var company = CompanyAccessor.Value;
     var theme = ViewData["HeaderTheme"] as string ?? "dark";
     var overlayTheme = theme is "dark" ? "black" : theme;
-    var brandVariant = NavigationCatalog.HeaderBrandVariant(theme);
     var path = Context.Request.Path;
+    var isHome = string.Equals(ViewData["MainClass"] as string, "site-main--home", StringComparison.Ordinal);
+    var headerMarks = new (string Theme, string Variant)[]
+    {
+        ("dark", "lime-on-dark"),
+        ("black", "lime-on-black"),
+        ("paper", "black-on-white"),
+        ("lime", "dark-on-lime")
+    };
 }
-<header class="site-header site-header--@theme section-@theme" data-motion-nav>
+<header
+    class="site-header site-header--@theme section-@theme"
+    data-motion-nav
+    data-header-root
+    data-header-theme="@theme"
+    data-active-theme="@theme">
     <a class="site-header__brand" href="/" aria-label="@company.Name home">
-        <partial name="Components/_BrandMark" model="@(new BrandMarkViewModel { Variant = brandVariant })" />
+        @if (isHome)
+        {
+            <span class="site-header__marks">
+                @foreach (var mark in headerMarks)
+                {
+                    var asset = BrandAssets.Resolve(mark.Variant);
+                    var active = string.Equals(theme, mark.Theme, StringComparison.Ordinal);
+                    <img
+                        class="brand-mark site-header__mark@(active ? " is-active" : "")"
+                        data-header-brand="@mark.Theme"
+                        src="@asset.Src"
+                        alt="@(active ? "Eterna" : "")"
+                        width="@asset.Width"
+                        height="@asset.Height"
+                        loading="@(active ? "eager" : "lazy")"
+                        decoding="async" />
+                }
+            </span>
+        }
+        else
+        {
+            <partial name="Components/_BrandMark" model="@(new BrandMarkViewModel { Variant = NavigationCatalog.HeaderBrandVariant(theme) })" />
+        }
     </a>
 
     <nav class="site-nav" aria-label="Primary">
@@ -19,6 +53,12 @@
     </nav>
 
     <div class="site-header__utilities">
+        @if (isHome)
+        {
+            <p class="site-header__chapter" data-chapter aria-hidden="true">
+                <span data-chapter-now>01</span><span data-chapter-rest> / 14</span>
+            </p>
+        }
         <partial name="Components/_Button" model="@(new ButtonViewModel { Text = "Start a project", Href = "/contact", CssClass = "site-header__cta", Motion = "cta" })" />
         <button
             class="nav-trigger"

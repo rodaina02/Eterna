@@ -1,19 +1,28 @@
 @model WorkCardViewModel
 @{
     var isLink = !string.IsNullOrWhiteSpace(Model.Href);
+    var index = string.IsNullOrWhiteSpace(Model.Index) ? Model.Label : Model.Index;
 }
 @if (isLink)
 {
-    <a class="work-card work-card--link" href="@Model.Href">
-        <p class="label">@Model.Label</p>
+    <a class="work-card work-card--link" href="@Model.Href" data-work-card>
+        <span class="work-card__rule" data-work-rule aria-hidden="true"></span>
+        <div class="work-card__frame" data-work-frame aria-hidden="true">
+            <span class="work-card__type">@Model.Client</span>
+        </div>
+        <p class="label">@index</p>
         <h3 class="work-card__title">@Model.Client</h3>
         <p class="work-card__meta">@Model.Industry</p>
     </a>
 }
 else
 {
-    <article class="work-card">
-        <p class="label">@Model.Label</p>
+    <article class="work-card" data-work-card>
+        <span class="work-card__rule" data-work-rule aria-hidden="true"></span>
+        <div class="work-card__frame" data-work-frame aria-hidden="true">
+            <span class="work-card__type">@Model.Client</span>
+        </div>
+        <p class="label">@index</p>
         <h3 class="work-card__title">@Model.Client</h3>
         <p class="work-card__meta">@Model.Industry</p>
     </article>

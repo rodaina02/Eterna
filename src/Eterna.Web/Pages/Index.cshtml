@@ -8,66 +8,125 @@
     <link rel="stylesheet" href="~/css/pages/home.css" asp-append-version="true" />
 }
 
-<section class="home-hero section-black" aria-labelledby="hero-heading" data-motion-section>
-    <div class="home-hero__canvas">
-        <div class="home-hero__mark" data-motion-reveal>
-            <partial name="Components/_BrandMark" model="@(new BrandMarkViewModel { Variant = "lime-on-black", CssClass = "home-hero__logo" })" />
+@section Scripts {
+    <script src="~/js/vendor/gsap.min.js" asp-append-version="true" defer></script>
+    <script src="~/js/vendor/ScrollTrigger.min.js" asp-append-version="true" defer></script>
+    <script src="~/js/eterna.motion.js" asp-append-version="true" defer></script>
+    <script src="~/js/eterna.system.js" asp-append-version="true" defer></script>
+    <script src="~/js/eterna.hero.js" asp-append-version="true" defer></script>
+    <script src="~/js/eterna.scroll.js" asp-append-version="true" defer></script>
+    <script src="~/js/eterna.portfolio.js" asp-append-version="true" defer></script>
+    <script src="~/js/eterna.forms.js" asp-append-version="true" defer></script>
+}
+
+<div class="eterna-system" data-system aria-hidden="true">
+    <div class="eterna-line" data-system-line>
+        <span class="eterna-line__stroke" data-system-stroke></span>
+        <span class="eterna-line__cross" data-system-cross></span>
+        <span class="eterna-line__branch" data-system-branch="1"></span>
+        <span class="eterna-line__branch" data-system-branch="2"></span>
+        <span class="eterna-line__branch" data-system-branch="3"></span>
+        <span class="eterna-line__node" data-system-node></span>
+    </div>
+    <div class="eterna-geometry" data-system-geometry data-scene="hidden">
+        <svg class="eterna-geo eterna-geo--a" data-geo="a" viewBox="0 0 260 320" fill="none" focusable="false">
+            <path d="M42 292C34 214 46 124 96 64C146 8 228 18 248 62" stroke="currentColor" stroke-width="34" stroke-linecap="round" />
+        </svg>
+        <svg class="eterna-geo eterna-geo--b" data-geo="b" viewBox="0 0 260 320" focusable="false">
+            <rect x="28" y="108" width="204" height="30" rx="15" fill="currentColor" />
+            <rect x="28" y="176" width="168" height="30" rx="15" fill="currentColor" />
+        </svg>
+    </div>
+</div>
+
+<p class="eterna-chapter eterna-chapter--gutter" data-chapter aria-hidden="true">
+    <span data-chapter-now>01</span><span data-chapter-rest> / 14</span>
+</p>
+
+<section class="home-hero section-black" aria-labelledby="hero-heading" data-motion-section data-surface="black" data-hero data-chapter-index="01" data-line-state="hidden" data-geo-scene="hidden">
+    <div class="home-hero__canvas" data-hero-canvas>
+        <div class="home-hero__mark" data-hero-mark>
+            <span class="home-hero__point" data-hero-point aria-hidden="true"></span>
+            <div class="home-hero__draw" data-hero-draw aria-hidden="true">
+                <span class="home-hero__wipe home-hero__wipe--a" data-draw-a></span>
+                <span class="home-hero__wipe home-hero__wipe--b" data-draw-b></span>
+            </div>
+            <partial name="Components/_BrandMark" model="@(new BrandMarkViewModel { Variant = "lime-on-black", CssClass = "home-hero__logo", Width = 2092, Height = 1281 })" />
         </div>
-        <p class="label home-hero__meta">Software · AI · Systems</p>
-        <h1 id="hero-heading" class="home-hero__title">
-            <span>Building</span>
-            <span>Intelligent</span>
-            <span>Legacies.</span>
+        <p class="label home-hero__meta" data-hero-meta>Software · AI · Systems</p>
+        <h1 id="hero-heading" class="home-hero__title" data-hero-title>
+            <span class="home-hero__line"><span>Building</span></span>
+            <span class="home-hero__line"><span>Intelligent</span></span>
+            <span class="home-hero__line"><span>Legacies.</span></span>
         </h1>
-        <p class="home-hero__lede">
+        <p class="home-hero__lede" data-hero-lede>
             Software, AI and intelligent systems designed to move businesses forward.
         </p>
-        <a class="home-hero__scroll" href="#statement">Index</a>
+        <a class="home-hero__scroll" href="#statement" data-hero-scroll>Index</a>
     </div>
 </section>
 
-<section id="statement" class="home-statement section section-dark" aria-labelledby="statement-heading" data-motion-section>
+<section id="statement" class="home-statement section section-dark" aria-labelledby="statement-heading" data-motion-section data-surface="dark" data-statement data-chapter-index="02" data-line-state="emerge" data-geo-scene="statement">
     <div class="container">
         <p class="label">02 · Philosophy</p>
         <h2 id="statement-heading" class="sr-only">Eterna statement</h2>
-        <p class="home-statement__display" data-motion-reveal>
-            <span>Technology should not</span>
-            <span>replace human potential.</span>
-            <span>It should amplify it.</span>
+        <p class="home-statement__display" data-motion-reveal data-statement-display>
+            <span data-statement-beat>Technology should not</span>
+            <span data-statement-beat>replace human potential.</span>
+            <span data-statement-beat>It should amplify it.</span>
         </p>
-        <p class="lede home-statement__note">
+        <p class="lede home-statement__note" data-statement-note>
             Eterna designs intelligent systems as tools that augment human capability, decision-making, creativity and control.
         </p>
     </div>
 </section>
 
-<section class="home-human section-lime" aria-labelledby="human-heading" data-motion-section>
-    <div class="home-human__grid">
-        <div class="home-human__copy">
+<section class="home-human section-lime" aria-labelledby="human-heading" data-motion-section data-surface="lime" data-human data-chapter-index="03" data-line-state="flow" data-geo-scene="human">
+    <div class="home-human__stage">
+        <figure class="home-human__image" data-human-image>
+            <div class="editorial-frame editorial-frame--human" data-human-frame>
+                <img
+                    src="~/images/editorial/editorial-human-phone.jpg"
+                    alt="A person in a tailored jacket sits in a leather chair, holding a lime telephone and a coffee cup."
+                    width="1620"
+                    height="1086"
+                    loading="lazy"
+                    decoding="async" />
+            </div>
+            <figcaption class="artifact-label">Human / Presence</figcaption>
+        </figure>
+        <div class="home-human__copy" data-human-copy>
             <partial name="Components/_SectionHeader" model="@(new SectionHeaderViewModel { Index = "03", Eyebrow = "Principle", Title = "Human-centric AI.", Id = "human-heading" })" />
             <p class="lede">
                 Human + AI. Strategy + engineering. Intelligence + control.
             </p>
-            <ol class="home-human__index" data-motion-stagger>
+            <ol class="home-human__index" data-motion-stagger data-human-index>
                 @for (var i = 0; i < HomeContent.HumanIndex.Count; i++)
                 {
-                    <li>
+                    <li data-human-item>
                         <span class="label">@((i + 1).ToString("00"))</span>
                         <span>@HomeContent.HumanIndex[i]</span>
                     </li>
                 }
             </ol>
         </div>
-        <div class="home-human__field" aria-hidden="true" data-motion-reveal>
-            <div class="home-human__form home-human__form--a"></div>
-            <div class="home-human__form home-human__form--b"></div>
-        </div>
     </div>
 </section>
 
-<section class="home-pillars section section-paper" aria-labelledby="pillars-heading" data-motion-section>
+<section class="home-pillars section section-paper has-grain" aria-labelledby="pillars-heading" data-motion-section data-surface="paper" data-pillars data-chapter-index="04" data-line-state="branch" data-geo-scene="echo">
     <div class="container">
         <partial name="Components/_SectionHeader" model="@(new SectionHeaderViewModel { Index = "04", Eyebrow = "What we build", Title = "Three practices.", Id = "pillars-heading" })" />
+        <p class="home-pillars__origin" data-pillars-origin aria-hidden="true">Systems</p>
+        <p class="home-pillars__streams" aria-hidden="true">
+            <span data-pillars-stream>Software</span>
+            <span data-pillars-stream>Intelligence</span>
+            <span data-pillars-stream>Agents</span>
+        </p>
+        <div class="home-pillars__branches" aria-hidden="true" data-pillars-branches>
+            <span data-pillar-branch="1"></span>
+            <span data-pillar-branch="2"></span>
+            <span data-pillar-branch="3"></span>
+        </div>
         <div class="home-pillars__list" data-motion-stagger>
             @foreach (var pillar in HomeContent.Pillars)
             {
@@ -77,13 +136,41 @@
     </div>
 </section>
 
-<section class="home-services section section--tight section-paper" aria-labelledby="services-heading" data-motion-section>
-    <div class="container">
-        <partial name="Components/_SectionHeader" model="@(new SectionHeaderViewModel { Index = "05", Eyebrow = "Capabilities", Title = "The architecture.", Id = "services-heading" })" />
+<section class="home-services section section--tight section-paper has-grain" aria-labelledby="services-heading" data-motion-section data-surface="paper" data-services data-chapter-index="05" data-line-state="flow" data-geo-scene="echo">
+    <div class="container home-services__stage">
+        <partial name="Components/_SectionHeader" model="@(new SectionHeaderViewModel { Index = "05", Eyebrow = "Capabilities", Title = "Services.", Id = "services-heading" })" />
+        <figure class="home-services__artifact" data-services-artifact>
+            <div class="editorial-frame editorial-frame--office" data-services-frame>
+                <img
+                    src="~/images/editorial/editorial-creative-office.png"
+                    alt="A person stands with a laptop in a studio in front of a moodboard."
+                    width="1022"
+                    height="1508"
+                    loading="lazy"
+                    decoding="async" />
+            </div>
+            <figcaption class="artifact-label">
+                <span>SEC.05</span>
+                <span>Think / Design</span>
+            </figcaption>
+            <span class="home-services__rule" data-services-rule aria-hidden="true"></span>
+        </figure>
         <div class="home-services__list">
             @foreach (var group in HomeContent.ServiceGroups)
             {
-                <div class="home-services__item">
+                var arch = group.Title switch
+                {
+                    "Software Systems" => new[] { "Web", "Mobile", "API", "Data", "Cloud" },
+                    "Intelligent AI Integration" => new[] { "Data", "Model", "Interface", "Automation" },
+                    _ => new[] { "Intent", "Agent", "Action", "Observation" }
+                };
+                <div class="home-services__item" data-service-group>
+                    <p class="service-arch" aria-hidden="true" data-service-arch>
+                        @foreach (var node in arch)
+                        {
+                            <span>@node</span>
+                        }
+                    </p>
                     <partial name="Components/_ServiceGroup" model="@((group.Title, group.Items))" />
                     <partial name="Components/_TextLink" model="@((group.Title, group.Href, true))" />
                 </div>
@@ -92,13 +179,13 @@
     </div>
 </section>
 
-<section class="home-why section section-black" aria-labelledby="why-heading" data-motion-section>
+<section class="home-why section section-black" aria-labelledby="why-heading" data-motion-section data-surface="black" data-why data-chapter-index="06" data-line-state="cross" data-geo-scene="echo">
     <div class="container">
         <partial name="Components/_SectionHeader" model="@(new SectionHeaderViewModel { Index = "06", Eyebrow = "Position", Title = "Why Eterna.", Id = "why-heading" })" />
-        <ol class="home-why__sequence" data-motion-stagger>
+        <ol class="home-why__sequence" data-motion-stagger data-why-sequence>
             @foreach (var reason in HomeContent.Reasons)
             {
-                <li class="home-why__item">
+                <li class="home-why__item" data-why-item>
                     <p class="label">@reason.Index</p>
                     <h3 class="home-why__title">@reason.Title</h3>
                     <p class="lede">@reason.Text</p>
@@ -108,13 +195,23 @@
     </div>
 </section>
 
-<section class="home-process section section-dark" aria-labelledby="process-heading" data-motion-section>
+<section class="home-process section section-dark" aria-labelledby="process-heading" data-motion-section data-surface="dark" data-process data-chapter-index="07" data-line-state="route" data-geo-scene="echo">
     <div class="container">
         <partial name="Components/_SectionHeader" model="@(new SectionHeaderViewModel { Index = "07", Eyebrow = "Process", Title = "End-to-end technology for your digital journey.", Id = "process-heading" })" />
+        <div class="home-process__route" data-process-route aria-hidden="true">
+            <span class="home-process__spine" data-process-spine></span>
+            @foreach (var stage in HomeContent.Process)
+            {
+                if (!stage.IsContinuation)
+                {
+                    <span class="home-process__node" data-process-node="@stage.Index"></span>
+                }
+            }
+        </div>
         <ol class="home-process__rail" data-motion-process>
             @foreach (var stage in HomeContent.Process)
             {
-                <li class="home-process__stage@(stage.IsContinuation ? " home-process__stage--continue" : "")">
+                <li class="home-process__stage@(stage.IsContinuation ? " home-process__stage--continue" : "")" data-process-stage="@(stage.IsContinuation ? "continue" : "official")">
                     <p class="label">@(stage.IsContinuation ? "Continue" : stage.Index)</p>
                     <h3 class="home-process__title">@stage.Title</h3>
                 </li>
@@ -123,11 +220,13 @@
     </div>
 </section>
 
-<section class="home-tech section section-paper" aria-labelledby="tech-heading" data-motion-section>
+<section class="home-tech section section-paper has-grain" aria-labelledby="tech-heading" data-motion-section data-surface="paper" data-tech data-chapter-index="08" data-line-state="branch" data-geo-scene="echo">
     <div class="container">
         <partial name="Components/_SectionHeader" model="@(new SectionHeaderViewModel { Index = "08", Eyebrow = "Stack", Title = "The ecosystem.", Id = "tech-heading" })" />
         <p class="lede home-tech__note">Selected tools. Not every project uses every item.</p>
-        <div class="home-tech__clusters">
+        <div class="home-tech__lattice" data-tech-lattice aria-hidden="true"></div>
+        <div class="home-tech__core" data-tech-core aria-hidden="true"></div>
+        <div class="home-tech__clusters" data-tech-clusters>
             @foreach (var cluster in HomeContent.TechnologyClusters)
             {
                 <partial name="Components/_TechnologyCluster" model="@cluster" />
@@ -136,46 +235,58 @@
     </div>
 </section>
 
-<section class="home-work section section-dark" aria-labelledby="work-heading" data-motion-section>
+<section class="home-work section section-dark" aria-labelledby="work-heading" data-motion-section data-surface="dark" data-work data-chapter-index="09" data-line-state="frame" data-geo-scene="echo">
     <div class="container">
         <partial name="Components/_SectionHeader" model="@(new SectionHeaderViewModel { Index = "09", Eyebrow = "Portfolio", Title = "Selected work.", Id = "work-heading" })" />
-        <div class="home-work__list" data-motion-stagger>
-            @foreach (var work in Model.Home.FeaturedWork)
-            {
-                <partial name="Components/_WorkCard" model="@work" />
-            }
+        <div class="home-work__viewport">
+            <div class="home-work__list" data-motion-stagger data-work-runway>
+                @foreach (var work in Model.Home.FeaturedWork)
+                {
+                    <partial name="Components/_WorkCard" model="@work" />
+                }
+            </div>
         </div>
         <partial name="Components/_TextLink" model="@(("All work", "/work", true))" />
     </div>
 </section>
 
-<section class="home-industries section section-paper" aria-labelledby="industries-heading" data-motion-section>
+<section class="home-industries section section-paper has-grain" aria-labelledby="industries-heading" data-motion-section data-surface="paper" data-industries data-chapter-index="10" data-line-state="cross" data-geo-scene="echo">
     <div class="container">
         <partial name="Components/_SectionHeader" model="@(new SectionHeaderViewModel { Index = "10", Eyebrow = "Contexts", Title = "Industries.", Id = "industries-heading" })" />
         <p class="lede">We adapt systems to the context they operate in.</p>
-        <ul class="home-industries__index">
+        <span class="home-industries__rule" data-industries-rule aria-hidden="true"></span>
+        <ul class="home-industries__index" data-industries-index>
             @foreach (var industry in HomeContent.Industries)
             {
-                <li>@industry</li>
+                <li data-industry>@industry</li>
             }
         </ul>
         <partial name="Components/_TextLink" model="@(("Explore contexts", "/industries", true))" />
     </div>
 </section>
 
-<section class="home-control section section-black" aria-labelledby="control-heading" data-motion-section>
+<section class="home-control section section-black" aria-labelledby="control-heading" data-motion-section data-surface="black" data-control data-chapter-index="11" data-line-state="pause" data-geo-scene="echo">
     <div class="container">
-        <partial name="Components/_SectionHeader" model="@(new SectionHeaderViewModel { Index = "11", Eyebrow = "Governance", Title = "Intelligence with control.", Id = "control-heading" })" />
+        <header class="section-header">
+            <div class="section-header__meta">
+                <p class="section-index">11</p>
+                <p class="section-eyebrow">Governance</p>
+            </div>
+            <h2 id="control-heading" class="section-header__title home-control__title">
+                <span data-control-line>Intelligence</span>
+                <span data-control-line>with control.</span>
+            </h2>
+        </header>
         <p class="lede home-control__lede">
             Intelligence should remain understandable, reviewable and controllable.
         </p>
-        <ul class="home-control__primary">
+        <ul class="home-control__primary" data-control-primary>
             @foreach (var item in HomeContent.GovernancePrimary)
             {
                 <li>@item</li>
             }
         </ul>
-        <ul class="home-control__support">
+        <ul class="home-control__support" data-control-support>
             @foreach (var item in HomeContent.GovernanceSupporting)
             {
                 <li>@item</li>
@@ -184,31 +295,48 @@
     </div>
 </section>
 
-<section class="home-about section section-paper" aria-labelledby="about-heading" data-motion-section>
+<section class="home-about section section-paper has-grain" aria-labelledby="about-heading" data-motion-section data-surface="paper" data-about data-chapter-index="12" data-line-state="resume" data-geo-scene="echo">
+    <figure class="home-about__scene" data-about-scene>
+        <img
+            src="~/images/editorial/editorial-identity-blur.png"
+            alt="A motion-blurred figure in a studio, with the Eterna mark and the words Building Intelligent Legacies."
+            width="1032"
+            height="1500"
+            loading="lazy"
+            decoding="async" />
+        <figcaption class="artifact-label">Identity / Memory</figcaption>
+    </figure>
     <div class="container home-about__grid">
         <partial name="Components/_SectionHeader" model="@(new SectionHeaderViewModel { Index = "12", Eyebrow = "Studio", Title = "Who is Eterna.", Id = "about-heading" })" />
-        <div>
+        <div data-about-copy>
             <p class="lede">
                 Eterna is a Software and AI Solutions company dedicated to building durable digital products and intelligent systems for modern enterprises.
             </p>
             <p class="body home-about__body">
                 The practice covers software engineering, AI integration, intelligent automation, and human-centered technology — systems that work alongside people.
             </p>
+            <div class="home-about__lockup" data-about-lockup>
+                <partial name="Components/_BrandMark" model="@(new BrandMarkViewModel { Variant = "black-on-white", CssClass = "home-about__mark", Lazy = true })" />
+            </div>
             <partial name="Components/_TextLink" model="@(("Explore Eterna", "/about", true))" />
         </div>
     </div>
 </section>
 
-<section class="home-cta section-lime" aria-labelledby="cta-heading" data-motion-section>
+<section class="home-cta section-lime" aria-labelledby="cta-heading" data-motion-section data-surface="lime" data-cta data-chapter-index="13" data-line-state="resume" data-geo-scene="cta">
     <div class="container home-cta__canvas">
-        <div class="home-cta__mark">
-            <partial name="Components/_BrandMark" model="@(new BrandMarkViewModel { Variant = "dark-on-lime", CssClass = "home-cta__logo", Lazy = true })" />
+        <div class="home-cta__mark" data-cta-mark>
+            <partial name="Components/_BrandMark" model="@(new BrandMarkViewModel { Variant = "dark-on-lime", CssClass = "home-cta__logo", Lazy = true, Width = 2092, Height = 1281 })" />
         </div>
-        <h2 id="cta-heading" class="home-cta__title">
-            <span>Build your</span>
-            <span>Intelligent</span>
-            <span>Legacy.</span>
+        <h2 id="cta-heading" class="home-cta__title" data-cta-title>
+            <span class="home-cta__line"><span data-cta-line>Build your</span></span>
+            <span class="home-cta__line"><span data-cta-line>Intelligent</span></span>
+            <span class="home-cta__line"><span data-cta-line>Legacy.</span></span>
         </h2>
+        <p class="home-cta__resolve" data-cta-resolve>Building Intelligent Legacies</p>
+        <div class="home-cta__lockup" data-cta-lockup>
+            <partial name="Components/_BrandMark" model="@(new BrandMarkViewModel { Variant = "dark-slogan-on-lime", CssClass = "home-cta__slogan", Lazy = true })" />
+        </div>
         <partial name="Components/_Button" model="@(new ButtonViewModel { Text = "Start a conversation", Href = "/contact", Motion = "cta" })" />
     </div>
 </section>

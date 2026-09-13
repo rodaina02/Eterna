@@ -6,10 +6,10 @@ public static class HomeContent
 {
     public static IReadOnlyList<WorkCardViewModel> KnownWork { get; } =
     [
-        new() { Client = "Nabila Hayel", Industry = "Luxury Haute Couture", Label = "Selected work", Href = "/work/nabila-hayel" },
-        new() { Client = "CUDDS", Industry = "Bedding & Home Essentials", Label = "Selected work", Href = "/work/cudds" },
-        new() { Client = "ATIIQ", Industry = "Handmade Crafts", Label = "Selected work", Href = "/work/atiiq" },
-        new() { Client = "IRON GRIP", Industry = "Sports & Athleisure", Label = "Selected work", Href = "/work/iron-grip" }
+        new() { Client = "Nabila Hayel", Industry = "Luxury Haute Couture", Label = "Selected work", Index = "01", Href = "/work/nabila-hayel" },
+        new() { Client = "CUDDS", Industry = "Bedding & Home Essentials", Label = "Selected work", Index = "02", Href = "/work/cudds" },
+        new() { Client = "ATIIQ", Industry = "Handmade Crafts", Label = "Selected work", Index = "03", Href = "/work/atiiq" },
+        new() { Client = "IRON GRIP", Industry = "Sports & Athleisure", Label = "Selected work", Index = "04", Href = "/work/iron-grip" }
     ];
 
     public static IReadOnlyList<PillarViewModel> Pillars { get; } =

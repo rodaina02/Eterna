@@ -5,8 +5,8 @@
     var hasSocialUrl = Uri.TryCreate(company.SocialUrl, UriKind.Absolute, out _);
     var path = Context.Request.Path;
 }
-<footer class="site-footer section-black">
-    <div class="site-footer__brand">
+<footer class="site-footer section-black" data-surface="black" data-footer data-chapter-index="14" data-line-state="vanish" data-geo-scene="hidden" data-chapter-end="true">
+    <div class="site-footer__brand" data-footer-brand>
         <partial name="Components/_BrandMark" model="@(new BrandMarkViewModel { Variant = "lime-slogan-on-black", CssClass = "brand-mark--lockup", Lazy = true })" />
         @if (!string.IsNullOrWhiteSpace(company.Statement))
         {
