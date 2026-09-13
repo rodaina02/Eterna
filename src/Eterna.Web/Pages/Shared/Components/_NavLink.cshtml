@@ -1,0 +1,5 @@
+@model NavLinkViewModel
+<a
+    class="@Model.CssClass@(Model.IsActive ? " is-active" : "")"
+    href="@Model.Path"
+    aria-current="@(Model.IsActive ? "page" : null)">@Model.Label</a>

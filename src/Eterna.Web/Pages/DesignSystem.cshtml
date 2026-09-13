@@ -1,0 +1,235 @@
+@page "/design-system"
+@model DesignSystemModel
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/pages/design-system.css" asp-append-version="true" />
+}
+
+<section class="section section--loose section-black ds-intro" data-motion-theme="black">
+    <div class="container">
+        <partial name="Components/_SectionHeader" model="@(new SectionHeaderViewModel { Index = "SEC.00", Eyebrow = "Internal", Title = "The language.", HeadingLevel = "h1", Id = "language" })" />
+        <p class="lede">A visual system for progress and structure. Not a template. Not a catalogue of cards.</p>
+        <p class="ds-note">This page is a development surface. It is not part of the public navigation.</p>
+    </div>
+</section>
+
+<section class="section section-dark" id="color" data-motion-theme="dark">
+    <div class="container">
+        <partial name="Components/_SectionHeader" model="@(new SectionHeaderViewModel { Index = "01", Eyebrow = "Color", Title = "Signal, not decoration." })" />
+        <div class="grid-2">
+            <div class="swatch swatch--lime">
+                <span class="swatch__name">Lime</span>
+                <span class="swatch__name">#CDEA80</span>
+            </div>
+            <div class="swatch swatch--dark">
+                <span class="swatch__name">Dark</span>
+                <span class="swatch__name">#262626</span>
+            </div>
+            <div class="swatch swatch--black">
+                <span class="swatch__name">Black</span>
+                <span class="swatch__name">#000000</span>
+            </div>
+            <div class="swatch swatch--paper">
+                <span class="swatch__name">Paper</span>
+                <span class="swatch__name">#F4F4F1</span>
+            </div>
+            <div class="swatch swatch--white">
+                <span class="swatch__name">White</span>
+                <span class="swatch__name">#FFFFFF</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section section-paper" id="type" data-motion-theme="paper">
+    <div class="container">
+        <partial name="Components/_SectionHeader" model="@(new SectionHeaderViewModel { Index = "02", Eyebrow = "Typography", Title = "Four roles. One voice." })" />
+        <div class="ds-type-row">
+            <p class="ds-type-row__meta">Display / Coolvetica Light</p>
+            <p class="display">Building Intelligent Legacies.</p>
+        </div>
+        <div class="ds-type-row">
+            <p class="ds-type-row__meta">Title / Coolvetica Light</p>
+            <p class="title">Human-centric AI</p>
+        </div>
+        <div class="ds-type-row">
+            <p class="ds-type-row__meta">Body / IBM Plex Sans</p>
+            <p class="body">Eterna designs intelligent systems that simplify complexity, amplify creativity, and keep human judgment in control.</p>
+        </div>
+        <div class="ds-type-row">
+            <p class="ds-type-row__meta">Editorial / Source Serif 4</p>
+            <p class="editorial editorial--quote">Redefining the future with intelligent software and AI agents that empower, transform, and endure.</p>
+        </div>
+        <div class="ds-type-row">
+            <p class="ds-type-row__meta">Technical / IBM Plex Mono</p>
+            <p class="label">SEC.02 &nbsp; 01 / 14 &nbsp; SYSTEMS &nbsp; INTELLIGENCE</p>
+        </div>
+        <p class="ds-note">IBM Plex Sans, Source Serif 4, and IBM Plex Mono are specified. Self-hosted files are not in the repository yet. System fallbacks are active. Coolvetica is loaded from the supplied OTF files.</p>
+    </div>
+</section>
+
+<section class="section section-black" id="statements" data-motion-theme="black">
+    <div class="container">
+        <partial name="Components/_SectionHeader" model="@(new SectionHeaderViewModel { Index = "03", Eyebrow = "Statements", Title = "Editorial scale." })" />
+        <partial name="Components/_StatementBlock" model="@("AI should augment human potential, not replace it.")" />
+    </div>
+</section>
+
+<section class="section section-lime" id="editorial" data-motion-theme="lime">
+    <div class="container">
+        <p class="label">Philosophy</p>
+        <p class="editorial">Intelligence with control. Systems that think, act, and evolve alongside humans — never instead of them.</p>
+    </div>
+</section>
+
+<section class="section section-paper" id="actions" data-motion-theme="paper">
+    <div class="container">
+        <partial name="Components/_SectionHeader" model="@(new SectionHeaderViewModel { Index = "04", Eyebrow = "Actions", Title = "Precise, not playful." })" />
+        <div class="cluster">
+            <partial name="Components/_Button" model="@(new ButtonViewModel { Text = "Start a project", Href = "#" })" />
+            <partial name="Components/_Button" model="@(new ButtonViewModel { Text = "Explore work", Href = "#", Variant = "secondary" })" />
+            <partial name="Components/_Button" model="@(new ButtonViewModel { Text = "View services →", Href = "#", Variant = "text" })" />
+            <partial name="Components/_Button" model="@(new ButtonViewModel { Text = "Unavailable", Disabled = true })" />
+        </div>
+        <div class="cluster" style="margin-top: var(--space-4);">
+            <partial name="Components/_TextLink" model="@("Explore work", "#work", true)" />
+            <partial name="Components/_TextLink" model="@("Start a conversation", "#forms", true)" />
+            <partial name="Components/_TextLink" model="@("Return home", "/", false)" />
+        </div>
+        <p class="ds-note" style="margin-top: var(--space-4);">Focus the controls below to confirm visible focus.</p>
+        <div class="ds-focus-row">
+            <a class="btn" href="#forms">Focus primary</a>
+            <a class="arrow-link" href="#forms">Focus link</a>
+            <input class="field__control" style="max-width: 16rem;" type="text" value="Focus field" aria-label="Focus field" />
+        </div>
+    </div>
+</section>
+
+<section class="section section-dark" id="forms" data-motion-theme="dark">
+    <div class="container container--narrow">
+        <partial name="Components/_SectionHeader" model="@(new SectionHeaderViewModel { Index = "05", Eyebrow = "Forms", Title = "Quiet fields." })" />
+        <form class="stack" action="#" method="get" novalidate>
+            <div class="field">
+                <label class="field__label" for="ds-name">Name</label>
+                <input class="field__control" id="ds-name" name="name" type="text" autocomplete="name" />
+                <p class="field__help">Required. Maximum 120 characters.</p>
+            </div>
+            <div class="field is-invalid">
+                <label class="field__label" for="ds-email">Email</label>
+                <input class="field__control" id="ds-email" name="email" type="email" value="not-an-email" aria-invalid="true" aria-describedby="ds-email-error" />
+                <p class="field__error" id="ds-email-error">Enter a valid email address.</p>
+            </div>
+            <div class="field">
+                <label class="field__label" for="ds-service">Service</label>
+                <select class="field__control" id="ds-service" name="service">
+                    <option>Website</option>
+                    <option>Mobile Application</option>
+                    <option>Software System</option>
+                    <option>AI Integration</option>
+                    <option>AI Agent</option>
+                    <option>Automation</option>
+                    <option>Other</option>
+                </select>
+            </div>
+            <div class="field is-success">
+                <label class="field__label" for="ds-company">Company</label>
+                <input class="field__control" id="ds-company" name="company" type="text" value="Eterna" />
+                <p class="field__help">Optional.</p>
+            </div>
+            <div class="field">
+                <label class="field__label" for="ds-message">Message</label>
+                <textarea class="field__control" id="ds-message" name="message"></textarea>
+            </div>
+            <div class="field">
+                <label class="field__label" for="ds-disabled">Disabled</label>
+                <input class="field__control" id="ds-disabled" type="text" value="Not available" disabled />
+            </div>
+            <partial name="Components/_Button" model="@(new ButtonViewModel { Text = "Start a conversation" })" />
+        </form>
+    </div>
+</section>
+
+<section class="section section-paper" id="work" data-motion-theme="paper">
+    <div class="container">
+        <partial name="Components/_SectionHeader" model="@(new SectionHeaderViewModel { Index = "06", Eyebrow = "Structures", Title = "Rules over boxes." })" />
+        <div class="grid-2">
+            <partial name="Components/_WorkCard" model="@(new WorkCardViewModel { Client = "Nabila Hayel", Industry = "Luxury Haute Couture" })" />
+            <partial name="Components/_WorkCard" model="@(new WorkCardViewModel { Client = "CUDDS", Industry = "Bedding & Home Essentials" })" />
+            <partial name="Components/_WorkCard" model="@(new WorkCardViewModel { Client = "ATIIQ", Industry = "Handmade Crafts" })" />
+            <partial name="Components/_WorkCard" model="@(new WorkCardViewModel { Client = "IRON GRIP", Industry = "Sports & Athleisure" })" />
+        </div>
+        <div class="grid-asymmetric" style="margin-top: var(--space-6);">
+            <p class="label">01</p>
+            <partial name="Components/_ServiceGroup" model="@("Enterprise Software Systems", new[] { "Web & mobile applications", "Responsive websites", "Backend APIs" })" />
+            <p class="label">Value</p>
+            <partial name="Components/_ValueItem" model="@("Focused excellence", "High-level precision and senior oversight on every engagement.")" />
+        </div>
+        <partial name="Components/_TechnologyCluster" model="@("Application development", new[] { "ASP.NET Core", "Razor", ".NET MAUI" })" />
+    </div>
+</section>
+
+<section class="section section-black" id="marks" data-motion-theme="black">
+    <div class="container">
+        <partial name="Components/_SectionHeader" model="@(new SectionHeaderViewModel { Index = "07", Eyebrow = "Marks", Title = "Use the supplied files." })" />
+        <div class="grid-2">
+            <figure class="brand-frame brand-frame--dark">
+                <partial name="Components/_BrandMark" model="@(new BrandMarkViewModel { Variant = "lime-on-dark" })" />
+            </figure>
+            <figure class="brand-frame brand-frame--black">
+                <partial name="Components/_BrandMark" model="@(new BrandMarkViewModel { Variant = "white-on-black" })" />
+            </figure>
+            <figure class="brand-frame brand-frame--paper">
+                <partial name="Components/_BrandMark" model="@(new BrandMarkViewModel { Variant = "black-on-white" })" />
+            </figure>
+            <figure class="brand-frame brand-frame--lime">
+                <partial name="Components/_BrandMark" model="@(new BrandMarkViewModel { Variant = "dark-on-lime" })" />
+            </figure>
+            <figure class="brand-frame brand-frame--dark">
+                <partial name="Components/_BrandMark" model="@(new BrandMarkViewModel { Variant = "lime-slogan-on-dark", CssClass = "brand-mark--lockup", Lazy = true })" />
+            </figure>
+            <figure class="brand-frame brand-frame--lime">
+                <partial name="Components/_BrandMark" model="@(new BrandMarkViewModel { Variant = "wordmark-dark-on-lime", CssClass = "brand-mark--wordmark", Lazy = true })" />
+            </figure>
+        </div>
+        <p class="ds-note">Some files named as transparent are solid-background images. They are only shown on matching fields.</p>
+    </div>
+</section>
+
+<section class="section section--tight section-dark" data-motion-theme="dark">
+    <div class="container">
+        <p class="label">Theme / Dark</p>
+        <p class="title">Primary surface.</p>
+    </div>
+</section>
+<section class="section section--tight section-black" data-motion-theme="black">
+    <div class="container">
+        <p class="label">Theme / Black</p>
+        <p class="title">Deepest contrast.</p>
+    </div>
+</section>
+<section class="section section--tight section-paper" data-motion-theme="paper">
+    <div class="container">
+        <p class="label">Theme / Paper</p>
+        <p class="title">Editorial light.</p>
+    </div>
+</section>
+<section class="section section--tight section-lime" data-motion-theme="lime">
+    <div class="container">
+        <p class="label">Theme / Lime</p>
+        <p class="title">Punctuation.</p>
+    </div>
+</section>
+
+<section class="section section-dark" id="nav" data-motion-theme="dark">
+    <div class="container">
+        <partial name="Components/_SectionHeader" model="@(new SectionHeaderViewModel { Index = "08", Eyebrow = "Navigation", Title = "Primitives only." })" />
+        <p class="lede">The header shows logo, technical nav type, CTA, and a mobile trigger. Overlay markup exists. Motion and routing arrive in Phase 3.</p>
+        <div class="ds-overlay-demo" aria-hidden="true">
+            <span class="nav-overlay__link">Work</span>
+            <span class="nav-overlay__link">Services</span>
+            <span class="nav-overlay__link">Contact</span>
+        </div>
+        <hr class="rule" style="margin-top: var(--space-5);" />
+        <hr class="rule rule--short" style="margin-top: var(--space-3);" />
+    </div>
+</section>

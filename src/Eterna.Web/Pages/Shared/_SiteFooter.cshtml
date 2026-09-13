@@ -1,0 +1,54 @@
+@inject IOptions<CompanyOptions> CompanyAccessor
+@{
+    var company = CompanyAccessor.Value;
+    var year = DateTime.UtcNow.Year;
+    var hasSocialUrl = Uri.TryCreate(company.SocialUrl, UriKind.Absolute, out _);
+    var path = Context.Request.Path;
+}
+<footer class="site-footer section-black">
+    <div class="site-footer__brand">
+        <partial name="Components/_BrandMark" model="@(new BrandMarkViewModel { Variant = "lime-slogan-on-black", CssClass = "brand-mark--lockup", Lazy = true })" />
+        @if (!string.IsNullOrWhiteSpace(company.Statement))
+        {
+            <p class="site-footer__statement">@company.Statement</p>
+        }
+    </div>
+
+    <div class="site-footer__columns">
+        <div class="site-footer__group">
+            <p class="label">Explore</p>
+            <nav class="site-footer__nav" aria-label="Footer">
+                @foreach (var item in NavigationCatalog.Primary)
+                {
+                    <partial name="Components/_NavLink" model="@(new NavLinkViewModel { Label = item.Label, Path = item.Path, IsActive = NavigationCatalog.IsActive(item, path), CssClass = "site-footer__link" })" />
+                }
+            </nav>
+        </div>
+        <div class="site-footer__group">
+            <p class="label">Connect</p>
+            <p class="site-footer__facts">
+                @if (!string.IsNullOrWhiteSpace(company.Phone))
+                {
+                    <a href="tel:@company.Phone.Replace(" ", string.Empty)">@company.Phone</a>
+                }
+                @if (!string.IsNullOrWhiteSpace(company.Email))
+                {
+                    <a href="mailto:@company.Email">@company.Email</a>
+                }
+                @if (!string.IsNullOrWhiteSpace(company.SocialHandle) && hasSocialUrl)
+                {
+                    <a href="@company.SocialUrl" rel="noopener noreferrer">@company.SocialHandle</a>
+                }
+                else if (!string.IsNullOrWhiteSpace(company.SocialHandle))
+                {
+                    <span>@company.SocialHandle</span>
+                }
+            </p>
+        </div>
+    </div>
+
+    <div class="site-footer__base">
+        <p class="site-footer__copy">© @year @company.Name</p>
+        <a class="site-footer__legal" href="/privacy">Privacy</a>
+    </div>
+</footer>

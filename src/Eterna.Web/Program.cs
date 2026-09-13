@@ -20,6 +20,7 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddEternaRateLimiting(builder.Configuration);
 builder.Services.AddRazorPages();
 builder.Services.AddAntiforgery();
+builder.Services.AddHealthChecks();
 
 var app = builder.Build();
 
@@ -49,6 +50,7 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseRateLimiter();
 app.UseAntiforgery();
+app.MapHealthChecks("/health").DisableRateLimiting();
 app.MapRazorPages();
 
 app.Run();

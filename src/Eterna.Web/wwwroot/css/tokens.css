@@ -14,25 +14,129 @@
     font-display: swap;
 }
 
+/*
+  IBM Plex Sans, Source Serif 4, and IBM Plex Mono are specified
+  in the type stacks. Self-hosted files are not in the repo yet.
+  Do not add a CDN. System fallbacks are active until the files
+  are licensed and placed in /fonts.
+*/
+
 :root {
+    /* Brand */
     --e-lime: #cdea80;
     --e-dark: #262626;
     --e-black: #000000;
     --e-white: #ffffff;
     --e-paper: #f4f4f1;
-    --e-ink: #262626;
-    --e-rule: rgba(38, 38, 38, 0.12);
-    --e-rule-dark: rgba(205, 234, 128, 0.16);
-    --e-muted: rgba(244, 244, 241, 0.64);
+
+    /* Ink */
+    --e-ink: var(--e-dark);
+    --e-muted-on-dark: rgba(244, 244, 241, 0.64);
+    --e-muted-on-light: rgba(38, 38, 38, 0.64);
+    --e-disabled: rgba(38, 38, 38, 0.36);
+    --e-disabled-on-dark: rgba(244, 244, 241, 0.32);
+
+    /* Rules */
+    --e-rule-on-light: rgba(38, 38, 38, 0.12);
+    --e-rule-on-dark: rgba(205, 234, 128, 0.16);
+
+    /* Contextual surface — default dark */
+    --surface: var(--e-dark);
+    --ink: var(--e-white);
+    --ink-muted: var(--e-muted-on-dark);
+    --rule: var(--e-rule-on-dark);
+    --accent: var(--e-lime);
+    --focus: var(--e-lime);
+    --cta-fill: var(--e-lime);
+    --cta-ink: var(--e-dark);
+    --cta-ghost-ink: var(--e-lime);
+
+    /* Typography */
     --font-display: "Coolvetica", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    --font-body: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    --font-mono: ui-monospace, "Cascadia Mono", "Segoe UI Mono", Menlo, monospace;
+    --font-body: "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --font-editorial: "Source Serif 4", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", "Segoe UI Mono", Menlo, monospace;
+
+    --text-micro: 0.6875rem;
+    --text-label: 0.75rem;
+    --text-body: 1rem;
+    --text-body-lg: 1.125rem;
+    --text-lede: clamp(1.0625rem, 1.2vw, 1.25rem);
+    --text-title: clamp(1.75rem, 3.2vw, 2.75rem);
+    --text-display: clamp(2.125rem, 7vw, 6.25rem);
+    --text-display-xl: clamp(2.75rem, 9.5vw, 7.5rem);
+
+    --leading-display: 0.92;
+    --leading-title: 1.05;
+    --leading-body: 1.6;
+    --leading-editorial: 1.5;
+    --tracking-display: -0.03em;
+    --tracking-label: 0.16em;
+    --tracking-nav: 0.08em;
+
+    /* Spacing */
     --space-1: 0.5rem;
     --space-2: 1rem;
     --space-3: 1.5rem;
     --space-4: 2.5rem;
     --space-5: 4rem;
     --space-6: 6rem;
+    --space-7: 8rem;
+    --space-8: 10rem;
+
+    /* Layout */
     --page-gutter: 1.5rem;
-    --max-measure: 44rem;
+    --max-wide: 92rem;
+    --max-page: 80rem;
+    --max-measure: 40rem;
+    --max-editorial: 46rem;
+    --header-height: 4.5rem;
+
+    /* Borders / radius */
+    --border-thin: 1px;
+    --radius-0: 0;
+    --radius-px: 1px;
+
+    /* Z-index — header stays above the overlay so the mark remains visible */
+    --z-base: 1;
+    --z-overlay: 40;
+    --z-header: 50;
+    --z-skip: 60;
+
+    /* Motion */
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+    --duration-fast: 180ms;
+    --duration-mid: 320ms;
+    --duration-slow: 640ms;
+    --duration-glacial: 1200ms;
+
+    /* Breakpoints (documentation — used as comments in media queries)
+       320, 375, 390, 430, 768, 1024, 1280, 1440, 1920 */
+    --bp-xs: 320px;
+    --bp-sm: 430px;
+    --bp-md: 768px;
+    --bp-lg: 1024px;
+    --bp-xl: 1280px;
+    --bp-2xl: 1440px;
+    --bp-3xl: 1920px;
+}
+
+@media (min-width: 768px) {
+    :root {
+        --page-gutter: 2.5rem;
+        --header-height: 5rem;
+    }
+}
+
+@media (min-width: 1280px) {
+    :root {
+        --page-gutter: 4rem;
+    }
+}
+
+@media (min-width: 1440px) {
+    :root {
+        --page-gutter: 5rem;
+    }
 }

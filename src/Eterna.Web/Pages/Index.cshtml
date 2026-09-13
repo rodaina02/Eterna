@@ -2,6 +2,7 @@
 @model IndexModel
 @inject IOptions<CompanyOptions> CompanyAccessor
 @{
+    Layout = "_Layout";
     var company = CompanyAccessor.Value;
 }
 

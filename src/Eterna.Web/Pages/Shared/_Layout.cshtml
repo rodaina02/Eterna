@@ -1,7 +1,6 @@
-@inject IOptions<CompanyOptions> CompanyAccessor
-@inject IOptions<SiteOptions> SiteAccessor
 @{
-    var company = CompanyAccessor.Value;
+    var bodyTheme = ViewData["BodyTheme"] as string ?? "dark";
+    var mainClass = ViewData["MainClass"] as string ?? "site-main--foundation";
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -12,52 +11,18 @@
     <link rel="stylesheet" href="~/css/tokens.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/base.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/layout.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/components.css" asp-append-version="true" />
     @await RenderSectionAsync("Styles", required: false)
 </head>
-<body>
+<body class="theme-@bodyTheme">
     <a class="skip-link" href="#main">Skip to content</a>
-
-    <header class="site-header">
-        <a class="brand" href="/" aria-label="@company.Name home">
-            <img
-                class="brand__mark"
-                src="~/images/brand/mark-lime-on-dark.png"
-                alt="@company.Name"
-                width="72"
-                height="72" />
-        </a>
-    </header>
-
-    <main id="main" class="site-main">
+    <partial name="_SiteHeader" />
+    <main id="main" class="@mainClass">
         @RenderBody()
     </main>
-
-    <footer class="site-footer">
-        <p class="site-footer__mark-wrap">
-            <img
-                class="site-footer__lockup"
-                src="~/images/brand/mark-lime-slogan-on-dark.png"
-                alt="@company.Name. @company.Slogan."
-                width="220"
-                height="140" />
-        </p>
-        <p class="site-footer__facts">
-            @if (!string.IsNullOrWhiteSpace(company.Phone))
-            {
-                <a href="tel:@company.Phone.Replace(" ", string.Empty)">@company.Phone</a>
-            }
-            @if (!string.IsNullOrWhiteSpace(company.Email))
-            {
-                <a href="mailto:@company.Email">@company.Email</a>
-            }
-            @if (!string.IsNullOrWhiteSpace(company.SocialHandle))
-            {
-                <a href="@company.SocialUrl" rel="noopener noreferrer">@company.SocialHandle</a>
-            }
-        </p>
-    </footer>
-
+    <partial name="_SiteFooter" />
     <script src="~/js/eterna.core.js" asp-append-version="true" defer></script>
+    <script src="~/js/eterna.nav.js" asp-append-version="true" defer></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

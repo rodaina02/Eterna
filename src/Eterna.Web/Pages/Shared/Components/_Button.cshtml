@@ -1,0 +1,31 @@
+@model ButtonViewModel
+@{
+    var css = Model.Variant switch
+    {
+        "secondary" => "btn btn--secondary",
+        "text" => "btn btn--text",
+        _ => "btn"
+    };
+    if (!string.IsNullOrWhiteSpace(Model.CssClass))
+    {
+        css += $" {Model.CssClass}";
+    }
+
+    var motionCta = string.Equals(Model.Motion, "cta", StringComparison.OrdinalIgnoreCase);
+}
+@if (string.IsNullOrWhiteSpace(Model.Href))
+{
+    <button class="@css" type="button" disabled="@Model.Disabled">@Model.Text</button>
+}
+else if (Model.Disabled)
+{
+    <a class="@css" href="@Model.Href" aria-disabled="true" tabindex="-1">@Model.Text</a>
+}
+else if (motionCta)
+{
+    <a class="@css" href="@Model.Href" data-motion-cta>@Model.Text</a>
+}
+else
+{
+    <a class="@css" href="@Model.Href">@Model.Text</a>
+}

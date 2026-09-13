@@ -12,5 +12,9 @@ public sealed class ErrorModel : PageModel
         ViewData["Title"] = "Something went wrong — Eterna";
         ViewData["Description"] = "The requested page could not be completed. Please try again.";
         ViewData["CanonicalPath"] = "/Error";
+        ViewData["Robots"] = "noindex, nofollow";
+        ViewData["HeaderTheme"] = "paper";
+        ViewData["BodyTheme"] = "paper";
+        ViewData["MainClass"] = "site-main--inner";
     }
 }

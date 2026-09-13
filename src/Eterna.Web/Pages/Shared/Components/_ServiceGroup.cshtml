@@ -1,0 +1,10 @@
+@model (string Title, string[] Items)
+<div class="service-group">
+    <h3 class="service-group__title">@Model.Title</h3>
+    <ul>
+        @foreach (var item in Model.Items)
+        {
+            <li>@item</li>
+        }
+    </ul>
+</div>

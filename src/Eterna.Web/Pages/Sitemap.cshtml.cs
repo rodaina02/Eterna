@@ -1,4 +1,5 @@
 using Eterna.Application.Options;
+using Eterna.Web.Navigation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Options;
@@ -14,7 +15,7 @@ public sealed class SitemapModel : PageModel
         _site = site.Value;
     }
 
-    public IReadOnlyList<string> Paths { get; } = ["/"];
+    public IReadOnlyList<string> Paths { get; } = NavigationCatalog.PublicSitemapPaths;
 
     public string BaseUrl => string.IsNullOrWhiteSpace(_site.CanonicalBaseUrl)
         ? $"{Request.Scheme}://{Request.Host}"

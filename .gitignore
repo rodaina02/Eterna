@@ -26,3 +26,6 @@ Desktop.ini
 ## Publish
 publish/
 artifacts/
+
+## Local verification
+.verify/

@@ -15,6 +15,10 @@
 }
 <title>@title</title>
 <meta name="description" content="@description" />
+@if (ViewData["Robots"] is string robots)
+{
+    <meta name="robots" content="@robots" />
+}
 @if (canonical is not null)
 {
     <link rel="canonical" href="@canonical" />

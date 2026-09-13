@@ -1,0 +1,13 @@
+@model BrandMarkViewModel
+@{
+    var asset = BrandAssets.Resolve(Model.Variant);
+    var css = string.IsNullOrWhiteSpace(Model.CssClass) ? "brand-mark" : $"brand-mark {Model.CssClass}";
+}
+<img
+    class="@css"
+    src="@asset.Src"
+    alt="@(Model.Alt ?? asset.Alt)"
+    width="@(Model.Width ?? asset.Width)"
+    height="@(Model.Height ?? asset.Height)"
+    loading="@(Model.Lazy ? "lazy" : "eager")"
+    decoding="async" />

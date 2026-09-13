@@ -1,0 +1,9 @@
+@model (string Text, string Href, bool Arrow)
+@if (Model.Arrow)
+{
+    <a class="arrow-link" href="@Model.Href">@Model.Text</a>
+}
+else
+{
+    <a class="text-link" href="@Model.Href">@Model.Text</a>
+}

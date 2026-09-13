@@ -1,0 +1,28 @@
+@model SectionHeaderViewModel
+@{
+    var headingTag = Model.HeadingLevel is "h1" or "h2" or "h3" ? Model.HeadingLevel : "h2";
+}
+<header class="section-header" data-motion-section>
+    <div class="section-header__meta">
+        @if (!string.IsNullOrWhiteSpace(Model.Index))
+        {
+            <p class="section-index">@Model.Index</p>
+        }
+        @if (!string.IsNullOrWhiteSpace(Model.Eyebrow))
+        {
+            <p class="section-eyebrow">@Model.Eyebrow</p>
+        }
+    </div>
+    @if (headingTag == "h1")
+    {
+        <h1 id="@Model.Id" class="section-header__title">@Model.Title</h1>
+    }
+    else if (headingTag == "h3")
+    {
+        <h3 id="@Model.Id" class="section-header__title">@Model.Title</h3>
+    }
+    else
+    {
+        <h2 id="@Model.Id" class="section-header__title">@Model.Title</h2>
+    }
+</header>
