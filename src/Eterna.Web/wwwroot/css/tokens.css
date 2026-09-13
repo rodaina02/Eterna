@@ -1,0 +1,38 @@
+@font-face {
+    font-family: "Coolvetica";
+    src: url("/fonts/coolvetica/Coolvetica-Light.otf") format("opentype");
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Coolvetica";
+    src: url("/fonts/coolvetica/Coolvetica-Regular.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    --e-lime: #cdea80;
+    --e-dark: #262626;
+    --e-black: #000000;
+    --e-white: #ffffff;
+    --e-paper: #f4f4f1;
+    --e-ink: #262626;
+    --e-rule: rgba(38, 38, 38, 0.12);
+    --e-rule-dark: rgba(205, 234, 128, 0.16);
+    --e-muted: rgba(244, 244, 241, 0.64);
+    --font-display: "Coolvetica", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --font-body: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --font-mono: ui-monospace, "Cascadia Mono", "Segoe UI Mono", Menlo, monospace;
+    --space-1: 0.5rem;
+    --space-2: 1rem;
+    --space-3: 1.5rem;
+    --space-4: 2.5rem;
+    --space-5: 4rem;
+    --space-6: 6rem;
+    --page-gutter: 1.5rem;
+    --max-measure: 44rem;
+}

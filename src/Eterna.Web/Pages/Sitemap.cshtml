@@ -1,0 +1,14 @@
+@page "/sitemap.xml"
+@model SitemapModel
+@{
+    Layout = null;
+}<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+@foreach (var path in Model.Paths)
+{
+    <url>
+        <loc>@Model.BaseUrl@path</loc>
+        <changefreq>weekly</changefreq>
+    </url>
+}
+</urlset>

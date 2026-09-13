@@ -1,0 +1,53 @@
+@inject IOptions<SiteOptions> SiteAccessor
+@inject IOptions<CompanyOptions> CompanyAccessor
+@{
+    var site = SiteAccessor.Value;
+    var company = CompanyAccessor.Value;
+    var title = ViewData["Title"] as string ?? site.DefaultTitle;
+    var description = ViewData["Description"] as string ?? site.DefaultDescription;
+    var path = ViewData["CanonicalPath"] as string ?? Context.Request.Path.Value ?? "/";
+    var canonical = string.IsNullOrWhiteSpace(site.CanonicalBaseUrl)
+        ? null
+        : $"{site.CanonicalBaseUrl.TrimEnd('/')}{path}";
+    var ogImage = string.IsNullOrWhiteSpace(site.CanonicalBaseUrl)
+        ? site.OgImagePath
+        : $"{site.CanonicalBaseUrl.TrimEnd('/')}{site.OgImagePath}";
+}
+<title>@title</title>
+<meta name="description" content="@description" />
+@if (canonical is not null)
+{
+    <link rel="canonical" href="@canonical" />
+}
+<meta property="og:type" content="website" />
+<meta property="og:title" content="@title" />
+<meta property="og:description" content="@description" />
+<meta property="og:image" content="@ogImage" />
+@if (canonical is not null)
+{
+    <meta property="og:url" content="@canonical" />
+}
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="@title" />
+<meta name="twitter:description" content="@description" />
+<meta name="twitter:image" content="@ogImage" />
+<link rel="icon" type="image/png" href="/images/brand/mark-lime-no-r.png" />
+<script type="application/ld+json">
+{
+  "@@context": "https://schema.org",
+  "@@graph": [
+    {
+      "@@type": "Organization",
+      "name": "@company.Name",
+      "slogan": "@company.Slogan",
+      "email": "@company.Email",
+      "telephone": "@company.Phone"@(string.IsNullOrWhiteSpace(company.SocialUrl) ? "" : $",\n      \"sameAs\": [\"{company.SocialUrl}\"]")
+    },
+    {
+      "@@type": "WebSite",
+      "name": "@company.Name",
+      "description": "@description"
+    }
+  ]
+}
+</script>

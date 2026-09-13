@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Eterna.Application/Eterna.Application.csproj" />
+    <Project Path="src/Eterna.Domain/Eterna.Domain.csproj" />
+    <Project Path="src/Eterna.Infrastructure/Eterna.Infrastructure.csproj" />
+    <Project Path="src/Eterna.Web/Eterna.Web.csproj" />
+  </Folder>
+</Solution>

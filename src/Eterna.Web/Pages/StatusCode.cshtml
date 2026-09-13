@@ -1,0 +1,12 @@
+@page
+@model StatusCodeModel
+
+<section class="foundation" aria-labelledby="status-heading">
+    <p class="foundation__index">@Model.Code</p>
+    <p class="foundation__eyebrow">Status</p>
+    <h1 id="status-heading" class="foundation__title">@Model.Heading</h1>
+    <p class="foundation__lede">@Model.Message</p>
+    <p class="foundation__action">
+        <a class="text-link" href="/">Return home</a>
+    </p>
+</section>

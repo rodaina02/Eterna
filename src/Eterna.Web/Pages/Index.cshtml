@@ -1,0 +1,15 @@
+@page
+@model IndexModel
+@inject IOptions<CompanyOptions> CompanyAccessor
+@{
+    var company = CompanyAccessor.Value;
+}
+
+<section class="foundation" aria-labelledby="foundation-heading">
+    <p class="foundation__index">01</p>
+    <p class="foundation__eyebrow">Software &amp; AI Solutions</p>
+    <h1 id="foundation-heading" class="foundation__title">@company.Slogan.</h1>
+    <p class="foundation__lede">
+        Software, AI and intelligent systems designed to move businesses forward.
+    </p>
+</section>
