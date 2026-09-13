@@ -1,6 +1,20 @@
 @model WorkCardViewModel
-<article class="work-card">
-    <p class="label">Client</p>
-    <h3 class="work-card__title">@Model.Client</h3>
-    <p class="work-card__meta">@Model.Industry</p>
-</article>
+@{
+    var isLink = !string.IsNullOrWhiteSpace(Model.Href);
+}
+@if (isLink)
+{
+    <a class="work-card work-card--link" href="@Model.Href">
+        <p class="label">@Model.Label</p>
+        <h3 class="work-card__title">@Model.Client</h3>
+        <p class="work-card__meta">@Model.Industry</p>
+    </a>
+}
+else
+{
+    <article class="work-card">
+        <p class="label">@Model.Label</p>
+        <h3 class="work-card__title">@Model.Client</h3>
+        <p class="work-card__meta">@Model.Industry</p>
+    </article>
+}

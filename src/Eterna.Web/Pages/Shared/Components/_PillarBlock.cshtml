@@ -1,0 +1,8 @@
+@model PillarViewModel
+<article class="pillar" data-motion-reveal>
+    <p class="label pillar__index">@Model.Index</p>
+    <h3 class="pillar__title">@Model.Title</h3>
+    <p class="pillar__text">@Model.Description</p>
+    <hr class="rule" />
+    <partial name="Components/_TextLink" model="@((Model.LinkText, Model.Href, true))" />
+</article>

@@ -406,6 +406,15 @@
     border-top: var(--border-thin) solid var(--rule);
 }
 
+a.work-card {
+    text-decoration: none;
+    color: inherit;
+}
+
+a.work-card:hover .work-card__title {
+    color: var(--accent);
+}
+
 .work-card__title,
 .service-group__title,
 .value-item__title,

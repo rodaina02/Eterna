@@ -221,7 +221,8 @@ a.btn.site-header__cta,
     min-height: 60vh;
 }
 
-.site-main--document {
+.site-main--document,
+.site-main--home {
     padding: 0;
 }
 

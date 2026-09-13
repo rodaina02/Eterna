@@ -4,4 +4,6 @@ public sealed class WorkCardViewModel
 {
     public string Client { get; init; } = string.Empty;
     public string Industry { get; init; } = string.Empty;
+    public string Label { get; init; } = "Client";
+    public string? Href { get; init; }
 }
