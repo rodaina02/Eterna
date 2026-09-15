@@ -1253,7 +1253,7 @@ html.is-motion .home-control__title span {
 
 .home-about {
     position: relative;
-    z-index: auto;
+    z-index: 2;
     display: grid;
     gap: 0;
     background: var(--e-paper);
@@ -1266,7 +1266,7 @@ html.is-motion .home-control__title span {
     right: 0;
     bottom: 0;
     z-index: 4;
-    height: 100%;
+    height: 24vh;
     background: var(--e-lime);
     transform: scaleY(0);
     transform-origin: bottom center;
@@ -1327,7 +1327,7 @@ html:not(.is-motion) .home-about__veil {
 
 .home-cta {
     position: relative;
-    z-index: auto;
+    z-index: 1;
     overflow: visible;
     min-height: 0;
     padding: var(--space-5) 0 0;
@@ -1902,8 +1902,20 @@ html:not(.is-motion) .home-cta__resolve {
         padding-bottom: 18vh;
     }
 
+    html.is-motion .home-why .section-header {
+        position: sticky;
+        top: var(--header-height);
+        z-index: 2;
+        background: var(--e-black);
+        padding-bottom: var(--space-2);
+    }
+
     html.is-motion .home-tech .section-header {
-        margin-bottom: var(--space-2);
+        position: sticky;
+        top: var(--header-height);
+        z-index: 2;
+        background: var(--e-paper);
+        padding-bottom: var(--space-2);
     }
 
     html.is-motion .home-tech .section-header__title {
@@ -1996,8 +2008,9 @@ html:not(.is-motion) .home-cta__resolve {
     }
 
     html.is-motion .home-cta__track {
-        height: 158vh;
+        height: 200vh;
         padding-inline: 0;
+        position: relative;
     }
 
     html.is-motion .home-cta__canvas {
@@ -2005,8 +2018,10 @@ html:not(.is-motion) .home-cta__resolve {
         gap: 0;
         align-items: start;
         justify-content: start;
-        height: 100vh;
-        min-height: 100svh;
+        position: sticky;
+        top: var(--header-height);
+        height: calc(100vh - var(--header-height));
+        min-height: calc(100svh - var(--header-height));
         padding-top: clamp(18vh, 22vh, 28vh);
         padding-bottom: var(--space-5);
         box-sizing: border-box;
@@ -2070,12 +2085,12 @@ html:not(.is-motion) .home-cta__resolve {
     }
 
     html.is-motion .home-about {
-        min-height: 152vh;
+        min-height: 148vh;
     }
 
     .home-about__grid {
         padding-top: clamp(22vh, 30vh, 36vh);
-        padding-bottom: clamp(12vh, 16vh, 22vh);
+        padding-bottom: clamp(14vh, 18vh, 24vh);
     }
 
     html.is-motion .home-cta__mark {
@@ -2112,9 +2127,31 @@ html:not(.is-motion) .home-cta__resolve {
         padding: var(--space-5) 0 0;
     }
 
+    .home-cta__canvas {
+        min-height: 72vh;
+        box-sizing: border-box;
+        padding-top: var(--space-6);
+    }
+
     html.is-motion .home-cta__track,
     html.is-motion .home-control__track {
         height: auto;
+    }
+
+    html.is-motion .home-cta__track {
+        min-height: 78vh;
+    }
+
+    html.is-motion .home-cta__canvas {
+        height: auto;
+        min-height: 78vh;
+        padding-top: clamp(10vh, 14vh, 18vh);
+        padding-bottom: var(--space-5);
+        box-sizing: border-box;
+    }
+
+    html.is-motion .home-about {
+        min-height: 132vh;
     }
 
     html.is-motion .home-tech__panel:not(.is-active) {
@@ -2157,7 +2194,7 @@ html:not(.is-motion) .home-cta__resolve {
 
     html.is-motion .home-cta__canvas {
         height: auto;
-        min-height: 0;
+        min-height: 78vh;
     }
 
     .home-contact {

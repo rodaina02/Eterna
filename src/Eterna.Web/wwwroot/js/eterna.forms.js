@@ -54,7 +54,7 @@
                 event.preventDefault();
                 return;
             }
-            const valid = fields.every((field) => validateField(field));
+            const valid = fields.map((field) => validateField(field)).every(Boolean);
             if (!valid) {
                 event.preventDefault();
                 const first = form.querySelector(".field.is-invalid input, .field.is-invalid select, .field.is-invalid textarea");

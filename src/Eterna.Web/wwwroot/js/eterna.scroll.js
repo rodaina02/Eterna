@@ -4,6 +4,16 @@
     }
 
     const pinStart = () => `top ${window.Eterna.system?.headerOffset() || 72}`;
+    const sceneDebug = location.hostname === "localhost" || location.hostname === "127.0.0.1";
+    const logScene = (name) => {
+        if (!name || logScene.last === name) {
+            return;
+        }
+        logScene.last = name;
+        if (sceneDebug) {
+            console.info("[Eterna]", name);
+        }
+    };
 
     const initStatement = (ctx) => {
         const { gsap, tokens } = ctx;
@@ -686,6 +696,7 @@
 
         const setState = (name) => {
             section.dataset.sceneState = name;
+            logScene(name);
         };
 
         const buildTimeline = (withSurface) => {
@@ -824,84 +835,103 @@
         const link = section.querySelector(".arrow-link, .text-link");
         const veil = section.querySelector("[data-about-veil]");
         const cta = document.querySelector("[data-cta]");
+        const ctaTrack = document.querySelector("[data-cta-track]") || cta;
+        const control = document.querySelector("[data-control]");
+
+        const setState = (name) => {
+            section.dataset.sceneState = name;
+            logScene(name);
+        };
+
+        const bindState = (self) => {
+            const controlState = control?.dataset.sceneState || "";
+            if (self.progress < 0.18) {
+                if (controlState === "GOVERNANCE_ENTER" || controlState === "GOVERNANCE_ACTIVE") {
+                    setState("GOVERNANCE_STUDIO_OVERLAP");
+                } else {
+                    setState("STUDIO_ENTER");
+                }
+            } else if (self.progress < 0.58) {
+                setState("STUDIO_ACTIVE");
+            } else {
+                setState("STUDIO_EXIT");
+            }
+        };
 
         const play = (start, end, endTrigger) => {
+            if (veil) {
+                gsap.set(veil, { scaleY: 0, transformOrigin: "bottom center" });
+            }
             const timeline = gsap.timeline({
-                defaults: { ease: tokens.easeNone },
+                defaults: { ease: tokens.easeNone, duration: 0.12 },
                 scrollTrigger: {
+                    id: "studio",
                     trigger: section,
                     start,
                     end,
                     endTrigger: endTrigger || section,
                     scrub: tokens.scrubControlled,
                     invalidateOnRefresh: true,
-                    onUpdate: (self) => {
-                        if (self.progress < 0.18) {
-                            section.dataset.sceneState = "STUDIO_ENTER";
-                        } else if (self.progress < 0.7) {
-                            section.dataset.sceneState = "STUDIO_ACTIVE";
-                        } else {
-                            section.dataset.sceneState = "STUDIO_EXIT";
-                        }
-                    }
+                    onUpdate: bindState,
+                    onEnter: () => setState("STUDIO_ENTER"),
+                    onEnterBack: () => setState("STUDIO_ACTIVE"),
+                    onLeave: () => setState("STUDIO_EXIT"),
+                    onLeaveBack: () => setState("GOVERNANCE_STUDIO_OVERLAP")
                 }
             });
             if (scene) {
-                timeline.fromTo(scene, { opacity: 0.42, y: 16, scale: 1.02 }, { opacity: 1, y: 0, scale: 1 }, 0);
+                timeline.fromTo(scene, { opacity: 0.72, y: 12, scale: 1.015 }, { opacity: 1, y: 0, scale: 1, duration: 0.16 }, 0);
             }
             if (photo) {
-                timeline.fromTo(photo, {
-                    scale: 1.05,
-                    opacity: 0.5
-                }, {
-                    scale: 1,
-                    opacity: 1
-                }, 0.03);
+                timeline.fromTo(photo, { scale: 1.04, opacity: 0.78 }, { scale: 1, opacity: 1, duration: 0.16 }, 0.04);
             }
             if (title) {
-                timeline.fromTo(title, { opacity: 0, y: 12 }, { opacity: 1, y: 0 }, 0.08);
+                timeline.fromTo(title, { opacity: 0.9, y: 8 }, { opacity: 1, y: 0, duration: 0.14 }, 0.06);
             }
             if (copy) {
-                timeline.fromTo(copy, { opacity: 0, y: 10 }, { opacity: 1, y: 0 }, 0.12);
+                timeline.fromTo(copy, { opacity: 0.88, y: 8 }, { opacity: 1, y: 0, duration: 0.14 }, 0.1);
             }
             if (lockup) {
-                timeline.fromTo(lockup, { opacity: 0.55, scale: 0.97 }, { opacity: 1, scale: 1 }, 0.14);
+                timeline.fromTo(lockup, { opacity: 0.82, scale: 0.98 }, { opacity: 1, scale: 1, duration: 0.14 }, 0.12);
             }
             if (link) {
-                timeline.fromTo(link, { opacity: 0.7, y: 6 }, { opacity: 1, y: 0 }, 0.16);
+                timeline.fromTo(link, { opacity: 0.88, y: 4 }, { opacity: 1, y: 0, duration: 0.12 }, 0.14);
             }
             if (title) {
-                timeline.to(title, { opacity: 1, y: 0 }, 0.62);
+                timeline.to(title, { opacity: 1, y: 0, duration: 0.42 }, 0.18);
             }
             if (copy) {
-                timeline.to(copy, { opacity: 1, y: 0 }, 0.62);
+                timeline.to(copy, { opacity: 1, y: 0, duration: 0.42 }, 0.18);
+            }
+            if (link) {
+                timeline.to(link, { opacity: 1, y: 0, duration: 0.42 }, 0.18);
             }
             if (lockup) {
-                timeline.to(lockup, { scale: 1.14, opacity: 1 }, 0.7);
+                timeline.to(lockup, { scale: 1.06, opacity: 1, duration: 0.16 }, 0.62);
             }
             if (photo) {
-                timeline.to(photo, { scale: 0.94, yPercent: -6, opacity: 0.92 }, 0.74);
+                timeline.to(photo, { scale: 0.98, yPercent: -2, opacity: 1, duration: 0.16 }, 0.68);
             }
             if (scene) {
-                timeline.to(scene, { scale: 0.96, yPercent: -8 }, 0.76);
+                timeline.to(scene, { scale: 0.99, yPercent: -2, duration: 0.16 }, 0.7);
             }
             if (title) {
-                timeline.to(title, { opacity: 0.82, y: -8 }, 0.8);
+                timeline.to(title, { opacity: 0.92, y: -4, duration: 0.12 }, 0.82);
             }
             if (copy) {
-                timeline.to(copy, { opacity: 0.78, y: -8 }, 0.82);
+                timeline.to(copy, { opacity: 0.9, y: -4, duration: 0.12 }, 0.84);
             }
             if (link) {
-                timeline.to(link, { opacity: 0.62, y: -6 }, 0.84);
+                timeline.to(link, { opacity: 0.9, y: -2, duration: 0.12 }, 0.84);
             }
             if (veil) {
-                timeline.fromTo(veil, { scaleY: 0 }, { scaleY: 1 }, 0.78);
+                timeline.to(veil, { scaleY: 1, duration: 0.06 }, 0.94);
             }
             return () => timeline.scrollTrigger?.kill();
         };
 
-        mm.add("(min-width: 1024px)", () => play("top 24%", pinStart, cta));
-        mm.add("(max-width: 1023px)", () => play("top 78%", "bottom 22%"));
+        mm.add("(min-width: 1024px)", () => play("top 78%", pinStart, ctaTrack || cta));
+        mm.add("(max-width: 1023px)", () => play("top 82%", "top 18%", ctaTrack || cta));
     };
 
     const initCta = (ctx) => {
@@ -923,6 +953,7 @@
 
         const setState = (name) => {
             section.dataset.sceneState = name;
+            logScene(name);
         };
 
         mm.add("(min-width: 1024px)", () => {
@@ -957,24 +988,27 @@
             timeline.to({}, {}, 0.98);
 
             const trigger = ScrollTrigger.create({
+                id: "cta",
                 trigger: track,
                 start: pinStart,
-                end: "bottom top",
-                pin: canvas,
-                pinSpacing: false,
+                endTrigger: contact || track,
+                end: contact ? "top 18%" : "bottom top",
+                pin: false,
                 scrub: tokens.scrubCinematic,
                 animation: timeline,
-                anticipatePin: 0,
                 invalidateOnRefresh: true,
                 onUpdate: (self) => {
                     if (self.progress < 0.12) {
                         setState("CTA_ENTER");
                     } else if (self.progress < 0.62) {
-                        setState("CTA_LEGACY");
+                        setState("CTA_ACTIVE");
                     } else {
                         setState("CTA_RESOLUTION");
                     }
-                }
+                },
+                onEnter: () => setState("CTA_ENTER"),
+                onEnterBack: () => setState("CTA_ACTIVE"),
+                onLeave: () => setState("CTA_RESOLUTION")
             });
             return () => trigger.kill();
         });
@@ -983,10 +1017,22 @@
             const timeline = gsap.timeline({
                 defaults: { ease: tokens.easeNone },
                 scrollTrigger: {
+                    id: "cta-mobile",
                     trigger: track,
-                    start: "top 82%",
-                    end: "bottom 28%",
-                    scrub: tokens.scrubControlled
+                    start: "top 42%",
+                    end: "bottom 16%",
+                    scrub: tokens.scrubControlled,
+                    onUpdate: (self) => {
+                        if (self.progress < 0.12) {
+                            setState("CTA_ENTER");
+                        } else if (self.progress < 0.62) {
+                            setState("CTA_ACTIVE");
+                        } else {
+                            setState("CTA_RESOLUTION");
+                        }
+                    },
+                    onEnter: () => setState("CTA_ENTER"),
+                    onEnterBack: () => setState("CTA_ACTIVE")
                 }
             });
             if (mark) {
@@ -1017,6 +1063,7 @@
             const rise = gsap.timeline({
                 defaults: { ease: tokens.easeNone },
                 scrollTrigger: {
+                    id: "contact",
                     trigger: contact,
                     start: "top 94%",
                     end: "top 68%",
@@ -1024,6 +1071,7 @@
                     invalidateOnRefresh: true,
                     onEnter: () => {
                         contact.dataset.sceneState = "CONTACT";
+                        logScene("CONTACT");
                     }
                 }
             });
