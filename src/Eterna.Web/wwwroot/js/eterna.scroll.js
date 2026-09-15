@@ -3,8 +3,41 @@
         return;
     }
 
+    /*
+      Homepage motion map (desktop ≥1024, reduced-motion off)
+      Pin starts use the sticky header offset. Reverse-scrub uses the same triggers.
+
+      01 Hero        flow. Intro timeline on load. Exit scrub top→bottom of hero.
+                     Claims geometry/line only while the hero trigger is active.
+      02 Philosophy  flow. Section lift + statement beats. start top 98%/86% → 52%/18%.
+      03 Human       PIN. start header, end += 1.16vh. Claims geometry while active.
+      04 Pillars     PIN. Section lift then pin header → += 1.2vh.
+      05 Services    flow. Scrub top 88% → bottom 36%.
+      06 Why         flow. Active-item scrub, no pin.
+      07 Process     PIN. start header, end += 1.32vh.
+      08 Tech        PIN. start header, end += 0.58vh.
+      09 Work        PIN (portfolio). start header, end += 1.22vh. Horizontal runway.
+      10 Industries  flow. Lift + rule + index + exit veil. No pin.
+      11 Governance  PIN stage, pinSpacing false, track 192vh.
+                     start header → end when Studio hits top 24%.
+                     Intentional overlap with Studio entrance.
+      12 Studio      flow. start top 78% → end when CTA track hits header.
+                     ENTER/ACTIVE must own the viewport; EXIT may meet CTA ENTER.
+      13 CTA         flow + sticky canvas. start when track hits header → contact top 18%.
+                     Must not be visually dominant during Studio ENTER/ACTIVE.
+      13 Contact     flow. Panel rise top 94% → 68%. Nested inside CTA.
+      14 Footer      flow. No cinematic pin.
+
+      Mobile/tablet: no hard pins. Same sections, shorter scrubs.
+    */
+
     const pinStart = () => `top ${window.Eterna.system?.headerOffset() || 72}`;
-    const sceneDebug = location.hostname === "localhost" || location.hostname === "127.0.0.1";
+    const pinTrigger = {
+        refreshPriority: 1,
+        anticipatePin: 1,
+        invalidateOnRefresh: true
+    };
+    const sceneDebug = /(?:\?|&)eternaDebug=1(?:&|$)/.test(location.search);
     const logScene = (name) => {
         if (!name || logScene.last === name) {
             return;
@@ -31,7 +64,8 @@
                 trigger: section,
                 start: "top 98%",
                 end: "top 52%",
-                scrub: tokens.scrubControlled
+                scrub: tokens.scrubControlled,
+                invalidateOnRefresh: true
             }
         });
 
@@ -41,7 +75,8 @@
                 trigger: section,
                 start: "top 86%",
                 end: "top 18%",
-                scrub: tokens.scrubControlled
+                scrub: tokens.scrubControlled,
+                invalidateOnRefresh: true
             }
         });
         if (beats[0]) {
@@ -72,7 +107,6 @@
         const forms = window.Eterna.system?.forms() || {};
 
         mm.add("(min-width: 1024px)", () => {
-            window.Eterna.system?.claimGeometry();
             const timeline = gsap.timeline({ defaults: { ease: tokens.easeNone } });
             let trigger = null;
 
@@ -182,8 +216,7 @@
                 pinSpacing: true,
                 scrub: tokens.scrubCinematic,
                 animation: timeline,
-                anticipatePin: 1,
-                invalidateOnRefresh: true,
+                ...pinTrigger,
                 onUpdate: (self) => {
                     if (!items.length) {
                         return;
@@ -195,11 +228,17 @@
                 },
                 onEnter: () => window.Eterna.system?.claimGeometry(),
                 onEnterBack: () => window.Eterna.system?.claimGeometry(),
+                onRefresh: (self) => {
+                    if (self.isActive) {
+                        window.Eterna.system?.claimGeometry();
+                    }
+                },
                 onLeave: () => window.Eterna.system?.releaseGeometry("echo"),
                 onLeaveBack: () => window.Eterna.system?.releaseGeometry("statement")
             });
 
             return () => {
+                active.dispose();
                 trigger.kill();
                 window.Eterna.system?.releaseGeometry("echo");
             };
@@ -227,7 +266,10 @@
             if (title) {
                 timeline.fromTo(title, { opacity: 0.7, y: 10 }, { opacity: 1, y: 0 }, 0.12);
             }
-            return () => timeline.scrollTrigger?.kill();
+            return () => {
+                active?.dispose();
+                timeline.scrollTrigger?.kill();
+            };
         });
 
         mm.add("(max-width: 767px)", () => {
@@ -259,7 +301,10 @@
                     ease: tokens.easeNone
                 }, 0);
             }
-            return () => timeline.scrollTrigger?.kill();
+            return () => {
+                active?.dispose();
+                timeline.scrollTrigger?.kill();
+            };
         });
     };
 
@@ -306,8 +351,7 @@
                 pinSpacing: true,
                 scrub: tokens.scrubCinematic,
                 animation: timeline,
-                anticipatePin: 1,
-                invalidateOnRefresh: true,
+                ...pinTrigger,
                 onUpdate: (self) => {
                     if (pillars.length) {
                         active.setScroll(Math.min(pillars.length - 1, Math.floor(self.progress * pillars.length)));
@@ -316,13 +360,14 @@
             });
 
             return () => {
+                active.dispose();
                 trigger.kill();
             };
         });
 
         mm.add("(max-width: 1023px)", () => {
-            bindActive(pillars);
-            return () => {};
+            const active = bindActive(pillars);
+            return () => active.dispose();
         });
     };
 
@@ -344,6 +389,7 @@
                 start: "top 88%",
                 end: "bottom 36%",
                 scrub: tokens.scrubControlled,
+                invalidateOnRefresh: true,
                 onUpdate: (self) => {
                     if (active && groups.length) {
                         active.setScroll(Math.min(groups.length - 1, Math.floor(self.progress * groups.length)));
@@ -398,9 +444,13 @@
                 start: "top 46%",
                 end: () => `+=${Math.round(window.innerHeight * 0.72)}`,
                 scrub: tokens.scrubSnap,
+                invalidateOnRefresh: true,
                 onUpdate: (self) => active.setScroll(Math.min(items.length - 1, Math.floor(self.progress * items.length)))
             });
-            return () => trigger.kill();
+            return () => {
+                active.dispose();
+                trigger.kill();
+            };
         });
 
         mm.add("(max-width: 767px)", () => {
@@ -410,9 +460,13 @@
                 start: "top 62%",
                 end: () => `+=${Math.round(window.innerHeight * 0.85)}`,
                 scrub: tokens.scrubSnap,
+                invalidateOnRefresh: true,
                 onUpdate: (self) => active.setScroll(Math.min(items.length - 1, Math.floor(self.progress * items.length)))
             });
-            return () => trigger.kill();
+            return () => {
+                active.dispose();
+                trigger.kill();
+            };
         });
     };
 
@@ -445,19 +499,21 @@
                 pinSpacing: true,
                 scrub: tokens.scrubCinematic,
                 animation: timeline,
-                anticipatePin: 1,
-                invalidateOnRefresh: true,
+                ...pinTrigger,
                 onUpdate: (self) => {
                     const count = evolve ? stages.length : official.length;
                     active.setScroll(Math.min(count - 1, Math.floor(self.progress * count)));
                 }
             });
-            return () => trigger.kill();
+            return () => {
+                active.dispose();
+                trigger.kill();
+            };
         });
 
         mm.add("(max-width: 1023px)", () => {
-            bindActive(stages);
-            return () => {};
+            const active = bindActive(stages);
+            return () => active.dispose();
         });
     };
 
@@ -571,8 +627,7 @@
                 pinSpacing: true,
                 scrub: tokens.scrubTech,
                 animation: timeline,
-                anticipatePin: 1,
-                invalidateOnRefresh: true,
+                ...pinTrigger,
                 onUpdate: (self) => {
                     const index = Math.min(clusters.length - 1, Math.floor(self.progress * clusters.length));
                     active.setScroll(index);
@@ -580,6 +635,7 @@
             });
             return () => {
                 unhover();
+                active.dispose();
                 trigger.kill();
             };
         });
@@ -593,12 +649,14 @@
                 start: "top 56%",
                 end: () => `+=${Math.round(window.innerHeight * 0.7)}`,
                 scrub: tokens.scrubTech,
+                invalidateOnRefresh: true,
                 onUpdate: (self) => {
                     active.setScroll(Math.min(clusters.length - 1, Math.floor(self.progress * clusters.length)));
                 }
             });
             return () => {
                 unhover();
+                active.dispose();
                 trigger.kill();
             };
         });
@@ -624,7 +682,8 @@
                 trigger: section,
                 start: "top 92%",
                 end: "top 50%",
-                scrub: tokens.scrubFast
+                scrub: tokens.scrubFast,
+                invalidateOnRefresh: true
             }
         });
 
@@ -636,7 +695,8 @@
                     trigger: section,
                     start: "top 72%",
                     end: "top 42%",
-                    scrub: tokens.scrubFast
+                    scrub: tokens.scrubFast,
+                    invalidateOnRefresh: true
                 }
             });
         }
@@ -646,6 +706,7 @@
             start: "top 52%",
             end: "bottom 38%",
             scrub: tokens.scrubFast,
+            invalidateOnRefresh: true,
             onUpdate: (self) => {
                 if (items.length) {
                     active.setScroll(Math.min(items.length - 1, Math.floor(self.progress * items.length)));
@@ -659,7 +720,8 @@
                 trigger: section,
                 start: "bottom 30%",
                 end: "bottom top",
-                scrub: tokens.scrubControlled
+                scrub: tokens.scrubControlled,
+                invalidateOnRefresh: true
             }
         });
         if (title) {
@@ -701,16 +763,12 @@
 
         const buildTimeline = (withSurface) => {
             const timeline = gsap.timeline({ defaults: { ease: tokens.easeNone } });
-            window.Eterna.system?.claimLine();
 
             if (withSurface && inner) {
                 timeline.fromTo(inner, { y: 20, opacity: 0.92 }, { y: 0, opacity: 1, duration: 0.1 }, 0);
             }
             if (line.stroke) {
-                timeline.fromTo(line.stroke, {
-                    scaleY: 0.28,
-                    opacity: 0.5
-                }, {
+                timeline.to(line.stroke, {
                     scaleY: 0.62,
                     opacity: 1,
                     duration: 0.1,
@@ -718,7 +776,7 @@
                 }, 0.08);
             }
             if (line.node) {
-                timeline.fromTo(line.node, { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.08, immediateRender: false }, 0.14);
+                timeline.to(line.node, { opacity: 1, scale: 1, duration: 0.08, immediateRender: false }, 0.14);
             }
             if (lines[0]) {
                 timeline.fromTo(lines[0], { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.08 }, 0.22);
@@ -772,6 +830,7 @@
                 pinSpacing: false,
                 scrub: tokens.scrubControlled,
                 animation: timeline,
+                refreshPriority: 1,
                 anticipatePin: 0,
                 invalidateOnRefresh: true,
                 onEnter: () => {
@@ -781,6 +840,11 @@
                 onEnterBack: () => {
                     window.Eterna.system?.claimLine();
                     setState("GOVERNANCE_ACTIVE");
+                },
+                onRefresh: (self) => {
+                    if (self.isActive) {
+                        window.Eterna.system?.claimLine();
+                    }
                 },
                 onLeave: () => {
                     window.Eterna.system?.releaseLine("resume");
@@ -810,6 +874,11 @@
                 invalidateOnRefresh: true,
                 onEnter: () => window.Eterna.system?.claimLine(),
                 onEnterBack: () => window.Eterna.system?.claimLine(),
+                onRefresh: (self) => {
+                    if (self.isActive) {
+                        window.Eterna.system?.claimLine();
+                    }
+                },
                 onLeave: () => window.Eterna.system?.releaseLine("resume"),
                 onLeaveBack: () => window.Eterna.system?.releaseLine("cross"),
                 onUpdate: bindState
@@ -876,7 +945,14 @@
                     onEnter: () => setState("STUDIO_ENTER"),
                     onEnterBack: () => setState("STUDIO_ACTIVE"),
                     onLeave: () => setState("STUDIO_EXIT"),
-                    onLeaveBack: () => setState("GOVERNANCE_STUDIO_OVERLAP")
+                    onLeaveBack: () => {
+                        const controlState = control?.dataset.sceneState || "";
+                        if (controlState === "GOVERNANCE_ENTER" || controlState === "GOVERNANCE_ACTIVE") {
+                            setState("GOVERNANCE_STUDIO_OVERLAP");
+                        } else {
+                            setState("");
+                        }
+                    }
                 }
             });
             if (scene) {
@@ -1008,7 +1084,8 @@
                 },
                 onEnter: () => setState("CTA_ENTER"),
                 onEnterBack: () => setState("CTA_ACTIVE"),
-                onLeave: () => setState("CTA_RESOLUTION")
+                onLeave: () => setState("CTA_RESOLUTION"),
+                onLeaveBack: () => setState("")
             });
             return () => trigger.kill();
         });
@@ -1032,7 +1109,8 @@
                         }
                     },
                     onEnter: () => setState("CTA_ENTER"),
-                    onEnterBack: () => setState("CTA_ACTIVE")
+                    onEnterBack: () => setState("CTA_ACTIVE"),
+                    onLeaveBack: () => setState("")
                 }
             });
             if (mark) {
@@ -1072,6 +1150,9 @@
                     onEnter: () => {
                         contact.dataset.sceneState = "CONTACT";
                         logScene("CONTACT");
+                    },
+                    onLeaveBack: () => {
+                        delete contact.dataset.sceneState;
                     }
                 }
             });

@@ -94,8 +94,27 @@
             }
 
             mm.add("(min-width: 768px)", () => {
-                window.Eterna.system?.claimGeometry();
-                window.Eterna.system?.claimLine();
+                const takeHero = () => {
+                    window.Eterna.system?.claimGeometry();
+                    window.Eterna.system?.claimLine();
+                };
+                const resetHeroSystem = () => {
+                    takeHero();
+                    const forms = window.Eterna.system?.forms() || {};
+                    const line = window.Eterna.system?.line() || {};
+                    if (forms.a) {
+                        gsap.set(forms.a, { opacity: 0, xPercent: -10, yPercent: 2, scale: 0.9 });
+                    }
+                    if (forms.b) {
+                        gsap.set(forms.b, { opacity: 0, xPercent: 8, yPercent: 6, scale: 0.92 });
+                    }
+                    if (line.stroke) {
+                        gsap.set(line.stroke, { scaleY: 0, opacity: 0 });
+                    }
+                    if (line.node) {
+                        gsap.set(line.node, { opacity: 0, scale: 0.6 });
+                    }
+                };
 
                 const exit = gsap.timeline({
                     defaults: { ease: tokens.easeNone },
@@ -105,6 +124,13 @@
                         end: "bottom top",
                         scrub: tokens.scrubCinematic,
                         invalidateOnRefresh: true,
+                        onEnter: resetHeroSystem,
+                        onEnterBack: resetHeroSystem,
+                        onRefresh: (self) => {
+                            if (self.isActive) {
+                                takeHero();
+                            }
+                        },
                         onUpdate: (self) => {
                             if (self.progress > 0.16) {
                                 window.Eterna.system?.releaseLine("emerge");
@@ -114,10 +140,7 @@
                             window.Eterna.system?.releaseGeometry("statement");
                             window.Eterna.system?.releaseLine("emerge");
                         },
-                        onLeaveBack: () => {
-                            window.Eterna.system?.claimGeometry();
-                            window.Eterna.system?.claimLine();
-                        }
+                        onLeaveBack: resetHeroSystem
                     }
                 });
 

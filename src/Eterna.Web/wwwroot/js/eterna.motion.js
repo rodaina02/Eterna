@@ -31,6 +31,14 @@
         let scrollIndex = 0;
         let hoverIndex = null;
         const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches && !options.noHover;
+        const abort = new AbortController();
+
+        if (nodes[0]?._eternaActive) {
+            nodes[0]._eternaActive.abort();
+        }
+        if (nodes[0]) {
+            nodes[0]._eternaActive = abort;
+        }
 
         const apply = (source) => {
             const index = hoverIndex ?? scrollIndex;
@@ -71,6 +79,9 @@
                     options.onHoverEnd();
                 }
             },
+            dispose() {
+                abort.abort();
+            },
             get active() {
                 return hoverIndex ?? scrollIndex;
             },
@@ -84,14 +95,14 @@
 
         if (fine) {
             nodes.forEach((node, index) => {
-                node.addEventListener("pointerenter", () => api.setHover(index));
+                node.addEventListener("pointerenter", () => api.setHover(index), { signal: abort.signal });
                 node.addEventListener("pointerleave", (event) => {
                     const next = event.relatedTarget;
                     if (next && nodes.some((item) => item === next || item.contains(next))) {
                         return;
                     }
                     api.clearHover();
-                });
+                }, { signal: abort.signal });
             });
         }
 
@@ -168,9 +179,15 @@
                 media = window.gsap.matchMedia();
                 run("motion");
             });
-            window.addEventListener("load", () => {
-                window.ScrollTrigger?.refresh();
-            }, { once: true });
+            const settleTriggers = () => {
+                if (!window.ScrollTrigger) {
+                    return;
+                }
+                window.ScrollTrigger.sort();
+                window.ScrollTrigger.refresh();
+            };
+            settleTriggers();
+            window.addEventListener("load", settleTriggers, { once: true });
             booted = true;
         } catch (error) {
             document.documentElement.classList.add("is-static");

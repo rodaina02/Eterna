@@ -67,6 +67,7 @@
                     animation: timeline,
                     anticipatePin: 1,
                     invalidateOnRefresh: true,
+                    refreshPriority: 1,
                     onUpdate: (self) => {
                         const travel = 0.8;
                         const index = cards.length < 2
@@ -80,14 +81,15 @@
                 });
 
                 return () => {
+                    active.dispose();
                     trigger.kill();
                     gsap.set(cards.concat(runway || []), { clearProps: "transform,clipPath" });
                 };
             });
 
             mm.add("(max-width: 1023px)", () => {
-                bindActive(cards);
-                return () => {};
+                const active = bindActive(cards);
+                return () => active.dispose();
             });
         };
 

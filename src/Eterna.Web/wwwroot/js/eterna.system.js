@@ -233,21 +233,33 @@
                 });
             };
             const sync = () => {
+                if (!cache.length) {
+                    return;
+                }
                 const line = window.scrollY + headerOffset();
+                if (line < cache[0].top) {
+                    applyLocation(cache[0].section);
+                    return;
+                }
                 for (let index = cache.length - 1; index >= 0; index -= 1) {
-                    const item = cache[index];
-                    if (line >= item.top && line < item.bottom) {
-                        applyLocation(item.section);
+                    const start = cache[index].top;
+                    const end = index < cache.length - 1 ? cache[index + 1].top : Number.POSITIVE_INFINITY;
+                    if (line >= start && line < end) {
+                        applyLocation(cache[index].section);
                         return;
                     }
                 }
+                applyLocation(cache[cache.length - 1].section);
             };
-            ctx.ScrollTrigger.addEventListener("refreshInit", measure);
+            ctx.ScrollTrigger.addEventListener("refresh", measure);
             measure();
             const trigger = ctx.ScrollTrigger.create({
                 start: 0,
                 end: "max",
-                onRefresh: sync,
+                onRefresh: () => {
+                    measure();
+                    sync();
+                },
                 onUpdate: sync
             });
             const compact = ctx.ScrollTrigger.create({
@@ -255,7 +267,7 @@
                 onToggle: (self) => header?.classList.toggle("is-compact", self.isActive)
             });
             disposers.push(() => {
-                ctx.ScrollTrigger.removeEventListener("refreshInit", measure);
+                ctx.ScrollTrigger.removeEventListener("refresh", measure);
                 trigger.kill();
                 compact.kill();
             });

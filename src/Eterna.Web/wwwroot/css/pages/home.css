@@ -1,4 +1,8 @@
-/* Homepage — Phase 5.5 precision correction */
+/* Homepage — Phase 6.1 motion stability */
+
+html {
+    scroll-behavior: auto;
+}
 
 .site-main--home {
     display: block;
