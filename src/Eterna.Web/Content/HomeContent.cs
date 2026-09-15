@@ -105,7 +105,8 @@ public static class HomeContent
         ("Data", ["Entity Framework Core", "Dapper", "SQL Server", "PostgreSQL"]),
         ("AI", ["LLMs", "RAG", "AI Agents", "AI Automation", "MCP", "AI APIs"]),
         ("Cloud & infrastructure", ["Cloud platforms", "Docker"]),
-        ("Delivery", ["GitHub Actions", "REST APIs"])
+        ("DevOps", ["GitHub Actions"]),
+        ("APIs", ["REST APIs"])
     ];
 
     public static IReadOnlyList<string> HumanIndex { get; } =

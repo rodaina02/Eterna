@@ -4,17 +4,20 @@
     }
 
     const themes = ["dark", "black", "paper", "lime"];
+    const quietChapters = new Set(["01", "03", "04", "07", "09", "11", "12", "13"]);
     const lineScale = {
-        hidden: { stroke: 0, cross: 0, branch: 0, node: 0 },
-        emerge: { stroke: 0.22, cross: 0, branch: 0, node: 0 },
-        flow: { stroke: 0.48, cross: 0.18, branch: 0, node: 0 },
-        branch: { stroke: 0.36, cross: 0, branch: 1, node: 0 },
-        cross: { stroke: 0.28, cross: 0.78, branch: 0, node: 0 },
-        route: { stroke: 0.1, cross: 0.92, branch: 0, node: 0 },
-        frame: { stroke: 0.18, cross: 0.42, branch: 0, node: 0 },
-        pause: { stroke: 0.58, cross: 0.22, branch: 0, node: 1 },
-        resume: { stroke: 0.74, cross: 0.28, branch: 0, node: 0 },
-        vanish: { stroke: 0, cross: 0, branch: 0, node: 0 }
+        hidden: { stroke: 0, cross: 0, branch: 0, node: 0, opacity: 0 },
+        emerge: { stroke: 0.2, cross: 0, branch: 0, node: 0, opacity: 0.28 },
+        flow: { stroke: 0.34, cross: 0.1, branch: 0, node: 0, opacity: 0.16 },
+        align: { stroke: 0.4, cross: 0.58, branch: 0, node: 0, opacity: 0.74 },
+        branch: { stroke: 0.26, cross: 0, branch: 1, node: 0, opacity: 0.36 },
+        cross: { stroke: 0.2, cross: 0.68, branch: 0, node: 0, opacity: 0.24 },
+        route: { stroke: 0.08, cross: 0.92, branch: 0, node: 0, opacity: 0.78 },
+        frame: { stroke: 0.12, cross: 0.32, branch: 0, node: 0, opacity: 0.18 },
+        pause: { stroke: 0.58, cross: 0.22, branch: 0, node: 1, opacity: 1 },
+        resume: { stroke: 0.4, cross: 0.22, branch: 0, node: 0, opacity: 0.48 },
+        resolve: { stroke: 0.48, cross: 0.18, branch: 0, node: 0, opacity: 0.7 },
+        vanish: { stroke: 0, cross: 0, branch: 0, node: 0, opacity: 0 }
     };
 
     const headerOffset = () => {
@@ -123,7 +126,7 @@
 
             gsap.timeline()
                 .to(chapterNow.concat(chapterRest), {
-                    y: -5,
+                    y: -4,
                     opacity: 0,
                     clipPath: "inset(0 0 100% 0)",
                     duration: tokens.chapter * 0.46,
@@ -131,7 +134,7 @@
                 })
                 .add(apply)
                 .fromTo(chapterNow.concat(chapterRest), {
-                    y: 6,
+                    y: 5,
                     opacity: 0,
                     clipPath: "inset(100% 0 0 0)"
                 }, {
@@ -141,14 +144,6 @@
                     duration: tokens.chapter * 0.54,
                     ease: tokens.ease
                 });
-
-            if (stroke && lineOwner === "system") {
-                gsap.fromTo(stroke, { opacity: 0.55 }, {
-                    opacity: 1,
-                    duration: tokens.chapter,
-                    ease: tokens.ease
-                });
-            }
         };
 
         const setLine = (state) => {
@@ -157,15 +152,16 @@
             }
             lineState = state;
             const next = lineScale[state] ?? lineScale.hidden;
-            const duration = motion ? tokens.slow : 0;
+            const duration = motion ? tokens.chapter : 0;
             const ease = tokens.easeInOut;
+            const weight = next.opacity ?? 0;
 
-            tween(stroke, { scaleY: next.stroke, opacity: next.stroke > 0 ? 1 : 0, duration, ease });
-            tween(cross, { scaleX: next.cross, opacity: next.cross > 0 ? 1 : 0, duration, ease });
+            tween(stroke, { scaleY: next.stroke, opacity: next.stroke > 0 ? weight : 0, duration, ease });
+            tween(cross, { scaleX: next.cross, opacity: next.cross > 0 ? weight : 0, duration, ease });
             branches.forEach((branch, index) => {
                 tween(branch, {
                     scaleX: next.branch,
-                    opacity: next.branch > 0 ? 0.7 - index * 0.12 : 0,
+                    opacity: next.branch > 0 ? Math.max(0.16, weight - index * 0.1) : 0,
                     duration,
                     ease
                 });
@@ -210,6 +206,7 @@
                 return;
             }
             applyHeaderTheme(section.dataset.surface);
+            header?.classList.toggle("is-quiet", quietChapters.has(section.dataset.chapterIndex));
             setChapter(section.dataset.chapterIndex, section.dataset.chapterEnd === "true");
             if (lineOwner === "system") {
                 setLine(section.dataset.lineState || "flow");
@@ -220,6 +217,7 @@
         };
 
         applyHeaderTheme(header?.dataset.headerTheme || "black");
+        header?.classList.add("is-quiet");
         setChapter("01");
         setLine("hidden");
 
@@ -320,7 +318,7 @@
 
         return () => {
             disposers.forEach((dispose) => dispose());
-            header?.classList.remove("is-compact");
+            header?.classList.remove("is-compact", "is-quiet");
             window.Eterna.system = null;
         };
     };

@@ -1,5 +1,5 @@
 @model PillarViewModel
-<article class="pillar" data-motion-reveal data-pillar>
+<article class="pillar@(Model.Index == "01" ? " is-active" : "")" data-motion-reveal data-pillar>
     <p class="label pillar__index">@Model.Index</p>
     <h3 class="pillar__title">@Model.Title</h3>
     <p class="pillar__text">@Model.Description</p>

@@ -19,14 +19,93 @@
         section: 1.0,
         emphasis: 0.56,
         chapter: 0.42,
-        scrubFast: 0.52,
-        scrubControlled: 0.82,
-        scrubCinematic: 1.0
+        scrubFast: 0.48,
+        scrubSnap: 0.34,
+        scrubControlled: 0.7,
+        scrubCinematic: 0.96,
+        scrubTech: 0.52
+    };
+
+    const bindActive = (items, options = {}) => {
+        const nodes = [...items];
+        let scrollIndex = 0;
+        let hoverIndex = null;
+        const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches && !options.noHover;
+
+        const apply = (source) => {
+            const index = hoverIndex ?? scrollIndex;
+            nodes.forEach((node, i) => {
+                node.classList.toggle("is-active", i === index);
+            });
+            if (typeof options.onChange === "function") {
+                options.onChange(index, source);
+            }
+        };
+
+        const api = {
+            setScroll(index) {
+                const next = Math.max(0, Math.min(nodes.length - 1, index | 0));
+                if (next === scrollIndex) {
+                    if (hoverIndex == null) {
+                        return;
+                    }
+                    scrollIndex = next;
+                    return;
+                }
+                scrollIndex = next;
+                if (hoverIndex == null) {
+                    apply("scroll");
+                }
+            },
+            setHover(index) {
+                hoverIndex = index;
+                apply("hover");
+            },
+            clearHover() {
+                if (hoverIndex == null) {
+                    return;
+                }
+                hoverIndex = null;
+                apply("scroll");
+                if (typeof options.onHoverEnd === "function") {
+                    options.onHoverEnd();
+                }
+            },
+            get active() {
+                return hoverIndex ?? scrollIndex;
+            },
+            get hover() {
+                return hoverIndex;
+            },
+            get scroll() {
+                return scrollIndex;
+            }
+        };
+
+        if (fine) {
+            nodes.forEach((node, index) => {
+                node.addEventListener("pointerenter", () => api.setHover(index));
+                node.addEventListener("pointerleave", (event) => {
+                    const next = event.relatedTarget;
+                    if (next && nodes.some((item) => item === next || item.contains(next))) {
+                        return;
+                    }
+                    api.clearHover();
+                });
+            });
+        }
+
+        if (nodes[0]) {
+            nodes[0].classList.add("is-active");
+        }
+
+        return api;
     };
 
     const context = () => ({
         env: window.Eterna.env,
         tokens,
+        bindActive,
         gsap: window.gsap,
         ScrollTrigger: window.ScrollTrigger,
         mm: media
@@ -102,6 +181,7 @@
 
     window.Eterna.motion = {
         tokens,
+        bindActive,
         use(name, factory) {
             modules.push({ name, factory, dispose: null });
         },

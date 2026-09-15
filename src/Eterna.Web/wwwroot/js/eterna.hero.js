@@ -38,59 +38,59 @@
             }
 
             if (wipeA) {
-                intro.fromTo(wipeA, { scale: 0, opacity: 1 }, {
-                    scale: 1,
-                    duration: 0.77,
+                intro.fromTo(wipeA, {
+                    clipPath: "inset(86% 74% 2% 6%)"
+                }, {
+                    clipPath: "inset(0% 8% 10% 0%)",
+                    duration: 0.72,
                     ease: tokens.easeInOut
                 }, 0.12);
             }
 
             if (wipeB) {
-                intro.fromTo(wipeB, { scale: 0, opacity: 1 }, {
-                    scale: 1,
-                    duration: 0.77,
+                intro.fromTo(wipeB, {
+                    clipPath: "inset(38% 100% 8% 28%)"
+                }, {
+                    clipPath: "inset(30% 0% 0% 16%)",
+                    duration: 0.78,
                     ease: tokens.easeInOut
-                }, 0.77);
-            }
-
-            if (wipeA && wipeB) {
-                intro.to([wipeA, wipeB], { scale: 1, duration: 0.32, ease: tokens.ease }, 1.54);
-            }
-
-            if (lock) {
-                intro.to(lock, {
-                    opacity: 1,
-                    duration: 0.28,
-                    ease: tokens.ease,
-                    onStart: () => lock.classList.add("is-ready")
-                }, 1.72);
-            }
-
-            if (point) {
-                intro.to(point, { opacity: 0, duration: 0.2 }, 1.72);
-            }
-
-            if (wipeA && wipeB) {
-                intro.to([wipeA, wipeB], { opacity: 0, duration: 0.2 }, 1.86);
+                }, 0.7);
             }
 
             if (lines.length) {
                 intro.fromTo(lines, { yPercent: 110 }, {
                     yPercent: 0,
-                    duration: 0.48,
-                    stagger: 0.14,
+                    duration: 0.5,
+                    stagger: 0.12,
                     ease: tokens.easeStrong
-                }, 1.54);
+                }, 0.92);
+            }
+
+            if (lock) {
+                intro.to(lock, {
+                    opacity: 1,
+                    duration: 0.32,
+                    ease: tokens.ease,
+                    onStart: () => lock.classList.add("is-ready")
+                }, 1.58);
+            }
+
+            if (point) {
+                intro.to(point, { opacity: 0, duration: 0.2 }, 1.62);
+            }
+
+            if (wipeA && wipeB) {
+                intro.to([wipeA, wipeB], { opacity: 0, duration: 0.28 }, 1.78);
             }
 
             if (meta) {
-                intro.fromTo(meta, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.32 }, 1.78);
+                intro.fromTo(meta, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.3 }, 1.18);
             }
             if (lede) {
-                intro.fromTo(lede, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.32 }, 1.9);
+                intro.fromTo(lede, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.3 }, 1.72);
             }
             if (cue) {
-                intro.fromTo(cue, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.28 }, 2.04);
+                intro.fromTo(cue, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.26 }, 1.96);
             }
 
             mm.add("(min-width: 768px)", () => {
@@ -106,7 +106,7 @@
                         scrub: tokens.scrubCinematic,
                         invalidateOnRefresh: true,
                         onUpdate: (self) => {
-                            if (self.progress > 0.18) {
+                            if (self.progress > 0.16) {
                                 window.Eterna.system?.releaseLine("emerge");
                             }
                         },
@@ -122,39 +122,65 @@
                 });
 
                 if (canvas) {
-                    exit.to(canvas, { y: -36, opacity: 0.86 }, 0.08);
+                    exit.to(canvas, { y: -28, opacity: 0.9 }, 0.04);
                 }
                 if (lock) {
-                    exit.to(lock, { y: -28, opacity: 0 }, 0.12);
+                    exit.fromTo(lock, {
+                        clipPath: "inset(0% 0% 0% 0%)",
+                        xPercent: 0,
+                        yPercent: 0,
+                        scale: 1,
+                        opacity: 1
+                    }, {
+                        clipPath: "inset(6% 18% 14% 6%)",
+                        xPercent: -12,
+                        yPercent: -10,
+                        scale: 0.78,
+                        opacity: 0,
+                        transformOrigin: "36% 52%",
+                        immediateRender: false
+                    }, 0.06);
+                }
+                if (mark) {
+                    exit.to(mark, { y: -20, opacity: 0.2 }, 0.1);
                 }
                 if (forms.a) {
                     exit.fromTo(forms.a, {
-                        xPercent: -6,
-                        yPercent: 4,
+                        xPercent: -10,
+                        yPercent: 2,
                         opacity: 0,
-                        scale: 1.05
+                        scale: 0.9
                     }, {
-                        xPercent: -34,
-                        yPercent: -14,
-                        opacity: 0.22,
-                        scale: 1.2
-                    }, 0.18);
+                        xPercent: -32,
+                        yPercent: -16,
+                        opacity: 0.28,
+                        scale: 1.22,
+                        immediateRender: false
+                    }, 0.14);
                 }
                 if (forms.b) {
                     exit.fromTo(forms.b, {
                         xPercent: 8,
                         yPercent: 6,
                         opacity: 0,
-                        scale: 1
+                        scale: 0.92
                     }, {
-                        xPercent: 36,
-                        yPercent: 20,
-                        opacity: 0.18,
-                        scale: 1.08
-                    }, 0.24);
+                        xPercent: 34,
+                        yPercent: 18,
+                        opacity: 0.2,
+                        scale: 1.08,
+                        immediateRender: false
+                    }, 0.2);
                 }
                 if (line.stroke) {
-                    exit.fromTo(line.stroke, { scaleY: 0, opacity: 0 }, { scaleY: 0.22, opacity: 1 }, 0.32);
+                    exit.fromTo(line.stroke, {
+                        scaleY: 0,
+                        opacity: 0
+                    }, {
+                        scaleY: 0.24,
+                        opacity: 0.42,
+                        immediateRender: false
+                    }, 0.28);
                 }
 
                 return () => {

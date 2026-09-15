@@ -53,16 +53,18 @@
             </div>
             <partial name="Components/_BrandMark" model="@(new BrandMarkViewModel { Variant = "lime-on-black", CssClass = "home-hero__logo", Width = 2092, Height = 1281 })" />
         </div>
-        <p class="label home-hero__meta" data-hero-meta>Software · AI · Systems</p>
-        <h1 id="hero-heading" class="home-hero__title" data-hero-title>
-            <span class="home-hero__line"><span>Building</span></span>
-            <span class="home-hero__line"><span>Intelligent</span></span>
-            <span class="home-hero__line"><span>Legacies.</span></span>
-        </h1>
-        <p class="home-hero__lede" data-hero-lede>
-            Software, AI and intelligent systems designed to move businesses forward.
-        </p>
-        <a class="home-hero__scroll" href="#statement" data-hero-scroll>Index</a>
+        <div class="home-hero__copy">
+            <p class="label home-hero__meta" data-hero-meta>Software · AI · Systems</p>
+            <h1 id="hero-heading" class="home-hero__title" data-hero-title>
+                <span class="home-hero__line"><span>Building</span></span>
+                <span class="home-hero__line"><span>Intelligent</span></span>
+                <span class="home-hero__line"><span>Legacies.</span></span>
+            </h1>
+            <p class="home-hero__lede" data-hero-lede>
+                Software, AI and intelligent systems designed to move businesses forward.
+            </p>
+            <a class="home-hero__scroll" href="#statement" data-hero-scroll>Index</a>
+        </div>
     </div>
 </section>
 
@@ -81,7 +83,7 @@
     </div>
 </section>
 
-<section class="home-human section-lime" aria-labelledby="human-heading" data-motion-section data-surface="lime" data-human data-chapter-index="03" data-line-state="flow" data-geo-scene="human">
+<section class="home-human section-lime" aria-labelledby="human-heading" data-motion-section data-surface="lime" data-human data-chapter-index="03" data-line-state="align" data-geo-scene="human">
     <div class="home-human__stage">
         <figure class="home-human__image" data-human-image>
             <div class="editorial-frame editorial-frame--human" data-human-frame>
@@ -93,22 +95,29 @@
                     loading="lazy"
                     decoding="async" />
             </div>
-            <figcaption class="artifact-label">Human / Presence</figcaption>
+            <figcaption class="artifact-label">
+                <span>SEC.03</span>
+                <span>Visual system</span>
+                <span>01 / 03</span>
+            </figcaption>
         </figure>
         <div class="home-human__copy" data-human-copy>
             <partial name="Components/_SectionHeader" model="@(new SectionHeaderViewModel { Index = "03", Eyebrow = "Principle", Title = "Human-centric AI.", Id = "human-heading" })" />
             <p class="lede">
                 Human + AI. Strategy + engineering. Intelligence + control.
             </p>
-            <ol class="home-human__index" data-motion-stagger data-human-index>
-                @for (var i = 0; i < HomeContent.HumanIndex.Count; i++)
-                {
-                    <li data-human-item>
-                        <span class="label">@((i + 1).ToString("00"))</span>
-                        <span>@HomeContent.HumanIndex[i]</span>
-                    </li>
-                }
-            </ol>
+            <div class="home-human__index-wrap" data-human-index>
+                <span class="home-human__marker" data-human-marker aria-hidden="true"></span>
+                <ol class="home-human__index">
+                    @for (var i = 0; i < HomeContent.HumanIndex.Count; i++)
+                    {
+                        <li data-human-item class="@(i == 0 ? "is-active" : null)">
+                            <span class="label">@((i + 1).ToString("00"))</span>
+                            <span>@HomeContent.HumanIndex[i]</span>
+                        </li>
+                    }
+                </ol>
+            </div>
         </div>
     </div>
 </section>
@@ -152,6 +161,7 @@
             <figcaption class="artifact-label">
                 <span>SEC.05</span>
                 <span>Think / Design</span>
+                <span>02 / 03</span>
             </figcaption>
             <span class="home-services__rule" data-services-rule aria-hidden="true"></span>
         </figure>
@@ -164,7 +174,7 @@
                     "Intelligent AI Integration" => new[] { "Data", "Model", "Interface", "Automation" },
                     _ => new[] { "Intent", "Agent", "Action", "Observation" }
                 };
-                <div class="home-services__item" data-service-group>
+                <div class="home-services__item@(group.Title == HomeContent.ServiceGroups[0].Title ? " is-active" : "")" data-service-group>
                     <p class="service-arch" aria-hidden="true" data-service-arch>
                         @foreach (var node in arch)
                         {
@@ -185,7 +195,7 @@
         <ol class="home-why__sequence" data-motion-stagger data-why-sequence>
             @foreach (var reason in HomeContent.Reasons)
             {
-                <li class="home-why__item" data-why-item>
+                <li class="home-why__item@(reason.Index == "01" ? " is-active" : "")" data-why-item>
                     <p class="label">@reason.Index</p>
                     <h3 class="home-why__title">@reason.Title</h3>
                     <p class="lede">@reason.Text</p>
@@ -211,7 +221,7 @@
         <ol class="home-process__rail" data-motion-process>
             @foreach (var stage in HomeContent.Process)
             {
-                <li class="home-process__stage@(stage.IsContinuation ? " home-process__stage--continue" : "")" data-process-stage="@(stage.IsContinuation ? "continue" : "official")">
+                    <li class="home-process__stage@(stage.IsContinuation ? " home-process__stage--continue" : "")@(stage.Index == "01" ? " is-active" : "")" data-process-stage="@(stage.IsContinuation ? "continue" : "official")">
                     <p class="label">@(stage.IsContinuation ? "Continue" : stage.Index)</p>
                     <h3 class="home-process__title">@stage.Title</h3>
                 </li>
@@ -221,17 +231,40 @@
 </section>
 
 <section class="home-tech section section-paper has-grain" aria-labelledby="tech-heading" data-motion-section data-surface="paper" data-tech data-chapter-index="08" data-line-state="branch" data-geo-scene="echo">
-    <div class="container">
+    <div class="container home-tech__board">
         <partial name="Components/_SectionHeader" model="@(new SectionHeaderViewModel { Index = "08", Eyebrow = "Stack", Title = "The ecosystem.", Id = "tech-heading" })" />
         <p class="lede home-tech__note">Selected tools. Not every project uses every item.</p>
-        <div class="home-tech__lattice" data-tech-lattice aria-hidden="true"></div>
-        <div class="home-tech__core" data-tech-core aria-hidden="true"></div>
-        <div class="home-tech__clusters" data-tech-clusters>
-            @foreach (var cluster in HomeContent.TechnologyClusters)
-            {
-                <partial name="Components/_TechnologyCluster" model="@cluster" />
-            }
+        <p class="home-tech__counter" data-tech-counter aria-hidden="true">
+            <span data-tech-now>01</span> / @HomeContent.TechnologyClusters.Count.ToString("00")
+        </p>
+        <div class="home-tech__layout">
+            <ol class="home-tech__nav" data-tech-nav>
+                @for (var i = 0; i < HomeContent.TechnologyClusters.Count; i++)
+                {
+                    var cluster = HomeContent.TechnologyClusters[i];
+                    <li class="@(i == 0 ? "is-active" : null)" data-tech-cluster>
+                        <span class="label">@((i + 1).ToString("00"))</span>
+                        <span>@cluster.Title</span>
+                    </li>
+                }
+            </ol>
+            <div class="home-tech__stage" data-tech-stage>
+                @for (var i = 0; i < HomeContent.TechnologyClusters.Count; i++)
+                {
+                    var cluster = HomeContent.TechnologyClusters[i];
+                    <div class="home-tech__panel@(i == 0 ? " is-active" : "")" data-tech-panel>
+                        <h3 class="home-tech__panel-title">@cluster.Title</h3>
+                        <ul>
+                            @foreach (var item in cluster.Items)
+                            {
+                                <li>@item</li>
+                            }
+                        </ul>
+                    </div>
+                }
+            </div>
         </div>
+        <div class="home-tech__core" data-tech-core aria-hidden="true"></div>
     </div>
 </section>
 
@@ -255,43 +288,48 @@
         <partial name="Components/_SectionHeader" model="@(new SectionHeaderViewModel { Index = "10", Eyebrow = "Contexts", Title = "Industries.", Id = "industries-heading" })" />
         <p class="lede">We adapt systems to the context they operate in.</p>
         <span class="home-industries__rule" data-industries-rule aria-hidden="true"></span>
-        <ul class="home-industries__index" data-industries-index>
-            @foreach (var industry in HomeContent.Industries)
+        <ul class="home-industries__field" data-industries-index>
+            @for (var i = 0; i < HomeContent.Industries.Count; i++)
             {
-                <li data-industry>@industry</li>
+                <li data-industry class="@(i == 0 ? "is-active" : null)">@HomeContent.Industries[i]</li>
             }
         </ul>
         <partial name="Components/_TextLink" model="@(("Explore contexts", "/industries", true))" />
     </div>
+    <span class="home-industries__veil" data-industries-veil aria-hidden="true"></span>
 </section>
 
 <section class="home-control section section-black" aria-labelledby="control-heading" data-motion-section data-surface="black" data-control data-chapter-index="11" data-line-state="pause" data-geo-scene="echo">
-    <div class="container">
-        <header class="section-header">
-            <div class="section-header__meta">
-                <p class="section-index">11</p>
-                <p class="section-eyebrow">Governance</p>
+    <div class="home-control__track" data-control-track>
+        <div class="home-control__stage" data-control-stage>
+            <div class="container">
+                <header class="section-header">
+                    <div class="section-header__meta">
+                        <p class="section-index">11</p>
+                        <p class="section-eyebrow">Governance</p>
+                    </div>
+                    <h2 id="control-heading" class="section-header__title home-control__title">
+                        <span data-control-line>Intelligence</span>
+                        <span data-control-line>with control.</span>
+                    </h2>
+                </header>
+                <p class="lede home-control__lede" data-control-lede>
+                    Intelligence should remain understandable, reviewable and controllable.
+                </p>
+                <ul class="home-control__primary" data-control-primary>
+                    @foreach (var item in HomeContent.GovernancePrimary)
+                    {
+                        <li>@item</li>
+                    }
+                </ul>
+                <ul class="home-control__support" data-control-support>
+                    @foreach (var item in HomeContent.GovernanceSupporting)
+                    {
+                        <li>@item</li>
+                    }
+                </ul>
             </div>
-            <h2 id="control-heading" class="section-header__title home-control__title">
-                <span data-control-line>Intelligence</span>
-                <span data-control-line>with control.</span>
-            </h2>
-        </header>
-        <p class="lede home-control__lede">
-            Intelligence should remain understandable, reviewable and controllable.
-        </p>
-        <ul class="home-control__primary" data-control-primary>
-            @foreach (var item in HomeContent.GovernancePrimary)
-            {
-                <li>@item</li>
-            }
-        </ul>
-        <ul class="home-control__support" data-control-support>
-            @foreach (var item in HomeContent.GovernanceSupporting)
-            {
-                <li>@item</li>
-            }
-        </ul>
+        </div>
     </div>
 </section>
 
@@ -303,8 +341,13 @@
             width="1032"
             height="1500"
             loading="lazy"
-            decoding="async" />
-        <figcaption class="artifact-label">Identity / Memory</figcaption>
+            decoding="async"
+            data-about-photo />
+        <figcaption class="artifact-label">
+            <span>SEC.12</span>
+            <span>Memory</span>
+            <span>03 / 03</span>
+        </figcaption>
     </figure>
     <div class="container home-about__grid">
         <partial name="Components/_SectionHeader" model="@(new SectionHeaderViewModel { Index = "12", Eyebrow = "Studio", Title = "Who is Eterna.", Id = "about-heading" })" />
@@ -321,22 +364,82 @@
             <partial name="Components/_TextLink" model="@(("Explore Eterna", "/about", true))" />
         </div>
     </div>
+    <span class="home-about__veil" data-about-veil aria-hidden="true"></span>
 </section>
 
-<section class="home-cta section-lime" aria-labelledby="cta-heading" data-motion-section data-surface="lime" data-cta data-chapter-index="13" data-line-state="resume" data-geo-scene="cta">
-    <div class="container home-cta__canvas">
-        <div class="home-cta__mark" data-cta-mark>
-            <partial name="Components/_BrandMark" model="@(new BrandMarkViewModel { Variant = "dark-on-lime", CssClass = "home-cta__logo", Lazy = true, Width = 2092, Height = 1281 })" />
+<section class="home-cta section-lime" aria-labelledby="cta-heading" data-motion-section data-surface="lime" data-cta data-chapter-index="13" data-line-state="resolve" data-geo-scene="cta">
+    <div class="home-cta__track" data-cta-track>
+        <div class="container home-cta__canvas" data-cta-scene>
+            <div class="home-cta__statement">
+                <div class="home-cta__mark" data-cta-mark>
+                    <partial name="Components/_BrandMark" model="@(new BrandMarkViewModel { Variant = "dark-on-lime", CssClass = "home-cta__logo", Lazy = true, Width = 2092, Height = 1281 })" />
+                </div>
+                <h2 id="cta-heading" class="home-cta__title" data-cta-title>
+                    <span class="home-cta__line"><span data-cta-line>Build your</span></span>
+                    <span class="home-cta__line"><span data-cta-line>Intelligent</span></span>
+                    <span class="home-cta__line"><span data-cta-line>Legacy.</span></span>
+                </h2>
+                <p class="home-cta__resolve" data-cta-resolve>Building Intelligent Legacies</p>
+                <div class="home-cta__lockup" data-cta-lockup>
+                    <partial name="Components/_BrandMark" model="@(new BrandMarkViewModel { Variant = "dark-slogan-on-lime", CssClass = "home-cta__slogan", Lazy = true })" />
+                </div>
+            </div>
         </div>
-        <h2 id="cta-heading" class="home-cta__title" data-cta-title>
-            <span class="home-cta__line"><span data-cta-line>Build your</span></span>
-            <span class="home-cta__line"><span data-cta-line>Intelligent</span></span>
-            <span class="home-cta__line"><span data-cta-line>Legacy.</span></span>
-        </h2>
-        <p class="home-cta__resolve" data-cta-resolve>Building Intelligent Legacies</p>
-        <div class="home-cta__lockup" data-cta-lockup>
-            <partial name="Components/_BrandMark" model="@(new BrandMarkViewModel { Variant = "dark-slogan-on-lime", CssClass = "home-cta__slogan", Lazy = true })" />
+    </div>
+    <div class="home-contact" role="region" aria-labelledby="contact-heading" data-contact data-surface="dark" data-chapter-index="13" data-line-state="resolve" data-geo-scene="cta">
+        <div class="home-contact__panel" data-contact-panel>
+            <div class="container">
+                <h2 id="contact-heading" class="sr-only">Start a conversation</h2>
+                <form class="home-contact__form" method="post" action="/contact" data-contact-form novalidate>
+                @Html.AntiForgeryToken()
+                <div class="field sr-only" aria-hidden="true">
+                    <label class="field__label" for="cta-website">Website</label>
+                    <input id="cta-website" name="Website" type="text" tabindex="-1" autocomplete="off" />
+                </div>
+                <div class="field">
+                    <label class="field__label" for="cta-name">Name *</label>
+                    <input class="field__control" id="cta-name" name="Name" type="text" required autocomplete="name" maxlength="120" />
+                    <p class="field__error" id="cta-name-error" hidden>Enter your name.</p>
+                </div>
+                <div class="field">
+                    <label class="field__label" for="cta-company">Company</label>
+                    <input class="field__control" id="cta-company" name="Company" type="text" autocomplete="organization" maxlength="160" />
+                </div>
+                <div class="field">
+                    <label class="field__label" for="cta-email">Email *</label>
+                    <input class="field__control" id="cta-email" name="Email" type="email" required autocomplete="email" maxlength="254" />
+                    <p class="field__error" id="cta-email-error" hidden>Enter a valid email.</p>
+                </div>
+                <div class="field">
+                    <label class="field__label" for="cta-phone">Phone</label>
+                    <input class="field__control" id="cta-phone" name="Phone" type="tel" autocomplete="tel" maxlength="40" />
+                </div>
+                <div class="field">
+                    <label class="field__label" for="cta-service">Service *</label>
+                    <select class="field__control" id="cta-service" name="Service" required>
+                        <option value="">Select a service</option>
+                        <option>Website</option>
+                        <option>Mobile Application</option>
+                        <option>Software System</option>
+                        <option>AI Integration</option>
+                        <option>AI Agent</option>
+                        <option>Automation</option>
+                        <option>Other</option>
+                    </select>
+                    <p class="field__error" id="cta-service-error" hidden>Select a service.</p>
+                </div>
+                <div class="field">
+                    <label class="field__label" for="cta-budget">Budget</label>
+                    <input class="field__control" id="cta-budget" name="Budget" type="text" maxlength="40" />
+                </div>
+                <div class="home-contact__message field">
+                    <label class="field__label" for="cta-message">Message *</label>
+                    <textarea class="field__control" id="cta-message" name="Message" required maxlength="4000"></textarea>
+                    <p class="field__error" id="cta-message-error" hidden>Enter a message.</p>
+                </div>
+                <button class="btn home-contact__submit" type="submit" data-motion-cta>Start a conversation</button>
+            </form>
+            </div>
         </div>
-        <partial name="Components/_Button" model="@(new ButtonViewModel { Text = "Start a conversation", Href = "/contact", Motion = "cta" })" />
     </div>
 </section>
