@@ -1,3 +1,216 @@
 @page "/about"
 @model AboutIndexModel
-<partial name="Components/_PagePlaceholder" model='"About"' />
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/pages/about.css" asp-append-version="true" />
+}
+
+@section Scripts {
+    <script src="~/js/vendor/gsap.min.js" asp-append-version="true" defer></script>
+    <script src="~/js/vendor/ScrollTrigger.min.js" asp-append-version="true" defer></script>
+    <script src="~/js/pages/about.js" asp-append-version="true" defer></script>
+}
+
+<article class="about" data-inner-page="about">
+    <section class="inner-section inner-section--intro section-paper" aria-labelledby="page-heading">
+        <div class="container">
+            <partial name="Components/_PageIntro" model="@(new PageIntroViewModel {
+                Index = "01",
+                Eyebrow = "About",
+                Kicker = AboutContent.IntroKicker,
+                TitleLines = AboutContent.IntroTitleLines,
+                Lede = AboutContent.IntroLede,
+                Meta = AboutContent.IntroMeta,
+                HeadingId = "page-heading"
+            })" />
+        </div>
+    </section>
+
+    <section class="inner-section about-who section-paper" aria-labelledby="who-heading" data-inner-reveal>
+        <div class="container about-who__grid">
+            <div class="about-who__index">
+                <partial name="Components/_EditorialIndex" model="@(("02", ""))" />
+                <h2 id="who-heading" class="about-who__title">Who we are.</h2>
+            </div>
+            <div class="about-who__copy">
+                <p class="lede">@AboutContent.WhoLede</p>
+                <p class="body">@AboutContent.WhoBody</p>
+                <ul class="inner-index-list" aria-label="What we work across">
+                    @foreach (var item in AboutContent.Practices)
+                    {
+                        <li>@item</li>
+                    }
+                </ul>
+                <div class="about-who__mark">
+                    <partial name="Components/_BrandMark" model="@(new BrandMarkViewModel { Variant = "black-on-white", CssClass = "about-who__logo", Lazy = true })" />
+                </div>
+            </div>
+            <figure class="about-who__figure">
+                <div class="inner-media" data-reveal-media>
+                    <img
+                        src="~/images/editorial/editorial-identity-blur.png"
+                        alt="A motion-blurred figure in a studio, with the Eterna mark and the words Building Intelligent Legacies."
+                        width="1032"
+                        height="1500"
+                        loading="lazy"
+                        decoding="async" />
+                </div>
+            </figure>
+        </div>
+    </section>
+
+    <section class="inner-section about-human section-black" aria-labelledby="human-heading" data-inner-reveal>
+        <div class="container about-human__grid">
+            <div class="about-human__intro">
+                <partial name="Components/_EditorialIndex" model="@(("03", "Human-centric AI"))" />
+                <h2 id="human-heading" class="about-human__statement">
+                    @for (var i = 0; i < AboutContent.HumanStatement.Count; i++)
+                    {
+                        var isAside = string.Equals(AboutContent.HumanStatement[i], "Not simply replace it.", StringComparison.Ordinal);
+                        <span class="about-human__line@(isAside ? " about-human__line--aside" : null)">@AboutContent.HumanStatement[i]</span>
+                    }
+                </h2>
+                <p class="lede about-human__lede">@AboutContent.HumanLede</p>
+            </div>
+            <ul class="about-human__principles">
+                @foreach (var principle in AboutContent.HumanPrinciples)
+                {
+                    <li>
+                        <span>@principle</span>
+                        <hr class="rule" data-reveal-rule />
+                    </li>
+                }
+            </ul>
+        </div>
+    </section>
+
+    <section class="inner-section about-direction section-paper" aria-labelledby="vision-heading" data-inner-reveal>
+        <div class="container about-direction__grid">
+            <div class="about-direction__vision">
+                <partial name="Components/_EditorialIndex" model="@(("04", ""))" />
+                <h2 id="vision-heading" class="about-direction__label">Vision</h2>
+                <blockquote class="about-direction__quote">
+                    <p>@AboutContent.Vision</p>
+                </blockquote>
+            </div>
+            <div class="about-direction__mission">
+                <h3 id="mission-heading" class="about-direction__label">Mission</h3>
+                <p class="body">@AboutContent.Mission</p>
+                <ul class="inner-intro__meta about-direction__ground" aria-label="Mission grounding">
+                    @foreach (var item in AboutContent.MissionGrounding)
+                    {
+                        <li>@item</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="inner-section about-values section-dark" aria-labelledby="values-heading" data-inner-reveal>
+        <div class="container">
+            <partial name="Components/_EditorialIndex" model="@(("05", "Values"))" />
+            <h2 id="values-heading" class="sr-only">Values</h2>
+            <ul class="about-values__list">
+                @foreach (var value in AboutContent.Values)
+                {
+                    <li class="about-values__item">
+                        <h3 class="about-values__title">@value.Title</h3>
+                        <p class="about-values__text">@value.Text</p>
+                        <hr class="rule" data-reveal-rule />
+                    </li>
+                }
+            </ul>
+        </div>
+    </section>
+
+    <section class="inner-section about-mark section-black" aria-labelledby="mark-heading" data-inner-reveal>
+        <div class="container about-mark__grid">
+            <div class="about-mark__copy">
+                <partial name="Components/_EditorialIndex" model="@(("06", "Identity"))" />
+                <h2 id="mark-heading" class="about-mark__title">The Eterna mark.</h2>
+                <p class="lede">@AboutContent.MarkLede</p>
+                <ol class="about-mark__readings">
+                    @foreach (var reading in AboutContent.MarkReadings)
+                    {
+                        <li>
+                            <p class="about-mark__reading-title">@reading.Title</p>
+                            <p class="about-mark__reading-text">@reading.Text</p>
+                        </li>
+                    }
+                </ol>
+            </div>
+            <div class="about-mark__stage">
+                <div class="about-mark__geometry" aria-hidden="true">
+                    <span class="about-mark__stroke about-mark__stroke--progress"></span>
+                    <span class="about-mark__stroke about-mark__stroke--structure"></span>
+                </div>
+                <div class="about-mark__lockup" data-reveal-media>
+                    <partial name="Components/_BrandMark" model="@(new BrandMarkViewModel { Variant = "lime-on-black", CssClass = "about-mark__logo", Lazy = true, Width = 720, Height = 720 })" />
+                </div>
+                <p class="about-mark__equation" aria-hidden="true">
+                    <span>Progress</span>
+                    <span>+</span>
+                    <span>Structure</span>
+                    <span>=</span>
+                    <span>Eterna</span>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="inner-section about-governance section-dark" aria-labelledby="governance-heading" data-inner-reveal>
+        <div class="container">
+            <partial name="Components/_EditorialIndex" model="@(("07", "Governance"))" />
+            <h2 id="governance-heading" class="about-governance__title">@AboutContent.GovernanceTitle</h2>
+            <p class="lede about-governance__lede">@AboutContent.GovernanceLede</p>
+            <ol class="about-governance__list">
+                @foreach (var item in AboutContent.Governance)
+                {
+                    <li>
+                        <p class="about-governance__meta">
+                            <span class="label">@item.Index</span>
+                            <span class="about-governance__name">@item.Title</span>
+                        </p>
+                        <p class="about-governance__text">@item.Text</p>
+                    </li>
+                }
+            </ol>
+        </div>
+    </section>
+
+    <section class="inner-section about-legacy section-paper" aria-labelledby="legacy-heading" data-inner-reveal>
+        <div class="container about-legacy__grid">
+            <div>
+                <partial name="Components/_EditorialIndex" model="@(("08", "Legacy"))" />
+                <h2 id="legacy-heading" class="about-legacy__title">
+                    @foreach (var line in AboutContent.LegacyTitleLines)
+                    {
+                        <span>@line</span>
+                    }
+                </h2>
+            </div>
+            <div class="about-legacy__copy">
+                <p class="lede">@AboutContent.LegacyLede</p>
+                <ol class="about-legacy__sequence" aria-label="From technology to legacy">
+                    @foreach (var item in AboutContent.LegacySequence)
+                    {
+                        <li>@item</li>
+                    }
+                </ol>
+            </div>
+        </div>
+    </section>
+
+    <section class="inner-section about-close section-lime" aria-labelledby="page-cta-heading" data-inner-reveal>
+        <div class="container">
+            <partial name="Components/_PageCta" model="@(new PageCtaViewModel {
+                Index = "09",
+                Eyebrow = "Next",
+                TitleLines = AboutContent.CtaTitleLines,
+                LinkText = "Start a project",
+                Href = "/contact",
+                HeadingId = "page-cta-heading"
+            })" />
+        </div>
+    </section>
+</article>

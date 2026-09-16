@@ -1,0 +1,198 @@
+/* Inner-page system — editorial, content-led, shared by /about and later pages. */
+
+.container {
+    min-width: 0;
+}
+
+.inner-section {
+    padding-block: var(--space-6);
+    scroll-margin-top: var(--header-height);
+}
+
+.inner-section--intro {
+    padding-block: var(--space-5) var(--space-6);
+}
+
+.inner-index {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-1);
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--accent);
+}
+
+.inner-index__sep {
+    color: var(--ink-muted);
+}
+
+.inner-index__label {
+    color: var(--ink-muted);
+}
+
+.inner-intro {
+    display: grid;
+    gap: var(--space-3);
+    max-width: 46rem;
+    min-width: 0;
+}
+
+.inner-intro > * {
+    min-width: 0;
+}
+
+.inner-intro__kicker {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--ink);
+}
+
+.inner-intro__title {
+    margin: 0;
+    max-width: 100%;
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: var(--text-display);
+    line-height: var(--leading-display);
+    letter-spacing: var(--tracking-display);
+    text-transform: uppercase;
+}
+
+.inner-intro__line {
+    display: block;
+    max-width: 100%;
+}
+
+.inner-intro__lede {
+    margin: 0;
+    max-width: min(var(--max-measure), 100%);
+}
+
+.inner-intro__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-3);
+    margin: var(--space-3) 0 0;
+    padding: var(--space-3) 0 0;
+    list-style: none;
+    border-top: var(--border-thin) solid var(--rule);
+}
+
+.inner-intro__meta li {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--ink-muted);
+}
+
+.inner-index-list {
+    display: grid;
+    gap: 0;
+    margin: var(--space-4) 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.inner-index-list li {
+    padding-block: var(--space-1);
+    border-top: var(--border-thin) solid var(--rule);
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    letter-spacing: var(--tracking-nav);
+    text-transform: uppercase;
+    color: var(--ink);
+}
+
+.inner-index-list li:last-child {
+    border-bottom: var(--border-thin) solid var(--rule);
+}
+
+.inner-media {
+    overflow: hidden;
+    background: var(--e-dark);
+}
+
+.inner-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.inner-cta {
+    display: grid;
+    gap: var(--space-3);
+    max-width: 36rem;
+}
+
+.inner-cta__title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: var(--text-display);
+    line-height: var(--leading-display);
+    letter-spacing: var(--tracking-display);
+    text-transform: uppercase;
+}
+
+.inner-cta__line {
+    display: block;
+}
+
+@media (min-width: 768px) {
+    .inner-section {
+        padding-block: var(--space-7);
+    }
+
+    .inner-section--intro {
+        padding-block: var(--space-6) var(--space-7);
+    }
+
+    .inner-intro {
+        max-width: none;
+        gap: var(--space-3) var(--space-6);
+        grid-template-columns: minmax(0, 1.4fr) minmax(8rem, 0.4fr);
+        align-items: end;
+    }
+
+    .inner-intro > :not(.inner-intro__meta) {
+        grid-column: 1;
+    }
+
+    .inner-intro__meta {
+        grid-column: 2;
+        grid-row: 1 / -1;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-self: stretch;
+        gap: var(--space-2);
+        margin: 0;
+        padding: 0 0 0 var(--space-4);
+        border-top: 0;
+        border-left: var(--border-thin) solid var(--rule);
+    }
+}
+
+@media (min-width: 1440px) {
+    .inner-section {
+        padding-block: var(--space-8);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    [data-inner-reveal],
+    [data-reveal-media],
+    [data-reveal-rule] {
+        opacity: 1 !important;
+        transform: none !important;
+        clip-path: none !important;
+    }
+}

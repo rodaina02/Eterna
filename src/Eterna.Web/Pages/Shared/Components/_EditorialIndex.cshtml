@@ -1,0 +1,15 @@
+@model (string Index, string Label)
+<p class="inner-index">
+    @if (!string.IsNullOrWhiteSpace(Model.Index))
+    {
+        <span class="inner-index__num">@Model.Index</span>
+    }
+    @if (!string.IsNullOrWhiteSpace(Model.Index) && !string.IsNullOrWhiteSpace(Model.Label))
+    {
+        <span class="inner-index__sep" aria-hidden="true">/</span>
+    }
+    @if (!string.IsNullOrWhiteSpace(Model.Label))
+    {
+        <span class="inner-index__label">@Model.Label</span>
+    }
+</p>

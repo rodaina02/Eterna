@@ -1,0 +1,479 @@
+/* About — editorial inner page. Does not load homepage motion styles. */
+
+.about-who__grid,
+.about-human__grid,
+.about-direction__grid,
+.about-mark__grid,
+.about-legacy__grid,
+.about-who__copy,
+.about-human__intro,
+.about-direction__vision,
+.about-direction__mission,
+.about-mark__copy,
+.about-legacy__copy {
+    min-width: 0;
+}
+
+.about-who__grid {
+    display: grid;
+    gap: var(--space-4);
+    min-width: 0;
+}
+
+.about-who__title {
+    margin: var(--space-2) 0 0;
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: var(--text-title);
+    line-height: var(--leading-title);
+    letter-spacing: var(--tracking-display);
+    text-transform: uppercase;
+    max-width: 8ch;
+}
+
+.about-who__copy {
+    display: grid;
+    gap: var(--space-3);
+}
+
+.about-who__mark {
+    margin-top: var(--space-2);
+}
+
+.about-who__logo {
+    width: 3.25rem;
+    height: 3.25rem;
+}
+
+.about-who__figure {
+    margin: 0;
+}
+
+.about-who__figure .inner-media {
+    aspect-ratio: 3 / 4;
+}
+
+.about-who__figure img {
+    object-position: 50% 42%;
+}
+
+.about-human__grid {
+    display: grid;
+    gap: var(--space-5);
+}
+
+.about-human__statement {
+    margin: var(--space-3) 0 0;
+    max-width: 14ch;
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: var(--text-display);
+    line-height: var(--leading-display);
+    letter-spacing: var(--tracking-display);
+    text-transform: uppercase;
+}
+
+.about-human__line {
+    display: block;
+}
+
+.about-human__line--aside {
+    margin-top: var(--space-2);
+    color: var(--e-lime);
+    font-size: clamp(1.25rem, 3vw, 2rem);
+    max-width: 18ch;
+}
+
+.about-human__lede {
+    margin-top: var(--space-4);
+    max-width: var(--max-editorial);
+}
+
+.about-human__principles {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0;
+}
+
+.about-human__principles li {
+    display: grid;
+    gap: var(--space-2);
+    padding-top: var(--space-2);
+}
+
+.about-human__principles li span {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(1.5rem, 3.4vw, 2.25rem);
+    letter-spacing: var(--tracking-display);
+    text-transform: uppercase;
+    line-height: var(--leading-title);
+}
+
+.about-direction__grid {
+    display: grid;
+    gap: var(--space-6);
+}
+
+.about-direction__label {
+    margin: var(--space-2) 0 var(--space-3);
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: var(--text-title);
+    line-height: var(--leading-title);
+    letter-spacing: var(--tracking-display);
+    text-transform: uppercase;
+}
+
+.about-direction__quote {
+    margin: 0;
+    max-width: 22ch;
+}
+
+.about-direction__quote p {
+    font-family: var(--font-editorial);
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    line-height: var(--leading-editorial);
+    font-weight: 400;
+}
+
+.about-direction__ground {
+    margin-top: var(--space-3);
+}
+
+.about-values__list {
+    margin: var(--space-4) 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.about-values__item {
+    display: grid;
+    gap: var(--space-2);
+    padding-top: var(--space-3);
+}
+
+.about-values__title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(2rem, 6vw, 4.5rem);
+    line-height: var(--leading-display);
+    letter-spacing: var(--tracking-display);
+    text-transform: uppercase;
+}
+
+.about-values__text {
+    margin: 0;
+    max-width: var(--max-measure);
+    color: var(--ink-muted);
+    font-size: var(--text-lede);
+}
+
+.about-mark__grid {
+    display: grid;
+    gap: var(--space-5);
+}
+
+.about-mark__title {
+    margin: var(--space-2) 0 var(--space-3);
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: var(--text-display);
+    line-height: var(--leading-display);
+    letter-spacing: var(--tracking-display);
+    text-transform: uppercase;
+    max-width: 10ch;
+}
+
+.about-mark__readings {
+    margin: var(--space-4) 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: var(--space-3);
+}
+
+.about-mark__reading-title {
+    margin: 0 0 var(--space-1);
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--e-lime);
+}
+
+.about-mark__reading-text {
+    margin: 0;
+    color: var(--ink-muted);
+    max-width: var(--max-measure);
+}
+
+.about-mark__stage {
+    display: grid;
+    gap: var(--space-3);
+    justify-items: start;
+}
+
+.about-mark__geometry {
+    position: relative;
+    width: min(16rem, 70vw);
+    height: 4rem;
+}
+
+.about-mark__stroke {
+    position: absolute;
+    background: var(--e-lime);
+    opacity: 0.7;
+}
+
+.about-mark__stroke--progress {
+    left: 0;
+    top: 0.35rem;
+    width: 9rem;
+    height: var(--border-thin);
+    transform: rotate(-18deg);
+    transform-origin: left center;
+}
+
+.about-mark__stroke--structure {
+    left: 0;
+    bottom: 0.85rem;
+    width: 12rem;
+    height: var(--border-thin);
+}
+
+.about-mark__logo {
+    width: min(14rem, 56vw);
+    height: auto;
+    max-height: 14rem;
+    aspect-ratio: 1 / 1;
+}
+
+.about-mark__equation {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-2);
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--ink-muted);
+}
+
+.about-governance__title {
+    margin: var(--space-3) 0;
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: var(--text-display);
+    line-height: var(--leading-display);
+    letter-spacing: var(--tracking-display);
+    text-transform: uppercase;
+    max-width: 12ch;
+}
+
+.about-governance__lede {
+    max-width: var(--max-editorial);
+    margin-bottom: var(--space-4);
+}
+
+.about-governance__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0;
+}
+
+.about-governance__list li {
+    display: grid;
+    gap: var(--space-1);
+    padding-block: var(--space-3);
+    border-top: var(--border-thin) solid var(--rule);
+}
+
+.about-governance__list li:last-child {
+    border-bottom: var(--border-thin) solid var(--rule);
+}
+
+.about-governance__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-2) var(--space-3);
+    margin: 0;
+}
+
+.about-governance__name {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    letter-spacing: var(--tracking-display);
+    text-transform: uppercase;
+    line-height: var(--leading-title);
+}
+
+.about-governance__text {
+    margin: 0;
+    max-width: var(--max-measure);
+    color: var(--ink-muted);
+}
+
+.about-legacy__grid {
+    display: grid;
+    gap: var(--space-4);
+}
+
+.about-legacy__title {
+    margin: var(--space-2) 0 0;
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: var(--text-display);
+    line-height: var(--leading-display);
+    letter-spacing: var(--tracking-display);
+    text-transform: uppercase;
+}
+
+.about-legacy__title span {
+    display: block;
+}
+
+.about-legacy__copy {
+    display: grid;
+    gap: var(--space-4);
+}
+
+.about-legacy__sequence {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) 0;
+    max-width: 36rem;
+}
+
+.about-legacy__sequence li {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--ink);
+}
+
+.about-legacy__sequence li:not(:last-child)::after {
+    content: " → ";
+    color: var(--ink-muted);
+}
+
+@media (min-width: 768px) {
+    .about-who__grid {
+        grid-template-columns: minmax(10rem, 0.8fr) minmax(16rem, 1.2fr);
+        gap: var(--space-5) var(--space-6);
+        align-items: start;
+    }
+
+    .about-who__figure {
+        grid-column: 2;
+        max-width: 28rem;
+        justify-self: end;
+    }
+
+    .about-human__grid {
+        grid-template-columns: minmax(16rem, 1.3fr) minmax(12rem, 0.8fr);
+        gap: var(--space-6);
+        align-items: end;
+    }
+
+    .about-direction__grid {
+        grid-template-columns: minmax(16rem, 1.2fr) minmax(14rem, 1fr);
+        gap: var(--space-6);
+        align-items: start;
+    }
+
+    .about-mark__grid {
+        grid-template-columns: minmax(16rem, 1.1fr) minmax(14rem, 0.9fr);
+        gap: var(--space-6);
+        align-items: center;
+    }
+
+    .about-legacy__grid {
+        grid-template-columns: minmax(16rem, 1.1fr) minmax(16rem, 1fr);
+        gap: var(--space-6);
+        align-items: start;
+    }
+
+    .about-who__title {
+        font-size: var(--text-display);
+    }
+}
+
+@media (min-width: 1024px) {
+    .about-who__grid {
+        grid-template-columns: minmax(12rem, 0.7fr) minmax(18rem, 1fr) minmax(12rem, 0.8fr);
+    }
+
+    .about-who__figure {
+        grid-column: 3;
+        grid-row: 1;
+        max-width: none;
+        justify-self: stretch;
+    }
+
+    .about-human__principles {
+        padding-bottom: var(--space-2);
+    }
+
+    .about-mark__logo {
+        width: 16rem;
+        max-height: 16rem;
+    }
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .about-values__item .about-values__text {
+        transition: color var(--motion-standard) var(--ease-out);
+    }
+
+    .about-values__item:hover .about-values__text,
+    .about-values__item:focus-within .about-values__text {
+        color: var(--ink);
+    }
+}
+
+@media (max-width: 767px) {
+    .about-who__title,
+    .about-human__statement,
+    .about-mark__title,
+    .about-governance__title,
+    .about-legacy__title,
+    .inner-cta__title {
+        font-size: clamp(1.75rem, 8.2vw, 2.25rem);
+        max-width: 100%;
+    }
+
+    .inner-intro__title {
+        font-size: clamp(1.625rem, 7vw, 2rem);
+        max-width: 100%;
+    }
+
+    .about-human__statement {
+        max-width: 11ch;
+    }
+
+    .about-values__title {
+        font-size: clamp(1.75rem, 9vw, 2.5rem);
+    }
+
+    .about-direction__quote p {
+        font-size: clamp(1.25rem, 6vw, 1.75rem);
+        max-width: none;
+    }
+
+    .about-human__line--aside {
+        font-size: clamp(1.125rem, 5.5vw, 1.5rem);
+    }
+}

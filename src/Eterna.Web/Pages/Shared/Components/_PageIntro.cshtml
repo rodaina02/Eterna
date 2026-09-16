@@ -1,0 +1,34 @@
+@model PageIntroViewModel
+@{
+    IReadOnlyList<string> titleLines = Model.TitleLines.Count > 0
+        ? Model.TitleLines
+        : string.IsNullOrWhiteSpace(Model.Title)
+            ? []
+            : [Model.Title];
+}
+<header class="inner-intro">
+    <partial name="Components/_EditorialIndex" model="@((Model.Index, Model.Eyebrow))" />
+    @if (!string.IsNullOrWhiteSpace(Model.Kicker))
+    {
+        <p class="inner-intro__kicker">@Model.Kicker</p>
+    }
+    <h1 id="@Model.HeadingId" class="inner-intro__title">
+        @foreach (var line in titleLines)
+        {
+            <span class="inner-intro__line">@line</span>
+        }
+    </h1>
+    @if (!string.IsNullOrWhiteSpace(Model.Lede))
+    {
+        <p class="lede inner-intro__lede">@Model.Lede</p>
+    }
+    @if (Model.Meta.Count > 0)
+    {
+        <ul class="inner-intro__meta" aria-label="Practice areas">
+            @foreach (var item in Model.Meta)
+            {
+                <li>@item</li>
+            }
+        </ul>
+    }
+</header>

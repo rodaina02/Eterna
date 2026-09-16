@@ -1,0 +1,21 @@
+@model PageCtaViewModel
+@{
+    IReadOnlyList<string> titleLines = Model.TitleLines.Count > 0
+        ? Model.TitleLines
+        : string.IsNullOrWhiteSpace(Model.Title)
+            ? []
+            : [Model.Title];
+}
+<div class="inner-cta">
+    @if (!string.IsNullOrWhiteSpace(Model.Index) || !string.IsNullOrWhiteSpace(Model.Eyebrow))
+    {
+        <partial name="Components/_EditorialIndex" model="@((Model.Index ?? string.Empty, Model.Eyebrow ?? string.Empty))" />
+    }
+    <h2 id="@Model.HeadingId" class="inner-cta__title">
+        @foreach (var line in titleLines)
+        {
+            <span class="inner-cta__line">@line</span>
+        }
+    </h2>
+    <partial name="Components/_TextLink" model="@((Model.LinkText, Model.Href, true))" />
+</div>
