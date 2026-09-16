@@ -1,4 +1,4 @@
-/* Inner-page system — editorial, content-led, shared by /about and later pages. */
+/* Inner-page system — editorial, content-led, shared by /about, /services, and later pages. */
 
 .container {
     min-width: 0;
@@ -187,10 +187,20 @@
     }
 }
 
+@media (max-width: 767px) {
+    .inner-intro__title,
+    .inner-cta__title {
+        font-size: clamp(1.625rem, 7vw, 2.25rem);
+        max-width: 100%;
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
     [data-inner-reveal],
     [data-reveal-media],
-    [data-reveal-rule] {
+    [data-reveal-rule],
+    [data-reveal-row],
+    [data-reveal-heading] {
         opacity: 1 !important;
         transform: none !important;
         clip-path: none !important;

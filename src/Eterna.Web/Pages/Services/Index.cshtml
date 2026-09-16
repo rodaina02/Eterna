@@ -1,3 +1,157 @@
 @page "/services"
 @model ServicesIndexModel
-<partial name="Components/_PagePlaceholder" model='"Services"' />
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/pages/services.css" asp-append-version="true" />
+}
+
+@section Scripts {
+    <script src="~/js/vendor/gsap.min.js" asp-append-version="true" defer></script>
+    <script src="~/js/vendor/ScrollTrigger.min.js" asp-append-version="true" defer></script>
+    <script src="~/js/pages/services.js" asp-append-version="true" defer></script>
+}
+
+<article class="services" data-inner-page="services">
+    <section class="inner-section inner-section--intro section-paper" aria-labelledby="page-heading">
+        <div class="container">
+            <partial name="Components/_PageIntro" model="@(new PageIntroViewModel {
+                Index = "01",
+                Eyebrow = "Services",
+                TitleLines = ServicesContent.IntroTitleLines,
+                Lede = ServicesContent.IntroLede,
+                Meta = ServicesContent.IntroMeta,
+                HeadingId = "page-heading"
+            })" />
+        </div>
+    </section>
+
+    <section class="inner-section services-overview section-black" aria-labelledby="overview-heading" data-inner-reveal>
+        <div class="container">
+            <div class="services-overview__intro" data-reveal-heading>
+                <partial name="Components/_EditorialIndex" model="@(("02", "Three practices"))" />
+                <h2 id="overview-heading" class="services-overview__title">
+                    @foreach (var line in ServicesContent.OverviewTitleLines)
+                    {
+                        <span>@line</span>
+                    }
+                </h2>
+            </div>
+            <ol class="services-overview__list" aria-label="Three practices">
+                @foreach (var practice in ServicesContent.Practices)
+                {
+                    <li class="services-overview__item" data-reveal-row>
+                        <a class="services-overview__link" href="/services#@practice.Id">
+                            <span class="label services-overview__index">@practice.Index</span>
+                            <span class="services-overview__copy">
+                                <span class="services-overview__name">@practice.Title</span>
+                                <span class="services-overview__summary">@practice.Overview</span>
+                            </span>
+                            <span class="services-overview__layer" aria-hidden="true">@practice.Layer</span>
+                        </a>
+                        <hr class="rule" data-reveal-rule />
+                    </li>
+                }
+            </ol>
+        </div>
+    </section>
+
+    @foreach (var practice in ServicesContent.Practices)
+    {
+        <section
+            id="@practice.Id"
+            class="inner-section services-practice services-practice--@practice.Modifier section-@practice.Theme"
+            aria-labelledby="@practice.Id-heading"
+            data-inner-reveal>
+            <div class="container services-practice__grid">
+                <div class="services-practice__intro" data-reveal-heading>
+                    <partial name="Components/_EditorialIndex" model="@((practice.SectionIndex, practice.Title))" />
+                    <h2 id="@practice.Id-heading" class="services-practice__title">
+                        @foreach (var line in practice.TitleLines)
+                        {
+                            <span>@line</span>
+                        }
+                    </h2>
+                </div>
+                <div class="services-practice__body">
+                    <p class="lede services-practice__lede">@practice.Lede</p>
+                    <ol class="services-caps" aria-label="@practice.Title capabilities">
+                        @foreach (var capability in practice.Capabilities)
+                        {
+                            <li class="services-caps__item@(capability.Emphasis ? " services-caps__item--emphasis" : null)" data-reveal-row>
+                                <span class="label services-caps__index">@capability.Index</span>
+                                <span class="services-caps__name">@capability.Name</span>
+                                <hr class="rule" data-reveal-rule />
+                            </li>
+                        }
+                    </ol>
+                </div>
+            </div>
+        </section>
+    }
+
+    <section class="inner-section services-connect section-paper" aria-labelledby="connect-heading" data-inner-reveal>
+        <div class="container services-connect__grid">
+            <div class="services-connect__intro" data-reveal-heading>
+                <partial name="Components/_EditorialIndex" model="@(("06", "How the practices connect"))" />
+                <h2 id="connect-heading" class="services-connect__title">
+                    @foreach (var line in ServicesContent.ConnectTitleLines)
+                    {
+                        <span>@line</span>
+                    }
+                </h2>
+                <p class="lede">@ServicesContent.ConnectLede</p>
+            </div>
+            <ol class="services-connect__map" aria-label="How the practices relate">
+                @foreach (var practice in ServicesContent.Practices)
+                {
+                    <li class="services-connect__node services-connect__node--@practice.Modifier" data-reveal-row>
+                        <span class="label services-connect__index">@practice.Index</span>
+                        <span class="services-connect__name">@practice.Title</span>
+                        <span class="services-connect__descriptor" aria-hidden="true">@practice.Descriptor</span>
+                    </li>
+                }
+            </ol>
+        </div>
+    </section>
+
+    <section class="inner-section services-process section-dark" aria-labelledby="process-heading" data-inner-reveal>
+        <div class="container">
+            <div class="services-process__intro" data-reveal-heading>
+                <partial name="Components/_EditorialIndex" model="@(("07", "Delivery"))" />
+                <h2 id="process-heading" class="services-process__title">
+                    @foreach (var line in ServicesContent.ProcessTitleLines)
+                    {
+                        <span>@line</span>
+                    }
+                </h2>
+                <p class="lede services-process__lede">@ServicesContent.ProcessLede</p>
+            </div>
+            <ol class="services-process__list" aria-label="Delivery process">
+                @foreach (var stage in ServicesContent.Process)
+                {
+                    <li class="services-process__item" data-reveal-row>
+                        <span class="label services-process__index">@stage.Index</span>
+                        <span class="services-process__copy">
+                            <span class="services-process__name">@stage.Title</span>
+                            <span class="services-process__text">@stage.Text</span>
+                        </span>
+                        <hr class="rule" data-reveal-rule />
+                    </li>
+                }
+            </ol>
+        </div>
+    </section>
+
+    <section class="inner-section services-close section-lime" aria-labelledby="page-cta-heading" data-inner-reveal>
+        <div class="container">
+            <partial name="Components/_PageCta" model="@(new PageCtaViewModel {
+                Index = "08",
+                Eyebrow = "Next",
+                TitleLines = ServicesContent.CtaTitleLines,
+                LinkText = "Start a project",
+                Href = "/contact",
+                HeadingId = "page-cta-heading"
+            })" />
+        </div>
+    </section>
+</article>
