@@ -8,7 +8,21 @@
     <a class="work-card work-card--link@(index == "01" ? " is-active" : "")" href="@Model.Href" data-work-card>
         <span class="work-card__rule" data-work-rule aria-hidden="true"></span>
         <div class="work-card__frame" data-work-frame aria-hidden="true">
-            <span class="work-card__type">@Model.Client</span>
+            @if (!string.IsNullOrWhiteSpace(Model.LogoSrc))
+            {
+                <img
+                    class="work-card__logo"
+                    src="@Model.LogoSrc"
+                    alt=""
+                    width="@(Model.LogoWidth ?? 320)"
+                    height="@(Model.LogoHeight ?? 180)"
+                    loading="lazy"
+                    decoding="async" />
+            }
+            else
+            {
+                <span class="work-card__type">@Model.Client</span>
+            }
         </div>
         <p class="label">@index</p>
         <h3 class="work-card__title">@Model.Client</h3>
@@ -20,7 +34,21 @@ else
     <article class="work-card@(index == "01" ? " is-active" : "")" data-work-card>
         <span class="work-card__rule" data-work-rule aria-hidden="true"></span>
         <div class="work-card__frame" data-work-frame aria-hidden="true">
-            <span class="work-card__type">@Model.Client</span>
+            @if (!string.IsNullOrWhiteSpace(Model.LogoSrc))
+            {
+                <img
+                    class="work-card__logo"
+                    src="@Model.LogoSrc"
+                    alt=""
+                    width="@(Model.LogoWidth ?? 320)"
+                    height="@(Model.LogoHeight ?? 180)"
+                    loading="lazy"
+                    decoding="async" />
+            }
+            else
+            {
+                <span class="work-card__type">@Model.Client</span>
+            }
         </div>
         <p class="label">@index</p>
         <h3 class="work-card__title">@Model.Client</h3>

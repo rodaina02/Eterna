@@ -1,4 +1,4 @@
-/* Inner-page system — editorial, content-led, shared by /about, /services, and later pages. */
+/* Inner-page system — editorial, content-led, shared by /about, /services, /work, and later pages. */
 
 .container {
     min-width: 0;
@@ -200,7 +200,9 @@
     [data-reveal-media],
     [data-reveal-rule],
     [data-reveal-row],
-    [data-reveal-heading] {
+    [data-reveal-heading],
+    [data-reveal-logo],
+    [data-reveal-copy] {
         opacity: 1 !important;
         transform: none !important;
         clip-path: none !important;

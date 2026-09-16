@@ -1,3 +1,174 @@
 @page "/work"
 @model WorkIndexModel
-<partial name="Components/_PagePlaceholder" model='"Work"' />
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/pages/work.css" asp-append-version="true" />
+}
+
+@section Scripts {
+    <script src="~/js/vendor/gsap.min.js" asp-append-version="true" defer></script>
+    <script src="~/js/vendor/ScrollTrigger.min.js" asp-append-version="true" defer></script>
+    <script src="~/js/pages/work.js" asp-append-version="true" defer></script>
+}
+
+<article class="work" data-inner-page="work">
+    <section class="inner-section inner-section--intro section-paper" aria-labelledby="page-heading">
+        <div class="container">
+            <partial name="Components/_PageIntro" model="@(new PageIntroViewModel {
+                Index = "01",
+                Eyebrow = "Work",
+                TitleLines = WorkContent.IntroTitleLines,
+                Lede = WorkContent.IntroLede,
+                Meta = WorkContent.IntroMeta,
+                MetaLabel = "Page focus",
+                HeadingId = "page-heading"
+            })" />
+        </div>
+    </section>
+
+    <section class="inner-section work-index section-black" aria-labelledby="index-heading" data-inner-reveal>
+        <div class="container">
+            <div class="work-index__intro" data-reveal-heading>
+                <partial name="Components/_EditorialIndex" model="@(("02", "Selected clients"))" />
+                <h2 id="index-heading" class="work-index__title">
+                    @foreach (var line in WorkContent.IndexTitleLines)
+                    {
+                        <span>@line</span>
+                    }
+                </h2>
+            </div>
+            <ol class="work-index__list" aria-label="Selected clients">
+                @foreach (var project in WorkContent.Clients)
+                {
+                    <li class="work-index__item work-index__item--@project.Modifier" data-reveal-row>
+                        <a class="work-index__link" href="#@project.Id">
+                            <span class="label work-index__num">@project.Index</span>
+                            <span class="work-index__identity">
+                                @if (project.IndexLogo is { } indexLogo)
+                                {
+                                    <img
+                                        class="work-index__logo work-index__logo--@project.Modifier"
+                                        src="@indexLogo.Src"
+                                        alt="@project.Name"
+                                        width="@indexLogo.Width"
+                                        height="@indexLogo.Height"
+                                        loading="lazy"
+                                        decoding="async" />
+                                }
+                                else
+                                {
+                                    <span class="work-index__name">@project.Name</span>
+                                }
+                            </span>
+                            <span class="work-index__meta">
+                                <span class="work-index__context">@project.IndexContext</span>
+                                <span class="work-index__work">@project.IndexWork</span>
+                            </span>
+                            <span class="work-index__action">View project</span>
+                        </a>
+                        <hr class="rule" data-reveal-rule />
+                    </li>
+                }
+            </ol>
+        </div>
+    </section>
+
+    @foreach (var project in WorkContent.Clients)
+    {
+        <section
+            id="@project.Id"
+            class="inner-section work-project work-project--@project.Modifier section-@project.Theme"
+            aria-labelledby="@project.Id-heading"
+            data-inner-reveal>
+            <div class="container work-project__grid">
+                <div class="work-project__intro" data-reveal-heading>
+                    <partial name="Components/_EditorialIndex" model="@((project.SectionIndex, project.Name))" />
+                    <h2 id="@project.Id-heading" class="work-project__title">@project.Name</h2>
+                    <p class="label work-project__context">@project.Context</p>
+                    @if (!string.IsNullOrWhiteSpace(project.Status))
+                    {
+                        <p class="label work-project__status">@project.Status</p>
+                    }
+                </div>
+                <div class="work-project__body" data-reveal-copy>
+                    <p class="lede work-project__lede">@project.Summary</p>
+                    <ul class="work-project__did" aria-label="What Eterna did">
+                        @foreach (var item in project.Contributions)
+                        {
+                            <li data-reveal-row>
+                                <span>@item</span>
+                                <hr class="rule" data-reveal-rule />
+                            </li>
+                        }
+                    </ul>
+                    @if (!string.IsNullOrWhiteSpace(project.WebsiteUrl))
+                    {
+                        <a class="arrow-link work-project__visit" href="@project.WebsiteUrl" rel="noopener noreferrer">
+                            Visit site<span class="sr-only">: @project.Name</span>
+                        </a>
+                    }
+                </div>
+                <div class="work-project__mark" data-reveal-logo>
+                    @if (project.SectionLogo is { } sectionLogo)
+                    {
+                        <img
+                            src="@sectionLogo.Src"
+                            alt=""
+                            width="@sectionLogo.Width"
+                            height="@sectionLogo.Height"
+                            loading="lazy"
+                            decoding="async" />
+                    }
+                    else
+                    {
+                        <p class="work-project__word" aria-hidden="true">@project.Name</p>
+                    }
+                </div>
+            </div>
+        </section>
+    }
+
+    <section class="inner-section work-process section-dark" aria-labelledby="process-heading" data-inner-reveal>
+        <div class="container work-process__grid">
+            <div class="work-process__intro" data-reveal-heading>
+                <partial name="Components/_EditorialIndex" model="@(("09", "Engagement"))" />
+                <h2 id="process-heading" class="work-process__title">
+                    @foreach (var line in WorkContent.ProcessTitleLines)
+                    {
+                        <span>@line</span>
+                    }
+                </h2>
+                <p class="lede work-process__lede">@WorkContent.ProcessLede</p>
+            </div>
+            <ol class="work-process__verbs" aria-label="Engagement types">
+                @for (var i = 0; i < WorkContent.Engagements.Count; i++)
+                {
+                    <li data-reveal-row>
+                        <span class="label">@((i + 1).ToString("00"))</span>
+                        <span class="work-process__verb">@WorkContent.Engagements[i]</span>
+                        <hr class="rule" data-reveal-rule />
+                    </li>
+                }
+            </ol>
+            <ul class="work-process__entries" aria-label="Points of entry">
+                @foreach (var entry in WorkContent.EntryPoints)
+                {
+                    <li data-reveal-row>@entry</li>
+                }
+            </ul>
+        </div>
+    </section>
+
+    <section class="inner-section work-close section-lime" aria-labelledby="page-cta-heading" data-inner-reveal>
+        <div class="container">
+            <partial name="Components/_PageCta" model="@(new PageCtaViewModel {
+                Index = "10",
+                Eyebrow = "Next",
+                TitleLines = WorkContent.CtaTitleLines,
+                LinkText = "Start a project",
+                Href = "/contact",
+                HeadingId = "page-cta-heading"
+            })" />
+        </div>
+    </section>
+</article>

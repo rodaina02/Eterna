@@ -42,14 +42,29 @@ public sealed class IndexModel : PageModel
                 return HomeContent.KnownWork;
             }
 
-            return clients
-                .Select((client, index) => new WorkCardViewModel
+            var bySlug = clients.ToDictionary(client => client.Slug, StringComparer.OrdinalIgnoreCase);
+
+            return WorkContent.Clients
+                .Select((project, index) =>
                 {
-                    Client = client.Name,
-                    Industry = client.Industry,
-                    Label = "Selected work",
-                    Index = (index + 1).ToString("00"),
-                    Href = $"/work/{client.Slug}"
+                    bySlug.TryGetValue(project.Id, out var live);
+                    var card = WorkContent.ToWorkCard(project, index);
+                    if (live is null)
+                    {
+                        return card;
+                    }
+
+                    return new WorkCardViewModel
+                    {
+                        Client = live.Name,
+                        Industry = live.Industry,
+                        Label = card.Label,
+                        Index = card.Index,
+                        Href = card.Href,
+                        LogoSrc = card.LogoSrc,
+                        LogoWidth = card.LogoWidth,
+                        LogoHeight = card.LogoHeight
+                    };
                 })
                 .ToList();
         }

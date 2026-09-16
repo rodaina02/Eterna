@@ -1,0 +1,683 @@
+/* Work — editorial selected-client sequence. */
+
+.work,
+.work-index__intro,
+.work-index__list,
+.work-index__item,
+.work-index__link,
+.work-index__identity,
+.work-index__meta,
+.work-project__grid,
+.work-project__intro,
+.work-project__body,
+.work-project__did,
+.work-process__grid,
+.work-process__intro,
+.work-process__verbs {
+    min-width: 0;
+}
+
+.work {
+    overflow-x: clip;
+}
+
+.work-index__title,
+.work-project__title,
+.work-process__title {
+    margin: var(--space-2) 0 0;
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: var(--text-display);
+    line-height: var(--leading-display);
+    letter-spacing: var(--tracking-display);
+    text-transform: uppercase;
+    overflow-wrap: normal;
+    word-break: normal;
+}
+
+.work-index__title span,
+.work-process__title span {
+    display: block;
+    max-width: 100%;
+}
+
+.work-index__title {
+    max-width: 12ch;
+}
+
+.work-index__list {
+    margin: var(--space-5) 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.work-index__item {
+    display: grid;
+    gap: var(--space-2);
+    padding-top: var(--space-3);
+}
+
+.work-index__link {
+    display: grid;
+    gap: var(--space-2);
+    width: 100%;
+    text-decoration: none;
+    color: inherit;
+}
+
+.work-index__num {
+    color: var(--e-lime);
+}
+
+.work-index__identity {
+    display: flex;
+    align-items: center;
+    min-height: 3.5rem;
+}
+
+.work-index__logo {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: min(100%, 14rem);
+    max-height: 3rem;
+    object-fit: contain;
+}
+
+.work-index__logo--nabila,
+.work-index__logo--atiiq,
+.work-index__logo--iron {
+    max-width: 3.5rem;
+    max-height: 3.5rem;
+}
+
+.work-index__logo--aftertale {
+    max-width: 10rem;
+    max-height: 2.25rem;
+}
+
+.work-index__name {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    line-height: var(--leading-title);
+    letter-spacing: var(--tracking-display);
+    text-transform: uppercase;
+}
+
+.work-index__meta {
+    display: grid;
+    gap: 0.25rem;
+}
+
+.work-index__context,
+.work-index__work,
+.work-index__action {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+}
+
+.work-index__context,
+.work-index__work {
+    color: var(--ink-muted);
+}
+
+.work-index__action::after {
+    content: " →";
+}
+
+.work-project__grid {
+    display: grid;
+    gap: var(--space-5);
+}
+
+.work-project__title {
+    max-width: 12ch;
+}
+
+.work-project__context {
+    margin: var(--space-2) 0 0;
+    color: var(--ink-muted);
+}
+
+.work-project__body {
+    display: grid;
+    gap: var(--space-4);
+    align-content: start;
+}
+
+.work-project__lede {
+    margin: 0;
+    max-width: var(--max-editorial);
+}
+
+.work-project__did {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0;
+}
+
+.work-project__did li {
+    display: grid;
+    gap: var(--space-2);
+    padding-top: var(--space-3);
+}
+
+.work-project__did span {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(1.25rem, 2.6vw, 1.75rem);
+    line-height: var(--leading-title);
+    letter-spacing: var(--tracking-display);
+    text-transform: uppercase;
+}
+
+.work-project__status {
+    margin: var(--space-1) 0 0;
+    color: var(--accent);
+}
+
+.work-project__mark img,
+.work-project__word {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.work-project__word {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: var(--text-display);
+    line-height: var(--leading-display);
+    letter-spacing: var(--tracking-display);
+    text-transform: uppercase;
+}
+
+.work-project--cudds .work-project__mark img {
+    max-width: min(100%, 28rem);
+}
+
+.work-project--nabila .work-project__mark img {
+    max-width: min(100%, 22rem);
+    margin-inline: auto;
+}
+
+.work-project--atiiq .work-project__mark img {
+    max-width: min(100%, 18rem);
+}
+
+.work-project--iron .work-project__grid {
+    gap: var(--space-6);
+}
+
+.work-project--iron .work-project__mark img {
+    max-width: min(100%, 14rem);
+}
+
+.work-project--iron .work-project__body {
+    max-width: 28rem;
+}
+
+.work-project--reehan .work-project__title {
+    max-width: 10ch;
+}
+
+.work-project--reehan .work-project__mark img {
+    max-width: min(100%, 18rem);
+}
+
+.work-project--aftertale {
+    position: relative;
+}
+
+.work-project--aftertale .work-project__intro {
+    position: relative;
+    padding-left: var(--space-3);
+}
+
+.work-project--aftertale .work-project__intro::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: calc(var(--space-3) + 0.4rem);
+    bottom: 0.2rem;
+    width: var(--border-thin);
+    background: var(--e-lime);
+}
+
+.work-project--aftertale .work-project__mark img {
+    max-width: min(100%, 20rem);
+}
+
+.work-project--aftertale .work-project__status {
+    color: var(--e-lime);
+}
+
+.work-process__title {
+    max-width: 12ch;
+}
+
+.work-process__lede {
+    margin-top: var(--space-3);
+    max-width: var(--max-editorial);
+}
+
+.work-process__verbs {
+    margin: var(--space-5) 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0;
+}
+
+.work-process__verbs li {
+    display: grid;
+    gap: var(--space-2);
+    padding-top: var(--space-3);
+}
+
+.work-process__verb {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(1.75rem, 5vw, 3.25rem);
+    line-height: var(--leading-title);
+    letter-spacing: var(--tracking-display);
+    text-transform: uppercase;
+}
+
+.work-process__entries {
+    margin: var(--space-5) 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0;
+    max-width: var(--max-measure);
+}
+
+.work-process__entries li {
+    padding-block: var(--space-1);
+    border-top: var(--border-thin) solid var(--rule);
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    letter-spacing: var(--tracking-nav);
+    text-transform: uppercase;
+    color: var(--ink-muted);
+}
+
+.work-process__entries li:last-child {
+    border-bottom: var(--border-thin) solid var(--rule);
+}
+
+@media (min-width: 768px) {
+    .work-index__link {
+        grid-template-columns: 3.5rem minmax(8rem, 0.9fr) minmax(10rem, 1.2fr) auto;
+        column-gap: var(--space-3);
+        align-items: center;
+    }
+
+    .work-index__action {
+        justify-self: end;
+    }
+
+    .work-index__logo {
+        max-height: 3.5rem;
+        max-width: min(100%, 16rem);
+    }
+
+    .work-process__verbs li {
+        grid-template-columns: 3.5rem minmax(0, 1fr);
+        column-gap: var(--space-3);
+        align-items: baseline;
+    }
+
+    .work-process__verbs li .rule {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (min-width: 1024px) {
+    .work-index__logo--nabila,
+    .work-index__logo--atiiq,
+    .work-index__logo--iron {
+        max-width: 4.5rem;
+        max-height: 4.5rem;
+    }
+
+    .work-project__grid {
+        align-items: start;
+    }
+
+    .work-project--cudds .work-project__grid {
+        grid-template-columns: minmax(16rem, 1.15fr) minmax(16rem, 0.85fr);
+        grid-template-areas:
+            "mark intro"
+            "mark body";
+        column-gap: var(--space-6);
+        row-gap: var(--space-4);
+    }
+
+    .work-project--cudds .work-project__mark {
+        grid-area: mark;
+        align-self: center;
+    }
+
+    .work-project--cudds .work-project__intro {
+        grid-area: intro;
+    }
+
+    .work-project--cudds .work-project__body {
+        grid-area: body;
+    }
+
+    .work-project--nabila .work-project__grid {
+        grid-template-columns: minmax(16rem, 0.9fr) minmax(16rem, 1.1fr);
+        grid-template-areas:
+            "intro mark"
+            "body mark";
+        column-gap: var(--space-6);
+        row-gap: var(--space-4);
+    }
+
+    .work-project--nabila .work-project__intro {
+        grid-area: intro;
+    }
+
+    .work-project--nabila .work-project__body {
+        grid-area: body;
+    }
+
+    .work-project--nabila .work-project__mark {
+        grid-area: mark;
+        justify-self: end;
+        align-self: center;
+    }
+
+    .work-project--nabila .work-project__mark img {
+        max-width: min(100%, 28rem);
+    }
+
+    .work-project--atiiq .work-project__grid {
+        grid-template-columns: minmax(14rem, 0.8fr) minmax(18rem, 1.2fr);
+        grid-template-areas:
+            "mark intro"
+            "mark body";
+        column-gap: var(--space-7);
+        row-gap: var(--space-3);
+    }
+
+    .work-project--atiiq .work-project__mark {
+        grid-area: mark;
+        align-self: end;
+    }
+
+    .work-project--atiiq .work-project__intro {
+        grid-area: intro;
+        justify-self: end;
+        text-align: right;
+    }
+
+    .work-project--atiiq .work-project__title,
+    .work-project--atiiq .work-project__context {
+        margin-left: auto;
+    }
+
+    .work-project--atiiq .work-project__body {
+        grid-area: body;
+        justify-self: end;
+        text-align: right;
+    }
+
+    .work-project--atiiq .work-project__lede,
+    .work-project--atiiq .work-project__visit {
+        justify-self: end;
+        margin-left: auto;
+    }
+
+    .work-project--atiiq .work-project__mark img {
+        max-width: min(100%, 24rem);
+    }
+
+    .work-project--iron .work-project__grid {
+        grid-template-columns: minmax(12rem, 0.7fr) minmax(18rem, 1.3fr);
+        grid-template-areas:
+            "mark intro"
+            "mark body";
+        column-gap: var(--space-6);
+        padding-block: var(--space-2);
+    }
+
+    .work-project--iron .work-project__mark {
+        grid-area: mark;
+        align-self: start;
+    }
+
+    .work-project--iron .work-project__intro {
+        grid-area: intro;
+        max-width: 22rem;
+        margin-left: auto;
+    }
+
+    .work-project--iron .work-project__body {
+        grid-area: body;
+        max-width: 22rem;
+        margin-left: auto;
+    }
+
+    .work-project--reehan .work-project__grid {
+        grid-template-columns: minmax(18rem, 1.2fr) minmax(14rem, 0.8fr);
+        grid-template-areas:
+            "intro mark"
+            "body mark";
+        column-gap: var(--space-6);
+        max-width: 72rem;
+    }
+
+    .work-project--reehan .work-project__intro {
+        grid-area: intro;
+    }
+
+    .work-project--reehan .work-project__body {
+        grid-area: body;
+        max-width: 34rem;
+    }
+
+    .work-project--reehan .work-project__mark {
+        grid-area: mark;
+        align-self: center;
+        justify-self: end;
+    }
+
+    .work-project--aftertale .work-project__grid {
+        grid-template-columns: minmax(16rem, 1fr) minmax(16rem, 1fr);
+        grid-template-areas:
+            "intro mark"
+            "body mark";
+        column-gap: var(--space-6);
+        align-items: center;
+    }
+
+    .work-project--aftertale .work-project__intro {
+        grid-area: intro;
+    }
+
+    .work-project--aftertale .work-project__body {
+        grid-area: body;
+    }
+
+    .work-project--aftertale .work-project__mark {
+        grid-area: mark;
+        justify-self: end;
+    }
+
+    .work-project--aftertale .work-project__mark img {
+        max-width: min(100%, 26rem);
+    }
+
+    .work-process__grid {
+        display: grid;
+        grid-template-columns: minmax(16rem, 0.9fr) minmax(18rem, 1.1fr);
+        grid-template-areas:
+            "intro verbs"
+            "entries verbs";
+        column-gap: var(--space-6);
+        row-gap: var(--space-5);
+        align-items: start;
+    }
+
+    .work-process__intro {
+        grid-area: intro;
+    }
+
+    .work-process__verbs {
+        grid-area: verbs;
+        margin-top: 0;
+    }
+
+    .work-process__entries {
+        grid-area: entries;
+        margin-top: 0;
+    }
+}
+
+@media (min-width: 1440px) {
+    .work-index__list {
+        margin-top: var(--space-6);
+    }
+
+    .work-project--cudds .work-project__grid,
+    .work-project--nabila .work-project__grid,
+    .work-project--atiiq .work-project__grid,
+    .work-project--aftertale .work-project__grid {
+        column-gap: var(--space-7);
+    }
+
+    .work-project--nabila .work-project__mark img {
+        max-width: min(100%, 32rem);
+    }
+
+    .work-project--atiiq .work-project__mark img {
+        max-width: min(100%, 28rem);
+    }
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .work-index__context,
+    .work-index__work,
+    .work-index__action {
+        transition: color var(--motion-standard) var(--ease-out);
+    }
+
+    .work-index__link:hover .work-index__context,
+    .work-index__link:focus-visible .work-index__context,
+    .work-index__link:hover .work-index__work,
+    .work-index__link:focus-visible .work-index__work,
+    .work-index__link:hover .work-index__action,
+    .work-index__link:focus-visible .work-index__action {
+        color: var(--ink);
+    }
+
+    .work-project__did span,
+    .work-process__entries li {
+        transition: color var(--motion-standard) var(--ease-out);
+    }
+
+    .work-project__did li:hover span,
+    .work-project__did li:focus-within span {
+        color: var(--ink);
+    }
+
+    .work-process__entries li:hover,
+    .work-process__entries li:focus-within {
+        color: var(--ink);
+    }
+}
+
+@media (max-width: 1023px) {
+    .work-project--cudds .work-project__grid,
+    .work-project--nabila .work-project__grid,
+    .work-project--atiiq .work-project__grid,
+    .work-project--iron .work-project__grid,
+    .work-project--aftertale .work-project__grid {
+        grid-template-areas:
+            "intro"
+            "mark"
+            "body";
+    }
+
+    .work-project--cudds .work-project__intro,
+    .work-project--nabila .work-project__intro,
+    .work-project--atiiq .work-project__intro,
+    .work-project--iron .work-project__intro,
+    .work-project--aftertale .work-project__intro {
+        grid-area: intro;
+    }
+
+    .work-project--cudds .work-project__mark,
+    .work-project--nabila .work-project__mark,
+    .work-project--atiiq .work-project__mark,
+    .work-project--iron .work-project__mark,
+    .work-project--aftertale .work-project__mark {
+        grid-area: mark;
+        justify-self: start;
+    }
+
+    .work-project--cudds .work-project__body,
+    .work-project--nabila .work-project__body,
+    .work-project--atiiq .work-project__body,
+    .work-project--iron .work-project__body,
+    .work-project--aftertale .work-project__body {
+        grid-area: body;
+    }
+}
+
+@media (max-width: 767px) {
+    .work-index__title,
+    .work-project__title,
+    .work-process__title,
+    .inner-cta__title {
+        font-size: clamp(1.75rem, 8.2vw, 2.25rem);
+        max-width: 100%;
+    }
+
+    .inner-intro__title {
+        font-size: clamp(1.625rem, 7vw, 2rem);
+        max-width: 100%;
+    }
+
+    .work-index__name {
+        font-size: clamp(1.375rem, 6.4vw, 1.75rem);
+    }
+
+    .work-index__identity {
+        min-height: 2.75rem;
+    }
+
+    .work-index__logo {
+        max-height: 2.5rem;
+        max-width: min(100%, 12rem);
+    }
+
+    .work-index__logo--nabila,
+    .work-index__logo--atiiq,
+    .work-index__logo--iron {
+        max-width: 2.75rem;
+        max-height: 2.75rem;
+    }
+
+    .work-project--nabila .work-project__mark img,
+    .work-project--atiiq .work-project__mark img,
+    .work-project--iron .work-project__mark img {
+        max-width: min(100%, 12rem);
+    }
+
+    .work-process__verb {
+        font-size: clamp(1.5rem, 7vw, 2rem);
+    }
+}

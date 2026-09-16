@@ -24,7 +24,7 @@
     }
     @if (Model.Meta.Count > 0)
     {
-        <ul class="inner-intro__meta" aria-label="Practice areas">
+        <ul class="inner-intro__meta" aria-label="@Model.MetaLabel">
             @foreach (var item in Model.Meta)
             {
                 <li>@item</li>

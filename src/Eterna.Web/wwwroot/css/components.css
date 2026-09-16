@@ -449,6 +449,15 @@ a.work-card {
     padding: var(--space-2);
 }
 
+.work-card__logo {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 72%;
+    max-height: 58%;
+    object-fit: contain;
+}
+
 .work-card__media {
     overflow: hidden;
 }
