@@ -24,6 +24,8 @@ public static class NavigationCatalog
         "/about",
         "/services",
         "/work",
+        "/technologies",
+        "/industries",
         "/contact"
     ];
 

@@ -1,3 +1,173 @@
 @page "/technologies"
 @model TechnologiesIndexModel
-<partial name="Components/_PagePlaceholder" model='"Technologies"' />
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/pages/technologies.css" asp-append-version="true" />
+}
+
+@section Scripts {
+    <script src="~/js/vendor/gsap.min.js" asp-append-version="true" defer></script>
+    <script src="~/js/vendor/ScrollTrigger.min.js" asp-append-version="true" defer></script>
+    <script src="~/js/pages/technologies.js" asp-append-version="true" defer></script>
+}
+
+<article class="tech" data-inner-page="technologies">
+    <section class="inner-section inner-section--intro section-paper" aria-labelledby="page-heading">
+        <div class="container">
+            <partial name="Components/_PageIntro" model="@(new PageIntroViewModel {
+                Index = "01",
+                Eyebrow = "Technologies",
+                Kicker = TechnologiesContent.IntroKicker,
+                TitleLines = TechnologiesContent.IntroTitleLines,
+                Lede = TechnologiesContent.IntroLede,
+                Meta = TechnologiesContent.IntroMeta,
+                MetaLabel = "Page focus",
+                HeadingId = "page-heading"
+            })" />
+        </div>
+    </section>
+
+    <section id="engineering" class="inner-section tech-group tech-group--engineering section-black" aria-labelledby="engineering-heading" data-inner-reveal>
+        <div class="container tech-group__grid">
+            <div class="tech-group__intro" data-reveal-heading>
+                <partial name="Components/_EditorialIndex" model="@(("02", "Engineering foundations"))" />
+                <h2 id="engineering-heading" class="tech-group__title">@TechnologiesContent.EngineeringTitle</h2>
+                <p class="lede">@TechnologiesContent.EngineeringLede</p>
+            </div>
+            <ul class="tech-list" aria-label="Engineering foundations">
+                @foreach (var item in TechnologiesContent.Engineering)
+                {
+                    <li class="tech-list__item">
+                        <span class="tech-list__name">@item.Name</span>
+                        <hr class="rule" data-reveal-rule />
+                    </li>
+                }
+            </ul>
+        </div>
+    </section>
+
+    <section id="data" class="inner-section tech-group tech-group--data section-paper" aria-labelledby="data-heading" data-inner-reveal>
+        <div class="container tech-group__grid">
+            <div class="tech-group__intro" data-reveal-heading>
+                <partial name="Components/_EditorialIndex" model="@(("03", "Data & systems"))" />
+                <h2 id="data-heading" class="tech-group__title">@TechnologiesContent.DataTitle</h2>
+                <p class="lede">@TechnologiesContent.DataLede</p>
+            </div>
+            <ul class="tech-list" aria-label="Data technologies and capabilities">
+                @foreach (var item in TechnologiesContent.Data)
+                {
+                    <li class="tech-list__item tech-list__item--kinded">
+                        <span class="label tech-list__kind">@item.Kind</span>
+                        <span class="tech-list__name">@item.Name</span>
+                        <hr class="rule" data-reveal-rule />
+                    </li>
+                }
+            </ul>
+        </div>
+    </section>
+
+    <section id="intelligence" class="inner-section tech-group tech-group--intelligence section-dark" aria-labelledby="intelligence-heading" data-inner-reveal>
+        <div class="container tech-group__grid">
+            <div class="tech-group__intro" data-reveal-heading>
+                <partial name="Components/_EditorialIndex" model="@(("04", "Intelligent systems"))" />
+                <h2 id="intelligence-heading" class="tech-group__title">@TechnologiesContent.IntelligenceTitle</h2>
+                <p class="lede">@TechnologiesContent.IntelligenceLede</p>
+            </div>
+            <div class="tech-group__body">
+                <ul class="tech-list" aria-label="Intelligent systems">
+                    @foreach (var item in TechnologiesContent.Intelligence)
+                    {
+                        <li class="tech-list__item">
+                            <span class="tech-list__name">@item.Name</span>
+                            <hr class="rule" data-reveal-rule />
+                        </li>
+                    }
+                </ul>
+                <ol class="tech-flow" aria-label="From data to action">
+                    @foreach (var step in TechnologiesContent.IntelligenceFlow)
+                    {
+                        <li class="tech-flow__step">
+                            <a class="tech-flow__link" href="@step.Href">@step.Name</a>
+                        </li>
+                    }
+                </ol>
+                <p class="body tech-flow__note">@TechnologiesContent.IntelligenceFlowNote</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="infrastructure" class="inner-section tech-group tech-group--infrastructure section-black" aria-labelledby="infrastructure-heading" data-inner-reveal>
+        <div class="container tech-group__grid">
+            <div class="tech-group__intro" data-reveal-heading>
+                <partial name="Components/_EditorialIndex" model="@(("05", "Infrastructure & delivery"))" />
+                <h2 id="infrastructure-heading" class="tech-group__title">@TechnologiesContent.InfrastructureTitle</h2>
+                <p class="lede">@TechnologiesContent.InfrastructureLede</p>
+            </div>
+            <ul class="tech-list" aria-label="Infrastructure and delivery">
+                @foreach (var item in TechnologiesContent.Infrastructure)
+                {
+                    <li class="tech-list__item tech-list__item--kinded">
+                        <span class="label tech-list__kind">@item.Kind</span>
+                        <span class="tech-list__name">@item.Name</span>
+                        <hr class="rule" data-reveal-rule />
+                    </li>
+                }
+            </ul>
+        </div>
+    </section>
+
+    <section id="experience" class="inner-section tech-group tech-group--experience section-paper" aria-labelledby="experience-heading" data-inner-reveal>
+        <div class="container tech-group__grid">
+            <div class="tech-group__intro" data-reveal-heading>
+                <partial name="Components/_EditorialIndex" model="@(("06", "Digital experience"))" />
+                <h2 id="experience-heading" class="tech-group__title">@TechnologiesContent.ExperienceTitle</h2>
+                <p class="lede">@TechnologiesContent.ExperienceLede</p>
+            </div>
+            <ul class="tech-list" aria-label="Digital experience">
+                @foreach (var item in TechnologiesContent.Experience)
+                {
+                    <li class="tech-list__item tech-list__item--kinded">
+                        <span class="label tech-list__kind">@item.Kind</span>
+                        <span class="tech-list__name">@item.Name</span>
+                        <hr class="rule" data-reveal-rule />
+                    </li>
+                }
+            </ul>
+        </div>
+    </section>
+
+    <section id="system" class="inner-section tech-system section-dark" aria-labelledby="system-heading" data-inner-reveal>
+        <div class="container tech-system__grid">
+            <div class="tech-system__intro" data-reveal-heading>
+                <partial name="Components/_EditorialIndex" model="@(("07", "Technology as a system"))" />
+                <h2 id="system-heading" class="tech-system__title">
+                    @foreach (var line in TechnologiesContent.SystemTitleLines)
+                    {
+                        <span>@line</span>
+                    }
+                </h2>
+                <p class="lede">@TechnologiesContent.SystemLede</p>
+            </div>
+            <ol class="tech-stack" aria-label="How technology layers can work together">
+                @foreach (var layer in TechnologiesContent.SystemLayers)
+                {
+                    <li class="tech-stack__layer">@layer</li>
+                }
+            </ol>
+            <p class="tech-stack__product">@TechnologiesContent.SystemProduct</p>
+        </div>
+    </section>
+
+    <section class="inner-section tech-close section-lime" aria-labelledby="page-cta-heading" data-inner-reveal>
+        <div class="container">
+            <partial name="Components/_PageCta" model="@(new PageCtaViewModel {
+                Index = "08",
+                Eyebrow = "Next",
+                TitleLines = TechnologiesContent.CtaTitleLines,
+                LinkText = "Start a project",
+                Href = "/contact",
+                HeadingId = "page-cta-heading"
+            })" />
+        </div>
+    </section>
+</article>

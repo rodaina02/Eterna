@@ -1,4 +1,4 @@
-/* Inner-page system — editorial, content-led, shared by /about, /services, /work, and /contact. */
+/* Inner-page system — editorial, content-led, shared by /about, /services, /work, /technologies, /industries, and /contact. */
 
 .container {
     min-width: 0;
@@ -37,6 +37,7 @@
 .inner-intro {
     display: grid;
     gap: var(--space-3);
+    width: 100%;
     max-width: 46rem;
     min-width: 0;
 }
@@ -47,6 +48,8 @@
 
 .inner-intro__kicker {
     margin: 0;
+    max-width: min(var(--max-measure), 100%);
+    overflow-wrap: break-word;
     font-family: var(--font-mono);
     font-size: var(--text-label);
     letter-spacing: var(--tracking-label);
@@ -73,6 +76,12 @@
 .inner-intro__lede {
     margin: 0;
     max-width: min(var(--max-measure), 100%);
+    overflow-wrap: break-word;
+}
+
+.inner-section .lede {
+    max-width: min(var(--max-measure), 100%);
+    overflow-wrap: break-word;
 }
 
 .inner-intro__meta {
@@ -86,6 +95,8 @@
 }
 
 .inner-intro__meta li {
+    min-width: 0;
+    overflow-wrap: break-word;
     font-family: var(--font-mono);
     font-size: var(--text-label);
     letter-spacing: var(--tracking-label);
@@ -130,7 +141,9 @@
 .inner-cta {
     display: grid;
     gap: var(--space-3);
+    width: 100%;
     max-width: 36rem;
+    min-width: 0;
 }
 
 .inner-cta__title {
@@ -192,6 +205,14 @@
     .inner-cta__title {
         font-size: clamp(1.625rem, 7vw, 2.25rem);
         max-width: 100%;
+    }
+
+    .inner-intro__meta {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        justify-items: start;
+        column-gap: var(--space-3);
+        row-gap: var(--space-2);
     }
 }
 

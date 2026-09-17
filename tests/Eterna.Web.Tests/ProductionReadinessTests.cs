@@ -21,6 +21,8 @@ public sealed class ProductionReadinessTests : IClassFixture<ContactWebApplicati
     [InlineData("/about", "About — Eterna")]
     [InlineData("/services", "Services — Eterna")]
     [InlineData("/work", "Work — Eterna")]
+    [InlineData("/technologies", "Technologies — Eterna")]
+    [InlineData("/industries", "Industries — Eterna")]
     [InlineData("/contact", "Contact — Eterna")]
     public async Task Primary_pages_have_unique_titles(string path, string title)
     {
@@ -40,6 +42,8 @@ public sealed class ProductionReadinessTests : IClassFixture<ContactWebApplicati
     [InlineData("/about")]
     [InlineData("/services")]
     [InlineData("/work")]
+    [InlineData("/technologies")]
+    [InlineData("/industries")]
     [InlineData("/contact")]
     public async Task Inner_pages_do_not_load_homepage_motion_scripts(string path)
     {
@@ -107,7 +111,7 @@ public sealed class ProductionReadinessTests : IClassFixture<ContactWebApplicati
 
         var nonceMatch = Regex.Match(csp, "nonce-([^']+)");
         Assert.True(nonceMatch.Success);
-        Assert.Contains($"nonce=\"{nonceMatch.Groups[1].Value}\"", html, StringComparison.Ordinal);
+        Assert.Contains($"nonce=\"{nonceMatch.Groups[1].Value}\"", WebUtility.HtmlDecode(html), StringComparison.Ordinal);
     }
 
     [Fact]
@@ -168,9 +172,9 @@ public sealed class ProductionReadinessTests : IClassFixture<ContactWebApplicati
         Assert.Contains("/about", xml, StringComparison.Ordinal);
         Assert.Contains("/services", xml, StringComparison.Ordinal);
         Assert.Contains("/work", xml, StringComparison.Ordinal);
+        Assert.Contains("/technologies", xml, StringComparison.Ordinal);
+        Assert.Contains("/industries", xml, StringComparison.Ordinal);
         Assert.Contains("/contact", xml, StringComparison.Ordinal);
-        Assert.DoesNotContain("/technologies", xml, StringComparison.Ordinal);
-        Assert.DoesNotContain("/industries", xml, StringComparison.Ordinal);
         Assert.DoesNotContain("/design-system", xml, StringComparison.Ordinal);
         Assert.DoesNotContain("/privacy", xml, StringComparison.Ordinal);
     }
