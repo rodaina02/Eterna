@@ -5,4 +5,8 @@
     <Project Path="src/Eterna.Infrastructure/Eterna.Infrastructure.csproj" />
     <Project Path="src/Eterna.Web/Eterna.Web.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Eterna.Application.Tests/Eterna.Application.Tests.csproj" />
+    <Project Path="tests/Eterna.Web.Tests/Eterna.Web.Tests.csproj" />
+  </Folder>
 </Solution>

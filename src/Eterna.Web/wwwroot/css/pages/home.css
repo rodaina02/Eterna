@@ -1091,6 +1091,11 @@ html:not(.is-motion) .home-work .work-card:hover {
     }
 }
 
+.home-work .work-card--reehan .work-card__logo {
+    max-width: 88%;
+    max-height: 42%;
+}
+
 .home-work .work-card__meta,
 .home-work .work-card__type {
     color: inherit;

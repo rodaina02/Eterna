@@ -61,6 +61,7 @@ public sealed class IndexModel : PageModel
                         Label = card.Label,
                         Index = card.Index,
                         Href = card.Href,
+                        Modifier = card.Modifier,
                         LogoSrc = card.LogoSrc,
                         LogoWidth = card.LogoWidth,
                         LogoHeight = card.LogoHeight

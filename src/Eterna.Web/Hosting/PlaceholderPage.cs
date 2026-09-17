@@ -14,6 +14,7 @@ public static class PlaceholderPage
         page.ViewData["Description"] = description
             ?? $"The {title.ToLowerInvariant()} page for Eterna is being prepared.";
         page.ViewData["CanonicalPath"] = path;
+        page.ViewData["Robots"] = "noindex, nofollow";
         page.ViewData["HeaderTheme"] = "paper";
         page.ViewData["BodyTheme"] = "paper";
         page.ViewData["MainClass"] = "site-main--inner";

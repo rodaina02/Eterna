@@ -6,6 +6,9 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: eterna
+    # Local Development connection string must use these credentials:
+    # Host=localhost;Port=5432;Database=eterna;Username=postgres;Password=postgres
+    # Override with user secrets or ConnectionStrings__DefaultConnection.
     ports:
       - "5432:5432"
     volumes:

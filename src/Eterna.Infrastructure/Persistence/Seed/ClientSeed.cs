@@ -124,6 +124,7 @@ public static class ClientSeed
                 DisplayOrder = 5,
                 IsActive = true,
                 WebsiteUrl = "https://reehanbahaa.com/",
+                LogoUrl = "/images/clients/reehan.png",
                 Services = [],
                 Technologies = [],
                 CreatedAt = now,

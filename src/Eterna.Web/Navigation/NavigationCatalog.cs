@@ -21,11 +21,9 @@ public static class NavigationCatalog
     public static IReadOnlyList<string> PublicSitemapPaths { get; } =
     [
         "/",
-        "/work",
-        "/services",
-        "/technologies",
-        "/industries",
         "/about",
+        "/services",
+        "/work",
         "/contact"
     ];
 

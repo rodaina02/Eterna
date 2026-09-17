@@ -14,7 +14,7 @@ public static class HomeContent
             Index = "01",
             Title = "Enterprise software systems",
             Description = "Web, mobile, APIs and infrastructure built to hold under use.",
-            Href = "/services/software-systems",
+            Href = "/services#software-systems",
             LinkText = "Software systems"
         },
         new()
@@ -22,7 +22,7 @@ public static class HomeContent
             Index = "02",
             Title = "Intelligent AI integration",
             Description = "Analytics, models and retrieval placed inside the systems people already run.",
-            Href = "/services/intelligent-ai-integration",
+            Href = "/services#ai-integration",
             LinkText = "AI integration"
         },
         new()
@@ -30,7 +30,7 @@ public static class HomeContent
             Index = "03",
             Title = "AI agents & orchestration",
             Description = "Task-specific agents with human-in-the-loop controls and audit trails.",
-            Href = "/services/ai-agents-automation",
+            Href = "/services#ai-agents",
             LinkText = "Agents & automation"
         }
     ];
@@ -47,7 +47,7 @@ public static class HomeContent
                 "Cloud infrastructure",
                 "DevOps & Maintenance"
             ],
-            "/services/software-systems"
+            "/services#software-systems"
         ),
         (
             "Intelligent AI Integration",
@@ -60,7 +60,7 @@ public static class HomeContent
                 "Workflow automation",
                 "Domain-tuned LLMs"
             ],
-            "/services/intelligent-ai-integration"
+            "/services#ai-integration"
         ),
         (
             "AI Agents & Automation",
@@ -71,7 +71,7 @@ public static class HomeContent
                 "Audit trails",
                 "AI Ops & Monitoring"
             ],
-            "/services/ai-agents-automation"
+            "/services#ai-agents"
         )
     ];
 

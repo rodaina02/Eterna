@@ -96,6 +96,11 @@
     max-height: 2.25rem;
 }
 
+.work-index__logo--reehan {
+    max-width: 12rem;
+    max-height: 2.5rem;
+}
+
 .work-index__name {
     font-family: var(--font-display);
     font-weight: 300;
@@ -230,7 +235,7 @@
 }
 
 .work-project--reehan .work-project__mark img {
-    max-width: min(100%, 18rem);
+    max-width: min(100%, 22rem);
 }
 
 .work-project--aftertale {

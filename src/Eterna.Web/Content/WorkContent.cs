@@ -186,10 +186,12 @@ public static class WorkContent
                 "UI/UX enhancements"
             ],
             Summary = "Eterna redesigned the website and enhanced the UI/UX.",
-            Theme = "paper",
+            Theme = "dark",
             Modifier = "reehan",
             WebsiteUrl = "https://reehanbahaa.com/",
-            SectionLogo = new WorkLogo("/images/clients/reehan-wordmark-reference.svg", 1200, 360)
+            SectionLogo = new WorkLogo("/images/clients/reehan.png", 994, 329),
+            IndexLogo = new WorkLogo("/images/clients/reehan.png", 994, 329),
+            DarkLogo = new WorkLogo("/images/clients/reehan.png", 994, 329)
         },
         new()
         {
@@ -229,6 +231,7 @@ public static class WorkContent
             Label = "Selected work",
             Index = (index + 1).ToString("00"),
             Href = $"/work#{project.Id}",
+            Modifier = project.Modifier,
             LogoSrc = project.DarkLogo?.Src,
             LogoWidth = project.DarkLogo?.Width,
             LogoHeight = project.DarkLogo?.Height

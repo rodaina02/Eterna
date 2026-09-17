@@ -34,9 +34,9 @@ public sealed class ResendEmailService : IEmailService
             return Task.FromResult(new EmailSendResult(false, "Resend is not configured."));
         }
 
-        var subject = $"New enquiry — {notification.Service}";
+        var subject = "New Eterna Project Inquiry";
         var html = $"""
-            <p>A new conversation request was submitted on the Eterna website.</p>
+            <p>A new project inquiry was submitted on the Eterna website.</p>
             <p><strong>Name:</strong> {Encode(notification.Name)}</p>
             <p><strong>Company:</strong> {Encode(notification.Company)}</p>
             <p><strong>Email:</strong> {Encode(notification.Email)}</p>
@@ -44,7 +44,8 @@ public sealed class ResendEmailService : IEmailService
             <p><strong>Service:</strong> {Encode(notification.Service)}</p>
             <p><strong>Budget:</strong> {Encode(notification.Budget)}</p>
             <p><strong>Message:</strong></p>
-            <p>{Encode(notification.Message)}</p>
+            <p>{FormatMessage(notification.Message)}</p>
+            <p><strong>Submitted:</strong> {notification.SubmittedAt.UtcDateTime:yyyy-MM-dd HH:mm} UTC</p>
             """;
 
         return SendAsync(_options.NotificationEmail, subject, html, cancellationToken);
@@ -65,10 +66,10 @@ public sealed class ResendEmailService : IEmailService
             return Task.FromResult(new EmailSendResult(false, "Resend is not configured."));
         }
 
-        var subject = "We received your message — Eterna";
+        var subject = "Your project details were received — Eterna";
         var html = $"""
             <p>Hello {Encode(confirmation.Name)},</p>
-            <p>Thank you for writing to Eterna. We have received your message and will respond shortly.</p>
+            <p>Thank you for reaching out to Eterna. Your project details have been received.</p>
             <p>Building Intelligent Legacies.</p>
             """;
 
@@ -92,9 +93,9 @@ public sealed class ResendEmailService : IEmailService
         {
             var payload = new ResendEmailRequest
             {
-                From = $"{_options.FromName} <{_options.FromEmail}>",
-                To = [to],
-                Subject = subject,
+                From = $"{SanitizeHeader(_options.FromName)} <{SanitizeHeader(_options.FromEmail)}>",
+                To = [SanitizeHeader(to)],
+                Subject = SanitizeHeader(subject),
                 Html = html
             };
 
@@ -123,6 +124,21 @@ public sealed class ResendEmailService : IEmailService
         return string.IsNullOrWhiteSpace(value)
             ? "—"
             : System.Net.WebUtility.HtmlEncode(value);
+    }
+
+    private static string FormatMessage(string? value)
+    {
+        return Encode(value)
+            .Replace("\r\n", "<br />", StringComparison.Ordinal)
+            .Replace("\n", "<br />", StringComparison.Ordinal)
+            .Replace("\r", "<br />", StringComparison.Ordinal);
+    }
+
+    private static string SanitizeHeader(string value)
+    {
+        return string.IsNullOrWhiteSpace(value)
+            ? string.Empty
+            : value.Replace("\r", string.Empty).Replace("\n", string.Empty).Trim();
     }
 
     private sealed class ResendEmailRequest

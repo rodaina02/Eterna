@@ -1,3 +1,321 @@
 @page "/contact"
 @model ContactIndexModel
-<partial name="Components/_PagePlaceholder" model='"Contact"' />
+@inject IOptions<CompanyOptions> CompanyAccessor
+@{
+    var company = CompanyAccessor.Value;
+    var isSuccess = string.Equals(Model.FormStatus, ContactFormStatuses.Success, StringComparison.Ordinal);
+    var isRateLimited = string.Equals(Model.FormStatus, ContactFormStatuses.RateLimited, StringComparison.Ordinal);
+    var isServerError = string.Equals(Model.FormStatus, ContactFormStatuses.ServerError, StringComparison.Ordinal);
+    var formInvalid = !ViewData.ModelState.IsValid;
+    var phoneHref = string.IsNullOrWhiteSpace(company.Phone)
+        ? null
+        : "tel:" + company.Phone.Replace(" ", string.Empty);
+    var hasSocialUrl = Uri.TryCreate(company.SocialUrl, UriKind.Absolute, out _);
+    var nameInvalid = Model.FieldInvalid("Name");
+    var companyInvalid = Model.FieldInvalid("Company");
+    var emailInvalid = Model.FieldInvalid("Email");
+    var phoneInvalid = Model.FieldInvalid("Phone");
+    var serviceInvalid = Model.FieldInvalid("Service");
+    var budgetInvalid = Model.FieldInvalid("Budget");
+    var messageInvalid = Model.FieldInvalid("Message");
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/pages/contact.css" asp-append-version="true" />
+}
+
+@section Scripts {
+    <script src="~/js/pages/contact.js" asp-append-version="true" defer></script>
+}
+
+<article class="contact" data-inner-page="contact">
+    <section class="inner-section inner-section--intro section-paper" aria-labelledby="page-heading">
+        <div class="container">
+            <partial name="Components/_PageIntro" model="@(new PageIntroViewModel {
+                Index = "01",
+                Eyebrow = "Contact",
+                TitleLines = ContactContent.IntroTitleLines,
+                Lede = ContactContent.IntroLede,
+                Meta = ContactContent.IntroMeta,
+                MetaLabel = "Page focus",
+                HeadingId = "page-heading"
+            })" />
+        </div>
+    </section>
+
+    <section class="inner-section contact-intake section-black" aria-labelledby="intake-heading" id="start-a-project">
+        <div class="container contact-intake__grid">
+            <div class="contact-intake__intro">
+                <partial name="Components/_EditorialIndex" model="@(("02", "Start a project"))" />
+                <h2 id="intake-heading" class="contact-intake__title">Start a project</h2>
+                <p class="lede">@ContactContent.IntakeLede</p>
+            </div>
+
+            @if (isSuccess)
+            {
+                <div class="contact-success" role="status">
+                    <p class="label">Received</p>
+                    <h2 class="contact-success__title">@ContactContent.SuccessTitle</h2>
+                    <p class="lede">@ContactContent.SuccessLede</p>
+                    <div class="contact-success__actions">
+                        <a class="arrow-link" href="/">Back to home</a>
+                        <a class="arrow-link" href="/contact">Start another project</a>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <form
+                    class="contact-form"
+                    method="post"
+                    id="project-form"
+                    data-contact-form
+                    novalidate>
+                    @if (isRateLimited)
+                    {
+                        <p class="contact-form__alert" id="contact-rate-limit" role="alert">@ContactContent.RateLimitedMessage</p>
+                    }
+                    @if (isServerError)
+                    {
+                        <p class="contact-form__alert" id="contact-server-error" role="alert">@ContactContent.ServerErrorMessage</p>
+                    }
+                    @if (formInvalid)
+                    {
+                        <p class="contact-form__alert" id="contact-form-errors" role="alert">@ContactContent.ValidationSummary</p>
+                    }
+
+                    <div class="contact-form__alt" aria-hidden="true">
+                        <label for="contact-website">Website</label>
+                        <input
+                            id="contact-website"
+                            name="Website"
+                            type="text"
+                            value="@Model.Website"
+                            tabindex="-1"
+                            autocomplete="off" />
+                    </div>
+
+                    <div class="field@(nameInvalid ? " is-invalid" : null)">
+                        <label class="field__label" for="contact-name">Name *</label>
+                        <input
+                            class="field__control"
+                            id="contact-name"
+                            name="Name"
+                            type="text"
+                            value="@Model.Name"
+                            autocomplete="name"
+                            maxlength="120"
+                            required
+                            aria-required="true"
+                            aria-invalid="@(nameInvalid ? "true" : "false")"
+                            aria-describedby="@(nameInvalid ? "contact-name-error" : null)" />
+                        <p class="field__error" id="contact-name-error">@(Model.FieldError("Name") ?? "Enter your name.")</p>
+                    </div>
+
+                    <div class="field@(companyInvalid ? " is-invalid" : null)">
+                        <label class="field__label" for="contact-company">Company</label>
+                        <input
+                            class="field__control"
+                            id="contact-company"
+                            name="Company"
+                            type="text"
+                            value="@Model.Company"
+                            autocomplete="organization"
+                            maxlength="160"
+                            aria-invalid="@(companyInvalid ? "true" : "false")"
+                            aria-describedby="@(companyInvalid ? "contact-company-error" : null)" />
+                        <p class="field__error" id="contact-company-error">@(Model.FieldError("Company") ?? "Use 160 characters or fewer.")</p>
+                    </div>
+
+                    <div class="field@(emailInvalid ? " is-invalid" : null)">
+                        <label class="field__label" for="contact-email">Email *</label>
+                        <input
+                            class="field__control"
+                            id="contact-email"
+                            name="Email"
+                            type="email"
+                            value="@Model.Email"
+                            autocomplete="email"
+                            maxlength="254"
+                            required
+                            aria-required="true"
+                            aria-invalid="@(emailInvalid ? "true" : "false")"
+                            aria-describedby="@(emailInvalid ? "contact-email-error" : null)" />
+                        <p class="field__error" id="contact-email-error">@(Model.FieldError("Email") ?? "Enter a valid email.")</p>
+                    </div>
+
+                    <div class="field@(phoneInvalid ? " is-invalid" : null)">
+                        <label class="field__label" for="contact-phone">Phone</label>
+                        <input
+                            class="field__control"
+                            id="contact-phone"
+                            name="Phone"
+                            type="tel"
+                            value="@Model.Phone"
+                            autocomplete="tel"
+                            maxlength="40"
+                            aria-invalid="@(phoneInvalid ? "true" : "false")"
+                            aria-describedby="@(phoneInvalid ? "contact-phone-error" : null)" />
+                        <p class="field__error" id="contact-phone-error">@(Model.FieldError("Phone") ?? "Use 40 characters or fewer.")</p>
+                    </div>
+
+                    <div class="field@(serviceInvalid ? " is-invalid" : null)">
+                        <label class="field__label" for="contact-service">Service *</label>
+                        <select
+                            class="field__control"
+                            id="contact-service"
+                            name="Service"
+                            required
+                            aria-required="true"
+                            aria-invalid="@(serviceInvalid ? "true" : "false")"
+                            aria-describedby="@(serviceInvalid ? "contact-service-error" : null)">
+                            <option value="">Select a service</option>
+                            @foreach (var service in Model.Services)
+                            {
+                                if (string.Equals(Model.Service, service, StringComparison.Ordinal))
+                                {
+                                    <option value="@service" selected>@service</option>
+                                }
+                                else
+                                {
+                                    <option value="@service">@service</option>
+                                }
+                            }
+                        </select>
+                        <p class="field__error" id="contact-service-error">@(Model.FieldError("Service") ?? "Select a service.")</p>
+                    </div>
+
+                    <div class="field@(budgetInvalid ? " is-invalid" : null)">
+                        <label class="field__label" for="contact-budget">Budget</label>
+                        <input
+                            class="field__control"
+                            id="contact-budget"
+                            name="Budget"
+                            type="text"
+                            value="@Model.Budget"
+                            autocomplete="off"
+                            maxlength="40"
+                            aria-invalid="@(budgetInvalid ? "true" : "false")"
+                            aria-describedby="@(budgetInvalid ? "contact-budget-error" : null)" />
+                        <p class="field__error" id="contact-budget-error">@(Model.FieldError("Budget") ?? "Use 40 characters or fewer.")</p>
+                    </div>
+
+                    <div class="field@(messageInvalid ? " is-invalid" : null)">
+                        <label class="field__label" for="contact-message">Message *</label>
+                        <textarea
+                            class="field__control"
+                            id="contact-message"
+                            name="Message"
+                            required
+                            aria-required="true"
+                            maxlength="4000"
+                            aria-invalid="@(messageInvalid ? "true" : "false")"
+                            aria-describedby="@(messageInvalid ? "contact-message-error" : null)">@Model.Message</textarea>
+                        <p class="field__error" id="contact-message-error">@(Model.FieldError("Message") ?? "Enter a message.")</p>
+                    </div>
+
+                    <p class="sr-only" data-contact-live role="status" aria-live="polite"></p>
+                    <button class="btn contact-form__submit" type="submit" data-contact-submit>
+                        Start a project
+                    </button>
+                </form>
+            }
+        </div>
+    </section>
+
+    <section class="inner-section contact-details section-paper" aria-labelledby="details-heading">
+        <div class="container contact-details__grid">
+            <div>
+                <partial name="Components/_EditorialIndex" model="@(("03", "Project details"))" />
+                <h2 id="details-heading" class="contact-details__title">Project details</h2>
+            </div>
+            <div>
+                <p class="lede">@ContactContent.DetailsLede</p>
+                <ul class="inner-index-list" aria-label="How the details are used">
+                    @foreach (var item in ContactContent.DetailPoints)
+                    {
+                        <li>@item</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="inner-section contact-direct section-dark" aria-labelledby="direct-heading">
+        <div class="container contact-direct__grid">
+            <div>
+                <partial name="Components/_EditorialIndex" model="@(("04", "Direct contact"))" />
+                <h2 id="direct-heading" class="contact-direct__title">Direct contact</h2>
+                <p class="lede">@ContactContent.DirectLede</p>
+            </div>
+            <ul class="contact-direct__list">
+                @if (!string.IsNullOrWhiteSpace(company.Email))
+                {
+                    <li>
+                        <span class="label">Email</span>
+                        <a href="mailto:@company.Email">@company.Email</a>
+                    </li>
+                }
+                @if (!string.IsNullOrWhiteSpace(company.Phone) && phoneHref is not null)
+                {
+                    <li>
+                        <span class="label">Phone</span>
+                        <a href="@phoneHref">@company.Phone</a>
+                    </li>
+                }
+                @if (!string.IsNullOrWhiteSpace(company.SocialHandle) && hasSocialUrl)
+                {
+                    <li>
+                        <span class="label">Social</span>
+                        <a href="@company.SocialUrl" rel="noopener noreferrer">@company.SocialHandle</a>
+                    </li>
+                }
+                else if (!string.IsNullOrWhiteSpace(company.SocialHandle))
+                {
+                    <li>
+                        <span class="label">Social</span>
+                        <span>@company.SocialHandle</span>
+                    </li>
+                }
+            </ul>
+        </div>
+    </section>
+
+    <section class="inner-section contact-process section-black" aria-labelledby="process-heading">
+        <div class="container">
+            <div class="contact-process__intro">
+                <partial name="Components/_EditorialIndex" model="@(("05", "Process"))" />
+                <h2 id="process-heading" class="contact-process__title">
+                    @foreach (var line in ContactContent.ProcessTitleLines)
+                    {
+                        <span>@line</span>
+                    }
+                </h2>
+                <p class="lede">@ContactContent.ProcessLede</p>
+            </div>
+            <ol class="contact-process__list" aria-label="Established process">
+                @foreach (var stage in ServicesContent.Process)
+                {
+                    <li>
+                        <span class="label">@stage.Index</span>
+                        <span class="contact-process__name">@stage.Title</span>
+                        <hr class="rule" />
+                    </li>
+                }
+            </ol>
+        </div>
+    </section>
+
+    <section class="inner-section contact-close section-lime" aria-labelledby="page-cta-heading">
+        <div class="container">
+            <partial name="Components/_PageCta" model="@(new PageCtaViewModel {
+                Index = "06",
+                Eyebrow = "Next",
+                TitleLines = ContactContent.CtaTitleLines,
+                LinkText = "Back to home",
+                Href = "/",
+                HeadingId = "page-cta-heading"
+            })" />
+        </div>
+    </section>
+</article>

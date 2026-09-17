@@ -32,3 +32,4 @@ artifacts/
 tmp-qa-shots/
 # Local QA artifacts
 tmp-qa-*/
+tmp-qa-*.json

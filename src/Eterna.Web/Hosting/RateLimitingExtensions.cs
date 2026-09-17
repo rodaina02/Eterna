@@ -1,5 +1,6 @@
 using System.Threading.RateLimiting;
 using Eterna.Application.Options;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.RateLimiting;
 
 namespace Eterna.Web.Hosting;
@@ -18,9 +19,28 @@ public static class RateLimitingExtensions
         {
             limiter.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
 
+            limiter.OnRejected = (context, _) =>
+            {
+                var http = context.HttpContext;
+                if (HttpMethods.IsPost(http.Request.Method)
+                    && http.Request.Path.StartsWithSegments("/contact"))
+                {
+                    var tempData = http.RequestServices
+                        .GetRequiredService<ITempDataDictionaryFactory>()
+                        .GetTempData(http);
+                    tempData[ContactFormStatuses.TempDataKey] = ContactFormStatuses.RateLimited;
+                    tempData.Save();
+                    http.Response.Redirect("/contact");
+                    return ValueTask.CompletedTask;
+                }
+
+                http.Response.StatusCode = StatusCodes.Status429TooManyRequests;
+                return ValueTask.CompletedTask;
+            };
+
             limiter.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(context =>
             {
-                var partitionKey = context.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+                var partitionKey = PartitionKey(context);
 
                 return RateLimitPartition.GetFixedWindowLimiter(
                     partitionKey,
@@ -33,15 +53,32 @@ public static class RateLimitingExtensions
                     });
             });
 
-            limiter.AddFixedWindowLimiter(RateLimitingOptions.ContactPolicyName, window =>
+            limiter.AddPolicy(RateLimitingOptions.ContactPolicyName, context =>
             {
-                window.PermitLimit = options.ContactPermitLimit;
-                window.Window = TimeSpan.FromMinutes(options.ContactWindowMinutes);
-                window.QueueLimit = 0;
-                window.AutoReplenishment = true;
+                if (!HttpMethods.IsPost(context.Request.Method))
+                {
+                    return RateLimitPartition.GetNoLimiter("contact-read");
+                }
+
+                var partitionKey = PartitionKey(context);
+
+                return RateLimitPartition.GetFixedWindowLimiter(
+                    partitionKey,
+                    _ => new FixedWindowRateLimiterOptions
+                    {
+                        PermitLimit = options.ContactPermitLimit,
+                        Window = TimeSpan.FromMinutes(options.ContactWindowMinutes),
+                        QueueLimit = 0,
+                        AutoReplenishment = true
+                    });
             });
         });
 
         return services;
+    }
+
+    private static string PartitionKey(HttpContext context)
+    {
+        return context.Connection.RemoteIpAddress?.ToString() ?? "unknown";
     }
 }

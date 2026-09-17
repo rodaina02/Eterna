@@ -7,4 +7,5 @@ public sealed record ContactNotificationDto(
     string? Phone,
     string Service,
     string? Budget,
-    string Message);
+    string Message,
+    DateTimeOffset SubmittedAt);

@@ -49,6 +49,11 @@
         });
 
         form.addEventListener("submit", (event) => {
+            if (form.dataset.submitting === "1") {
+                event.preventDefault();
+                return;
+            }
+
             const honeypot = form.querySelector("[name='Website']");
             if (honeypot?.value) {
                 event.preventDefault();
@@ -59,6 +64,14 @@
                 event.preventDefault();
                 const first = form.querySelector(".field.is-invalid input, .field.is-invalid select, .field.is-invalid textarea");
                 first?.focus();
+                return;
+            }
+
+            form.dataset.submitting = "1";
+            form.setAttribute("aria-busy", "true");
+            const submit = form.querySelector("[type='submit']");
+            if (submit) {
+                submit.disabled = true;
             }
         });
     };

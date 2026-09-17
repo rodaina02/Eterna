@@ -2,10 +2,11 @@
 @{
     var isLink = !string.IsNullOrWhiteSpace(Model.Href);
     var index = string.IsNullOrWhiteSpace(Model.Index) ? Model.Label : Model.Index;
+    var modifier = string.IsNullOrWhiteSpace(Model.Modifier) ? "" : $" work-card--{Model.Modifier}";
 }
 @if (isLink)
 {
-    <a class="work-card work-card--link@(index == "01" ? " is-active" : "")" href="@Model.Href" data-work-card>
+    <a class="work-card work-card--link@(index == "01" ? " is-active" : "")@modifier" href="@Model.Href" data-work-card>
         <span class="work-card__rule" data-work-rule aria-hidden="true"></span>
         <div class="work-card__frame" data-work-frame aria-hidden="true">
             @if (!string.IsNullOrWhiteSpace(Model.LogoSrc))
@@ -31,7 +32,7 @@
 }
 else
 {
-    <article class="work-card@(index == "01" ? " is-active" : "")" data-work-card>
+    <article class="work-card@(index == "01" ? " is-active" : "")@modifier" data-work-card>
         <span class="work-card__rule" data-work-rule aria-hidden="true"></span>
         <div class="work-card__frame" data-work-frame aria-hidden="true">
             @if (!string.IsNullOrWhiteSpace(Model.LogoSrc))

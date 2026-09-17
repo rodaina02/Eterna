@@ -1,3 +1,4 @@
+@using System.Text.Json
 @inject IOptions<SiteOptions> SiteAccessor
 @inject IOptions<CompanyOptions> CompanyAccessor
 @{
@@ -9,9 +10,17 @@
     var canonical = string.IsNullOrWhiteSpace(site.CanonicalBaseUrl)
         ? null
         : $"{site.CanonicalBaseUrl.TrimEnd('/')}{path}";
+    var siteUrl = string.IsNullOrWhiteSpace(site.CanonicalBaseUrl)
+        ? null
+        : site.CanonicalBaseUrl.TrimEnd('/');
     var ogImage = string.IsNullOrWhiteSpace(site.CanonicalBaseUrl)
         ? site.OgImagePath
         : $"{site.CanonicalBaseUrl.TrimEnd('/')}{site.OgImagePath}";
+    var nonce = Context.Items[SecurityHeadersExtensions.NonceItemKey] as string;
+    string Json(string? value) => JsonSerializer.Serialize(value ?? string.Empty);
+    var organizationUrlJson = siteUrl is null ? string.Empty : $",\n      \"url\": {Json(siteUrl)}";
+    var sameAsJson = string.IsNullOrWhiteSpace(company.SocialUrl) ? string.Empty : $",\n      \"sameAs\": [{Json(company.SocialUrl)}]";
+    var websiteUrlJson = siteUrl is null ? string.Empty : $",\n      \"url\": {Json(siteUrl)}";
 }
 <title>@title</title>
 <meta name="description" content="@description" />
@@ -36,22 +45,22 @@
 <meta name="twitter:description" content="@description" />
 <meta name="twitter:image" content="@ogImage" />
 <link rel="icon" type="image/png" href="/images/brand/mark-lime-no-r.png" />
-<script type="application/ld+json">
+<!script type="application/ld+json" nonce="@nonce">
 {
   "@@context": "https://schema.org",
   "@@graph": [
     {
       "@@type": "Organization",
-      "name": "@company.Name",
-      "slogan": "@company.Slogan",
-      "email": "@company.Email",
-      "telephone": "@company.Phone"@(string.IsNullOrWhiteSpace(company.SocialUrl) ? "" : $",\n      \"sameAs\": [\"{company.SocialUrl}\"]")
+      "name": @Html.Raw(Json(company.Name)),
+      "slogan": @Html.Raw(Json(company.Slogan)),
+      "email": @Html.Raw(Json(company.Email)),
+      "telephone": @Html.Raw(Json(company.Phone))@Html.Raw(organizationUrlJson)@Html.Raw(sameAsJson)
     },
     {
       "@@type": "WebSite",
-      "name": "@company.Name",
-      "description": "@description"
+      "name": @Html.Raw(Json(company.Name)),
+      "description": @Html.Raw(Json(site.DefaultDescription))@Html.Raw(websiteUrlJson)
     }
   ]
 }
-</script>
+</!script>

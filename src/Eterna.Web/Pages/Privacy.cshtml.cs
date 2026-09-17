@@ -7,7 +7,7 @@ public sealed class PrivacyModel : PageModel
     public void OnGet()
     {
         ViewData["Title"] = "Privacy — Eterna";
-        ViewData["Description"] = "Privacy information for Eterna will be published before contact collection is enabled.";
+        ViewData["Description"] = "Privacy information for Eterna will be published here.";
         ViewData["CanonicalPath"] = "/privacy";
         ViewData["Robots"] = "noindex, nofollow";
         ViewData["HeaderTheme"] = "paper";

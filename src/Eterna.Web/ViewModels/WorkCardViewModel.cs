@@ -7,6 +7,7 @@ public sealed class WorkCardViewModel
     public string Label { get; init; } = "Client";
     public string Index { get; init; } = "";
     public string? Href { get; init; }
+    public string? Modifier { get; init; }
     public string? LogoSrc { get; init; }
     public int? LogoWidth { get; init; }
     public int? LogoHeight { get; init; }
