@@ -92,17 +92,42 @@
         }, page);
     };
 
+    const revealHash = () => {
+        const id = decodeURIComponent((window.location.hash || "").replace(/^#/, ""));
+        if (!id) {
+            return;
+        }
+
+        const target = document.getElementById(id);
+        if (!target) {
+            return;
+        }
+
+        const root = document.documentElement;
+        const previous = root.style.scrollBehavior;
+        root.style.scrollBehavior = "auto";
+        target.scrollIntoView();
+        root.style.scrollBehavior = previous;
+        if (window.ScrollTrigger) {
+            window.ScrollTrigger.update();
+        }
+    };
+
     const start = () => {
+        revealHash();
         boot();
+        revealHash();
         if (!listening && window.Eterna && window.Eterna.env && typeof window.Eterna.env.onReducedChange === "function") {
-            window.Eterna.env.onReducedChange(boot);
+            window.Eterna.env.onReducedChange(() => {
+                boot();
+                revealHash();
+            });
             listening = true;
         }
-        window.addEventListener("hashchange", () => {
-            if (window.ScrollTrigger) {
-                window.ScrollTrigger.refresh();
-            }
-        });
+        window.addEventListener("hashchange", revealHash);
+        window.addEventListener("load", () => {
+            requestAnimationFrame(revealHash);
+        }, { once: true });
     };
 
     if (document.readyState === "loading") {
